@@ -1,6 +1,6 @@
 ﻿namespace MonitorFileSystem.Monitor;
 
-internal static class IWatcherExtension
+public static class IWatcherExtension
 {    
     public static WatchingEventInfo GetWatchedEventInfo(this IWatcher watcher, FileSystemEventArgs e)
     {

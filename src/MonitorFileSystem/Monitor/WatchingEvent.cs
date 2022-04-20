@@ -1,7 +1,7 @@
 ﻿namespace MonitorFileSystem.Monitor;
 
 [Flags]
-internal enum WatchingEvent
+public enum WatchingEvent
 {
     None          = 0b0000_0000_0000_0000,
     Created       = 0b0000_0000_0000_0001,

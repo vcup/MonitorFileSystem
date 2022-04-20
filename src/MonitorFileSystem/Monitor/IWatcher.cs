@@ -1,6 +1,6 @@
 ﻿namespace MonitorFileSystem.Monitor;
 
-internal interface IWatcher : IObservable<WatchingEventInfo>
+public interface IWatcher : IObservable<WatchingEventInfo>
 {
     string Name { get; }
     string MonitorPath { get; }

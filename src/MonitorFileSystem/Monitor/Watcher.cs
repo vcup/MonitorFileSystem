@@ -1,6 +1,6 @@
 ﻿namespace MonitorFileSystem.Monitor;
 
-internal class Watcher : IWatcher
+public class Watcher : IWatcher
 {
     private WatchingEvent _event;
     private FileSystemWatcher _watcher;
