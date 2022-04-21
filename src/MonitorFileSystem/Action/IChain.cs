@@ -1,7 +1,9 @@
-﻿namespace MonitorFileSystem.Action;
+﻿using MonitorFileSystem.Monitor;
 
-internal interface IChain : IOperate, IEnumerable<IOperate>
+namespace MonitorFileSystem.Action;
+
+internal interface IChain : IOperate, IObservable<WatchingEventInfo>, IEnumerable<IOperate>
 {
     string Name { get; }
-    string Description { get; }
+    string? Description { get; }
 }
