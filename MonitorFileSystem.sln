@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorFileSystem", "src\MonitorFileSystem\MonitorFileSystem.csproj", "{CB360AAC-91E9-43C1-88EA-55EA5D752C13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitorFileSystem", "src\MonitorFileSystem\MonitorFileSystem.csproj", "{CB360AAC-91E9-43C1-88EA-55EA5D752C13}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B5F12307-EFEC-478B-A779-A466F3E1E007}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorFileSystem.Test", "test\MonitorFileSystem.Test\MonitorFileSystem.Test.csproj", "{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitorFileSystem.Test", "test\MonitorFileSystem.Test\MonitorFileSystem.Test.csproj", "{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,8 +27,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7F4308CB-80D1-44FE-B516-2A2EA3CEA494}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE} = {B5F12307-EFEC-478B-A779-A466F3E1E007}
 	EndGlobalSection
 EndGlobal

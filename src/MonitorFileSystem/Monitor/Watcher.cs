@@ -1,4 +1,6 @@
-﻿namespace MonitorFileSystem.Monitor;
+﻿using MonitorFileSystem.Common;
+
+namespace MonitorFileSystem.Monitor;
 
 public class Watcher : IWatcher
 {
