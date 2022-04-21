@@ -1,4 +1,5 @@
-﻿namespace MonitorFileSystem.Monitor;
+﻿namespace MonitorFileSystem.Common;
+
 internal sealed class UnSubscribe<T> : IDisposable
 {
     private readonly IList<IObserver<T>> _observers;
