@@ -19,7 +19,7 @@ public class WatcherTests
     {
         var fileSystem = new TestFileSystem(new FileSystemWatcherFactory());
 
-        var watcher = new Monitor.Watcher("Tester", "./", "*", @event , fileSystem);
+        var watcher = new Watcher("Tester", "./", "*", @event , fileSystem);
 
         Assert.AreEqual(watcher.Monitoring, mustBe);
     }
