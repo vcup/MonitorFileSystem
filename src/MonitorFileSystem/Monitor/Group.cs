@@ -12,6 +12,7 @@ public class Group : IGroup
         Name = name;
         Description = description;
         _observers = new();
+        _watchers = new();
     }
 
     public string Name { get; }
