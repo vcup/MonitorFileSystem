@@ -1,30 +1,41 @@
-﻿using MonitorFileSystem.Common;
+﻿using System.IO.Abstractions;
+using MonitorFileSystem.Common;
 
 namespace MonitorFileSystem.Monitor;
 
 public class Watcher : IWatcher
 {
     private WatchingEvent _event;
-    private FileSystemWatcher _watcher;
+    private IFileSystemWatcher _watcher;
     private List<IObserver<WatchingEventInfo>> _observers = new();
 
     public Watcher(string name, string path, string filter)
+        : this(name, path, filter, new FileSystem())
     {
-        Name = name;
-        _watcher = new FileSystemWatcher(path, filter);
-        _event = WatchingEvent.None;
-
-        _watcher.Error += OnError;
     }
 
     public Watcher(string name, string path, string filter, WatchingEvent @event)
+        : this(name, path, filter, @event, new FileSystem())
+    {
+    }
+
+    #region Test Only
+
+    public Watcher(string name, string path, string filter, IFileSystem fileSystem)
     {
         Name = name;
-        _watcher = new FileSystemWatcher(path, filter);
-        WatchingEvent = @event;
+        _watcher = fileSystem.FileSystemWatcher.CreateNew(path, filter);
 
         _watcher.Error += OnError;
     }
+    
+    public Watcher(string name, string path, string filter, WatchingEvent @event, IFileSystem fileSystem)
+        : this(name, path, filter, fileSystem)
+    {
+        WatchingEvent = @event;
+    }
+
+    #endregion
 
     public string Name { get; }
 
@@ -93,6 +104,8 @@ public class Watcher : IWatcher
         get => _watcher.IncludeSubdirectories;
         set => _watcher.IncludeSubdirectories = value;
     }
+
+    public bool Monitoring => _watcher.EnableRaisingEvents;
 
     public IDisposable Subscribe(IObserver<WatchingEventInfo> observer)
     {

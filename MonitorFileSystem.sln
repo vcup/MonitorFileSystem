@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitorFileSystem", "src\MonitorFileSystem\MonitorFileSystem.csproj", "{CB360AAC-91E9-43C1-88EA-55EA5D752C13}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitorFileSystem.Test", "test\MonitorFileSystem.Test\MonitorFileSystem.Test.csproj", "{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitorFileSystem.Test", "tests\MonitorFileSystem.Tests\MonitorFileSystem.Tests.csproj", "{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
