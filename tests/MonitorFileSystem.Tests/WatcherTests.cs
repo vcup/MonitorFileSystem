@@ -4,7 +4,7 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.IO;
 
-namespace MonitorFileSystem.Test;
+namespace MonitorFileSystem.Tests;
 
 public class WatcherTests
 {
@@ -46,39 +46,37 @@ public class WatcherTests
 
     private class TestFileSystem : MockFileSystem
     {
-        private readonly IFileSystemWatcherFactory fileSystemWatcherFactory;
-
         public TestFileSystem(IFileSystemWatcherFactory fileSystemWatcherFactory)
         {
-            this.fileSystemWatcherFactory = fileSystemWatcherFactory;
+            this.FileSystemWatcher = fileSystemWatcherFactory;
         }
 
-        public override IFileSystemWatcherFactory FileSystemWatcher => fileSystemWatcherFactory;
+        public override IFileSystemWatcherFactory FileSystemWatcher { get; }
     }
     
     private class TestFileSystemWatcher : IFileSystemWatcherFactory
     {
-        private IFileSystemWatcher? lastCreatedFileSystemWatcher;
+        private IFileSystemWatcher? _lastCreatedFileSystemWatcher;
 
         public TestFileSystemWatcher()
         {
         }
 
-        public IFileSystemWatcher? LastCreatedFileSystemWatcher => lastCreatedFileSystemWatcher;
+        public IFileSystemWatcher? LastCreatedFileSystemWatcher => _lastCreatedFileSystemWatcher;
 
         public IFileSystemWatcher CreateNew()
         {
-            return lastCreatedFileSystemWatcher = lastCreatedFileSystemWatcher ?? new FileSystemWatcherWrapper();
+            return _lastCreatedFileSystemWatcher = _lastCreatedFileSystemWatcher ?? new FileSystemWatcherWrapper();
         }
 
         public IFileSystemWatcher CreateNew(string path)
         {
-            return lastCreatedFileSystemWatcher = lastCreatedFileSystemWatcher ?? new FileSystemWatcherWrapper(path);
+            return _lastCreatedFileSystemWatcher = _lastCreatedFileSystemWatcher ?? new FileSystemWatcherWrapper(path);
         }
 
         public IFileSystemWatcher CreateNew(string path, string filter)
         {
-            return lastCreatedFileSystemWatcher = lastCreatedFileSystemWatcher ?? new FileSystemWatcherWrapper(path, filter);
+            return _lastCreatedFileSystemWatcher = _lastCreatedFileSystemWatcher ?? new FileSystemWatcherWrapper(path, filter);
         }
     }
 }

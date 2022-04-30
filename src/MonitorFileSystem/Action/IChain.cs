@@ -2,7 +2,7 @@
 
 namespace MonitorFileSystem.Action;
 
-internal interface IChain : IOperate, IObservable<WatchingEventInfo>, IEnumerable<IOperate>
+internal interface IChain : IOperate, IObservable<WatchingEventInfo>, IList<IOperate>
 {
     string Name { get; }
     string? Description { get; }

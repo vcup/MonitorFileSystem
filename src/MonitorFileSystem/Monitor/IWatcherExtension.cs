@@ -21,7 +21,7 @@ public static class IWatcherExtension
 
         var info = new WatchingEventInfo()
         {
-            watcher = watcher,
+            Watcher = watcher,
             Path = e.Name ?? e.FullPath,
             WatchedEvent = WatchedEvent,
         };

@@ -6,8 +6,8 @@ namespace MonitorFileSystem.Monitor;
 public class Watcher : IWatcher
 {
     private WatchingEvent _event;
-    private IFileSystemWatcher _watcher;
-    private List<IObserver<WatchingEventInfo>> _observers = new();
+    private readonly IFileSystemWatcher _watcher;
+    private readonly List<IObserver<WatchingEventInfo>> _observers = new();
 
     public Watcher(string name, string path, string filter)
         : this(name, path, filter, new FileSystem())
