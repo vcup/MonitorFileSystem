@@ -1,22 +1,18 @@
 ﻿using MonitorFileSystem.Monitor;
 using System.IO.Abstractions;
+using System.Runtime.CompilerServices;
 
 namespace MonitorFileSystem.Action;
 
 public abstract class OperateBase : IOperate
 {
     protected readonly ILogger<IOperate> Logger;
-    protected readonly IFileSystem FileSystem;
+    // see Initialization()
+    protected IFileSystem FileSystem = null!;
 
-    protected OperateBase(ILogger<IOperate> logger) : this(logger, new FileSystem())
-    {
-    }
-
-    // only used when testing
-    protected OperateBase(ILogger<IOperate> logger, IFileSystem fileSystem)
+    protected OperateBase(ILogger<IOperate> logger)
     {
         Logger = logger;
-        FileSystem = fileSystem;
     }
 
     public virtual void OnCompleted()
@@ -36,6 +32,14 @@ public abstract class OperateBase : IOperate
     public bool IsInitialized { get; private set; }
     public virtual void Initialization(params object[] parameters)
     {
+        if (parameters.Length != 0 && parameters[0] is IFileSystem)
+        {
+            FileSystem = (IFileSystem)parameters[0];
+        }
+        else
+        {
+            FileSystem = new FileSystem();
+        }
         IsInitialized = true;
     }
 
@@ -54,7 +58,7 @@ public abstract class OperateBase : IOperate
     {
         if (!IsInitialized)
         {
-            throw new ArgumentException("Instance is not Initialized");
+            throw new InvalidOperationException("Instance is not Initialized");
         }
     }
 }
