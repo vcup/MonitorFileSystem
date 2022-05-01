@@ -1,11 +1,12 @@
 using MonitorFileSystem;
 using MonitorFileSystem.Action;
+using MonitorFileSystem.Extensions;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddScoped<MoveOperate>();
-        services.AddHostedService<Worker>();
+        services.AddActions()
+            .AddHostedService<Worker>();
     })
     .Build();
 
