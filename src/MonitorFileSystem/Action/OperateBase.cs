@@ -1,14 +1,22 @@
 ﻿using MonitorFileSystem.Monitor;
+using System.IO.Abstractions;
 
 namespace MonitorFileSystem.Action;
 
 public abstract class OperateBase : IOperate
 {
-    protected readonly ILogger<IOperate> _logger;
+    protected readonly ILogger<IOperate> Logger;
+    protected readonly IFileSystem FileSystem;
 
-    public OperateBase(ILogger<IOperate> logger)
+    protected OperateBase(ILogger<IOperate> logger) : this(logger, new FileSystem())
     {
-        _logger = logger;
+    }
+
+    // only used when testing
+    protected OperateBase(ILogger<IOperate> logger, IFileSystem fileSystem)
+    {
+        Logger = logger;
+        FileSystem = fileSystem;
     }
 
     public virtual void OnCompleted()
@@ -17,7 +25,7 @@ public abstract class OperateBase : IOperate
 
     public virtual void OnError(Exception error)
     {
-        _logger.LogError(error.Message);
+        Logger.LogError(error.Message);
     }
 
     public virtual void OnNext(WatchingEventInfo value)
@@ -27,5 +35,8 @@ public abstract class OperateBase : IOperate
 
     public abstract void Process(WatchingEventInfo info);
 
-    public abstract Task ProcessAsync(WatchingEventInfo info);
+    public virtual Task ProcessAsync(WatchingEventInfo info)
+    {
+        return Task.Run(() => Process(info));
+    }
 }

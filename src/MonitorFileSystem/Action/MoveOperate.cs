@@ -1,5 +1,5 @@
 ﻿using MonitorFileSystem.Monitor;
-using System.IO;
+using System.IO.Abstractions;
 
 namespace MonitorFileSystem.Action;
 
@@ -7,18 +7,25 @@ internal class MoveOperate : OperateBase
 {
     private readonly string _destination;
 
-    public MoveOperate(string destination, ILogger<MoveOperate> logger) : base(logger)
+    public MoveOperate(string destination, ILogger<MoveOperate> logger)
+        : this(destination, logger, new FileSystem())
+    {
+    }
+
+    public MoveOperate(string destination, ILogger<MoveOperate> logger, IFileSystem fileSystem)
+        : base(logger, fileSystem)
     {
         _destination = destination;
     }
 
-    private bool? isFile(string path)
+    private bool? IsFile(string path)
     {
-        if (File.Exists(path))
+        if (FileSystem.File.Exists(path))
         {
             return true;
         }
-        else if (Directory.Exists(path))
+
+        if (FileSystem.Directory.Exists(path))
         {
             return false;
         }
@@ -28,25 +35,23 @@ internal class MoveOperate : OperateBase
 
     public override void Process(WatchingEventInfo info)
     {
-        var destIsFile = isFile(info.Path);
+        var destIsFile = IsFile(info.Path);
 
-        if (File.Exists(info.Path))
+        if (FileSystem.File.Exists(info.Path))
         {
-            File.Move(info.Path, _destination, true);
-            // if destIsFile is null, dest path also is a File. becuse a file is Moved to dest path
+            FileSystem.File.Move(info.Path, _destination, true);
+            // if destIsFile is null, dest path also is a File. because a file is Moved to dest path
             info.Path = destIsFile ?? true ? _destination : Path.Join(_destination, Path.GetFileName(info.Path));
+            
+            Logger.LogTrace("MoveOperate Process on File branch, {path} -> {dest}", info.Path, _destination);
         }
         else
         {
-            Directory.Move(info.Path, _destination);
-            // if destIsFile is null, dest path also is a directory. becuse a directory is Moved to dest path
+            FileSystem.Directory.Move(info.Path, _destination);
+            // if destIsFile is null, dest path also is a directory. because a directory is Moved to dest path
             info.Path = !destIsFile ?? true ? _destination : Path.Join(_destination, Path.GetFileName(info.Path));
+            
+            Logger.LogInformation("MoveOperate Process on Directory branch, {path} -> {dest}", info.Path, _destination);
         }
-
-    }
-
-    public override Task ProcessAsync(WatchingEventInfo info)
-    {
-        return Task.Run(() => Process(info));
     }
 }

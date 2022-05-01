@@ -19,7 +19,7 @@ public class Watcher : IWatcher
     {
     }
 
-    #region Test Only
+    #region Only used when testing
 
     public Watcher(string name, string path, string filter, IFileSystem fileSystem)
     {
