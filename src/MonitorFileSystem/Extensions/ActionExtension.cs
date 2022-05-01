@@ -16,7 +16,7 @@ public static class ActionExtension
 
     public static IServiceCollection AddChain(this IServiceCollection services)
     {
-        return services.AddScoped<IChain, Chain>();
+        return services; //.AddScoped<IChain, Chain>();
     }
 
     public static IServiceCollection AddActions(this IServiceCollection services)
