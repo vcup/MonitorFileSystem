@@ -48,6 +48,12 @@ internal class Chain : IChain
         }
     }
 
+    public bool IsInitialized => true;
+
+    public void Initialization(params object[] parameters)
+    {
+    }
+
     public void Process(WatchingEventInfo info)
     {
         foreach (var operate in _operates)

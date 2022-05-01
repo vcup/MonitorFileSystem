@@ -3,19 +3,25 @@ using System.IO.Abstractions;
 
 namespace MonitorFileSystem.Action;
 
-internal class MoveOperate : OperateBase
+public class MoveOperate : OperateBase
 {
-    private readonly string _destination;
+    // see Initialization()
+    private string _destination = null!;
 
-    public MoveOperate(string destination, ILogger<MoveOperate> logger)
-        : this(destination, logger, new FileSystem())
+    internal MoveOperate(ILogger<MoveOperate> logger)
+        : this(logger, new FileSystem())
     {
     }
 
-    public MoveOperate(string destination, ILogger<MoveOperate> logger, IFileSystem fileSystem)
+    internal MoveOperate(ILogger<MoveOperate> logger, IFileSystem fileSystem)
         : base(logger, fileSystem)
     {
-        _destination = destination;
+    }
+
+    public override void Initialization(params object[] parameters)
+    {
+        _destination = (string)parameters[0];
+        base.Initialization(parameters);
     }
 
     private bool? IsFile(string path)
@@ -35,6 +41,7 @@ internal class MoveOperate : OperateBase
 
     public override void Process(WatchingEventInfo info)
     {
+        CheckIsInitialized();
         var destIsFile = IsFile(info.Path);
 
         if (FileSystem.File.Exists(info.Path))

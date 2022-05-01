@@ -33,10 +33,28 @@ public abstract class OperateBase : IOperate
         Process(value);
     }
 
-    public abstract void Process(WatchingEventInfo info);
+    public bool IsInitialized { get; private set; }
+    public virtual void Initialization(params object[] parameters)
+    {
+        IsInitialized = true;
+    }
+
+    public virtual void Process(WatchingEventInfo info)
+    {
+        CheckIsInitialized();
+    }
 
     public virtual Task ProcessAsync(WatchingEventInfo info)
     {
+        CheckIsInitialized();
         return Task.Run(() => Process(info));
+    }
+
+    protected void CheckIsInitialized()
+    {
+        if (!IsInitialized)
+        {
+            throw new ArgumentException("Instance is not Initialized");
+        }
     }
 }
