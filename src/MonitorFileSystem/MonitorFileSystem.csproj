@@ -8,12 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Protobuf Include="./Grpc/ProtocolBuffers/monitor_manage.proto" GrpcServices="Server" />
+    
     <PackageReference Include="Grpc.AspNetCore" Version="2.46.0-pre1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="System.IO.Abstractions" Version="17.0.3" />
-    <PackageReference Include="Grpc.Tools" Version="2.45.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
   </ItemGroup>
 </Project>
