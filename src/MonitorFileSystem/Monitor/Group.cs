@@ -27,6 +27,7 @@ public class Group : IGroup
     /// <summary>
     /// <p>
     /// Add a watcher to Collection, and also Subscribe this instance for Watcher
+    /// Observers subscribed to this instance will be notified
     /// </p>
     /// see also <see cref="IGroup.Add"/>
     /// <param name="watcher">this instance will subscript this Watcher</param>
