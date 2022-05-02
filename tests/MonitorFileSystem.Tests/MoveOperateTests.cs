@@ -37,7 +37,7 @@ public class MoveOperateTests
     {
         var files = new Dictionary<string, MockFileData>
         {
-            {"/file", MockFileData.NullObject}
+            {"/file", new MockFileData(string.Empty)}
         };
         var filesystem = new MockFileSystem(files);
         var operate = _provider.GetService<MoveOperate>();
