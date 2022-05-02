@@ -1,0 +1,38 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+service MonitorManagement {
+  rpc CreateWatcher (WatcherRequest) returns (google.protobuf.Empty);
+}
+
+enum Event {
+  None          = 0   ;
+  Created       = 1   ;
+  Deleted       = 2   ;
+  Renamed       = 4   ;
+  Changed       = 6136;
+  FileName      = 16  ; // >>4 : 1
+  DirectoryName = 32  ; // >>4 : 2
+  Attributes    = 64  ; // >>4 : 4
+  Size          = 128 ; // >>4 : 8
+  LastWrite     = 256 ; // >>4 : 16
+  LastAccess    = 512 ; // >>4 : 32
+  CreationTime  = 1024; // >>4 : 64
+  Security      = 4096; // >>4 : 256
+}
+
+message WatcherRequest {
+  string name = 1;
+  string path = 2;
+  string filter = 3;
+  
+  oneof event {
+    Event event_value = 4;
+  }
+}
+
+message GroupRequest {
+  string name = 1;
+  string description = 2;
+}

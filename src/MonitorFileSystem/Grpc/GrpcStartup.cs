@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using MonitorFileSystem.Grpc.Services;
 
 namespace MonitorFileSystem.Grpc;
 
@@ -21,6 +22,7 @@ public class GrpcStartup
         app.UseRouting();
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapGrpcService<MonitorManagementService>();
         });
     }
 }
