@@ -1,6 +1,5 @@
 ﻿using MonitorFileSystem.Monitor;
 using System.IO.Abstractions;
-using System.Runtime.CompilerServices;
 
 namespace MonitorFileSystem.Action;
 

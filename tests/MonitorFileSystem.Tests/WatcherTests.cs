@@ -38,7 +38,7 @@ public class WatcherTests
         var factory = new TestFileSystemWatcher();
         var fileSystem = new TestFileSystem(factory);
 
-        var wathcer = new Watcher("Tester", "./", "*", @event, fileSystem);
+        var watcher = new Watcher("Tester", "./", "*", @event, fileSystem);
 
         Assert.IsNotNull(factory.LastCreatedFileSystemWatcher);
         Assert.AreEqual(factory.LastCreatedFileSystemWatcher!.NotifyFilter, filters);

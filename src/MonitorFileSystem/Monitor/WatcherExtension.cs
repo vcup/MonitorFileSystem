@@ -1,29 +1,29 @@
 ﻿namespace MonitorFileSystem.Monitor;
 
-public static class IWatcherExtension
+public static class WatcherExtension
 {    
     public static WatchingEventInfo GetWatchedEventInfo(this IWatcher watcher, FileSystemEventArgs e)
     {
-        WatchingEvent WatchedEvent = WatchingEvent.None;
+        WatchingEvent watchedEvent = WatchingEvent.None;
 
         if (e.ChangeType.HasFlag(WatcherChangeTypes.Created))
         {
-            WatchedEvent |= WatchingEvent.Created;
+            watchedEvent |= WatchingEvent.Created;
         }
         if (e.ChangeType.HasFlag(WatcherChangeTypes.Deleted))
         {
-            WatchedEvent |= WatchingEvent.Deleted;
+            watchedEvent |= WatchingEvent.Deleted;
         }
-       if (e.ChangeType.HasFlag(WatcherChangeTypes.Changed))
+        if (e.ChangeType.HasFlag(WatcherChangeTypes.Changed))
         {
-            WatchedEvent |= watcher.WatchingEvent & (WatchingEvent)0b1111_1111_1111_0000;
+            watchedEvent |= watcher.WatchingEvent & (WatchingEvent)0b1111_1111_1111_0000;
         }
 
         var info = new WatchingEventInfo()
         {
             Watcher = watcher,
             Path = e.Name ?? e.FullPath,
-            WatchedEvent = WatchedEvent,
+            WatchedEvent = watchedEvent,
         };
 
         return info;
@@ -31,7 +31,7 @@ public static class IWatcherExtension
 
     public static WatchingEventInfo GetWatchedEventInfo(this IWatcher watcher, RenamedEventArgs e)
     {
-        var info = watcher.GetWatchedEventInfo(e);
+        var info = watcher.GetWatchedEventInfo(e as FileSystemEventArgs);
 
         if (e.ChangeType.HasFlag(WatcherChangeTypes.Renamed))
         {

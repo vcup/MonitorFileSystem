@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.ObjectModel;
 
 namespace MonitorFileSystem.Monitor;
 
@@ -10,10 +9,6 @@ public class MonitorManager : IMonitorManager
 
     private readonly Dictionary<string, IWatcher> _watcherCaches = new();
     private readonly Dictionary<string, IGroup> _groupCaches = new();
-
-    public MonitorManager()
-    {
-    }
 
     public IWatcher? FindWatcher(string name)
     {

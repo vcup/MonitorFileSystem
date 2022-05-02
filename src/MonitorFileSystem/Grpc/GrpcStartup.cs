@@ -21,7 +21,6 @@ public class GrpcStartup
         app.UseRouting();
         app.UseEndpoints(endpoints =>
         {
-
         });
     }
 }

@@ -137,7 +137,7 @@ public class Watcher : IWatcher
     {
         foreach (var observer in _observers)
         {
-            observer?.OnError(e.GetException());
+            observer.OnError(e.GetException());
         }
     }
 

@@ -8,7 +8,11 @@ public class Group : IGroup
     private readonly List<IObserver<WatchingEventInfo>> _observers;
     private readonly List<IWatcher > _watchers;
 
-    public Group(string name, string? description)
+    public Group(string name) : this(name, String.Empty)
+    {
+    }
+    
+    public Group(string name, string description)
     {
         Name = name;
         Description = description;
@@ -18,7 +22,7 @@ public class Group : IGroup
 
     public string Name { get; }
 
-    public string? Description { get; }
+    public string Description { get; }
 
     public void Add(IWatcher watcher)
     {
@@ -41,7 +45,7 @@ public class Group : IGroup
     {
         foreach (var observer in _observers)
         {
-            observer?.OnError(error);
+            observer.OnError(error);
         }
     }
 
