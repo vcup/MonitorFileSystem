@@ -6,7 +6,7 @@ namespace MonitorFileSystem.Monitor;
 public class Group : IGroup
 {
     private readonly List<IObserver<WatchingEventInfo>> _observers;
-    private readonly List<IWatcher > _watchers;
+    private readonly List<IWatcher> _watchers;
 
     public Group(string name) : this(name, String.Empty)
     {
@@ -24,6 +24,13 @@ public class Group : IGroup
 
     public string Description { get; }
 
+    /// <summary>
+    /// <p>
+    /// Add a watcher to Collection, and also Subscribe this instance for Watcher
+    /// </p>
+    /// see also <see cref="IGroup.Add"/>
+    /// <param name="watcher">this instance will subscript this Watcher</param>
+    /// </summary>
     public void Add(IWatcher watcher)
     {
         if (!_watchers.Contains(watcher))
