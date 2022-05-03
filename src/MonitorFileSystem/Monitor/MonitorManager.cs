@@ -69,7 +69,7 @@ public class MonitorManager : IMonitorManager
         _groups.Clear();
     }
 
-    public void Clear()
+    public void ClearUp()
     {
         (this as ICollection<IWatcher>).Clear();
         (this as ICollection<IGroup>).Clear();
@@ -124,8 +124,5 @@ public class MonitorManager : IMonitorManager
     
     int ICollection<IGroup>.Count => _groups.Count;
 
-    public int Count => _watchers.Count;
-
     public bool IsReadOnly => false;
-
 }
