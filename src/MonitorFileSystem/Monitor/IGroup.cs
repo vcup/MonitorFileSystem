@@ -20,4 +20,10 @@ public interface IGroup : IObservable<WatchingEventInfo>, IObserver<WatchingEven
     /// </summary>
     /// <param name="watcher">the watcher what will be added to Collection </param>
     void Add(IWatcher watcher);
+
+    /// <summary>
+    /// remove a Watcher for this Group
+    /// </summary>
+    /// <param name="watcher">will removed for this Group</param>
+    void Remove(IWatcher watcher);
 }
