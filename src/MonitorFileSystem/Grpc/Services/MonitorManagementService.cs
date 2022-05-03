@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using MonitorFileSystem.Grpc.ProtocolBuffers;
 using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Grpc.Services;

@@ -1,4 +1,5 @@
-﻿using MonitorFileSystem.Monitor;
+﻿using MonitorFileSystem.Grpc.ProtocolBuffers;
+using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Grpc;
 

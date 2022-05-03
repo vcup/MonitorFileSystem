@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using MonitorFileSystem.Grpc.Services;
+using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Grpc;
 
@@ -9,6 +10,7 @@ public class GrpcStartup
     public void ConfigureServices(IServiceCollection services)
     {
         services
+            .AddSingleton<IMonitorManager, MonitorManager>()
             .AddGrpc();
     }
 

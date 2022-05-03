@@ -2,6 +2,8 @@
 
 import "google/protobuf/empty.proto";
 
+option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
+
 service MonitorManagement {
   rpc CreateWatcher        (WatcherRequest)             returns (google.protobuf.Empty);
   rpc RemoveWatcher        (WatcherRequest)             returns (google.protobuf.Empty);
