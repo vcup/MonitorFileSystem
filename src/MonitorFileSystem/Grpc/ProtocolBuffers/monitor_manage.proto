@@ -3,7 +3,24 @@
 import "google/protobuf/empty.proto";
 
 service MonitorManagement {
-  rpc CreateWatcher (WatcherRequest) returns (google.protobuf.Empty);
+  rpc CreateWatcher        (WatcherRequest)             returns (google.protobuf.Empty);
+  rpc RemoveWatcher        (WatcherRequest)             returns (google.protobuf.Empty);
+  rpc DisableWatcher       (WatcherRequest)             returns (google.protobuf.Empty);
+  rpc EnableWatcher        (WatcherRequest)             returns (google.protobuf.Empty);
+  rpc ToggleWatcher        (WatcherRequest)             returns (google.protobuf.Empty);
+  
+  rpc CreateGroup          (GroupRequest)               returns (google.protobuf.Empty);
+  rpc RemoveGroup          (GroupRequest)               returns (google.protobuf.Empty);
+  rpc AddWatcherTo         (WatcherAndGroupRequest)     returns (google.protobuf.Empty);
+  rpc AddManyWatcherTo     (ManyWatcherAndGroupRequest) returns (google.protobuf.Empty);
+  rpc AddWatcherToMany     (WatcherAndManyGroupRequest) returns (google.protobuf.Empty);
+  rpc RemoveWatcherFor     (WatcherAndGroupRequest)     returns (google.protobuf.Empty);
+  rpc RemoveManyWatcherFor (ManyWatcherAndGroupRequest) returns (google.protobuf.Empty);
+  rpc RemoveWatcherForMany (WatcherAndManyGroupRequest) returns (google.protobuf.Empty);
+  
+  rpc ClearUpAll           (google.protobuf.Empty)      returns (google.protobuf.Empty);
+  rpc ClearWatcher         (google.protobuf.Empty)      returns (google.protobuf.Empty);
+  rpc ClearGroup           (google.protobuf.Empty)      returns (google.protobuf.Empty);
 }
 
 enum Event {
@@ -35,4 +52,32 @@ message WatcherRequest {
 message GroupRequest {
   string name = 1;
   string description = 2;
+}
+
+message ManyWatcherRequest {
+  repeated WatcherRequest watchers = 1;
+}
+
+message ManyGroupRequest {
+  repeated GroupRequest watchers = 1;
+}
+
+message WatcherAndGroupRequest {
+  WatcherRequest watcher = 1;
+  GroupRequest group = 2;
+}
+
+message ManyWatcherAndGroupRequest {
+  repeated WatcherRequest watchers = 1;
+  GroupRequest group = 2;
+}
+
+message WatcherAndManyGroupRequest {
+  WatcherRequest watcher = 1;
+  repeated GroupRequest groups = 2;
+}
+
+message ManyWatcherAndManyGroupRequest {
+  repeated WatcherRequest watchers = 1;
+  repeated GroupRequest groups = 2;
 }
