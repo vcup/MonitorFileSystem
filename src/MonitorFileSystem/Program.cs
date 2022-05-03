@@ -9,7 +9,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddActions()
             .AddSingleton<IMonitorManager, MonitorManager>()
-            .AddHostedService<Worker>();
+            ;
     })
     .ConfigureWebHostDefaults(webBuilder =>
     {
