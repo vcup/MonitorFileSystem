@@ -6,7 +6,7 @@ public interface IWatcher : IObservable<WatchingEventInfo>
     string MonitorPath { get; }
     string Filter { get; }
 
-    bool Monitoring { get; }
+    bool Monitoring { get; set; }
     bool MonitorSubDirectory { get; set; }
 
     WatchingEvent WatchingEvent { get; set; }

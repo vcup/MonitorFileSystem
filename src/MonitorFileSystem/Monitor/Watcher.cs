@@ -105,7 +105,11 @@ public class Watcher : IWatcher
         set => _watcher.IncludeSubdirectories = value;
     }
 
-    public bool Monitoring => _watcher.EnableRaisingEvents;
+    public bool Monitoring
+    {
+        get => _watcher.EnableRaisingEvents;
+        set => _watcher.EnableRaisingEvents = value;
+    }
 
     public IDisposable Subscribe(IObserver<WatchingEventInfo> observer)
     {
