@@ -45,17 +45,23 @@ public class MonitorManager : IMonitorManager
     
     public void Add(IWatcher item)
     {
-        _watchers.Add(item);
+        if (Contains(item))
+        {
+            _watchers.Add(item);
+        }
     }
 
     public void Add(IGroup item)
     {
-        _groups.Add(item);
+        if (Contains(item))
+        {
+            _groups.Add(item);
+        }
     }
 
     void ICollection<IWatcher>.Clear()
     {
-        _groups.Clear();
+        _watchers.Clear();
     }
 
     void ICollection<IGroup>.Clear()
@@ -71,12 +77,12 @@ public class MonitorManager : IMonitorManager
     
     public bool Contains(IWatcher item)
     {
-        return _watchers.Contains(item);
+        return _watchers.Contains(item) || _watchers.Any(w => w.Name == item.Name);
     }
 
     public bool Contains(IGroup item)
     {
-        return _groups.Contains(item);
+        return _groups.Contains(item) || _watchers.Any(g => g.Name == item.Name);
     }    
     
     public void CopyTo(IWatcher[] array, int arrayIndex)
@@ -91,12 +97,12 @@ public class MonitorManager : IMonitorManager
     
     public bool Remove(IWatcher item)
     {
-        return _watchers.Remove(item);
+        return _watchers.Remove(item) || _watchers.RemoveAll(w => w.Name == item.Name) != 0;
     }
 
     public bool Remove(IGroup item)
     {
-        return _groups.Remove(item);
+        return _groups.Remove(item) || _groups.RemoveAll(g => g.Name == item.Name) != 0;
     }
     
     IEnumerator<IWatcher> IEnumerable<IWatcher>.GetEnumerator()
