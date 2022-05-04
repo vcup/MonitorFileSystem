@@ -142,4 +142,20 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         (_manager as ICollection<IGroup>).Clear();
         return Task.FromResult(new Empty());
     }
+
+    public override async Task GetWatchers(Empty request, IServerStreamWriter<WatcherResponse> responseStream, ServerCallContext context)
+    {
+        foreach (var watcher in _manager.Watchers)
+        {
+            await responseStream.WriteAsync(watcher.ToResponse());
+        }
+    }
+    
+    public override async Task GetGroups(Empty request, IServerStreamWriter<GroupResponse> responseStream, ServerCallContext context)
+    {
+        foreach (var group in _manager.Groups)
+        {
+            await responseStream.WriteAsync(group.ToResponse());
+        }
+    }
 }

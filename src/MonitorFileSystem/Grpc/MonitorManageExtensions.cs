@@ -46,4 +46,48 @@ public static class MonitorManageExtensions
 
         return group;
     }
+
+    public static WatcherRequest ToRequest(this IWatcher watcher)
+    {
+        return new WatcherRequest
+        {
+            Name = watcher.Name,
+            Path = watcher.MonitorPath,
+            Filter = watcher.Filter,
+            EventValue = (Event)watcher.WatchingEvent,
+        };
+    }
+
+    public static WatcherResponse ToResponse(this IWatcher watcher)
+    {
+        return new WatcherResponse
+        {
+            Name = watcher.Name,
+            Path = watcher.MonitorPath,
+            Filter = watcher.Filter,
+            Event = (Event)watcher.WatchingEvent,
+            IsEnable = watcher.Monitoring,
+        };
+    }
+
+    public static GroupRequest ToRequest(this IGroup group)
+    {
+        return new GroupRequest
+        {
+            Name = group.Name,
+            Description = group.Description,
+        };
+    }
+
+    public static GroupResponse ToResponse(this IGroup group)
+    {
+        var result = new GroupResponse
+        {
+            Name = group.Name,
+            Description = group.Description,
+        };
+        result.Watchers.AddRange(group.Select(g => g.ToResponse()));
+        
+        return result;
+    }
 }
