@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
-using MonitorFileSystem;
+using MonitorFileSystem.Action;
 using MonitorFileSystem.Extensions;
 using MonitorFileSystem.Grpc;
 using MonitorFileSystem.Monitor;
@@ -9,6 +9,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddActions()
             .AddSingleton<IMonitorManager, MonitorManager>()
+            .AddSingleton<IActionManager, ActionManager>()
             ;
     })
     .ConfigureWebHostDefaults(webBuilder =>
