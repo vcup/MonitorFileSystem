@@ -74,7 +74,10 @@ public class MonitorManager : IMonitorManager
         (this as ICollection<IWatcher>).Clear();
         (this as ICollection<IGroup>).Clear();
     }
-    
+
+    public IEnumerable<IWatcher> Watchers => _watchers;
+    public IEnumerable<IGroup> Groups => _groups;
+
     public bool Contains(IWatcher item)
     {
         return _watchers.Contains(item) || _watchers.Any(w => w.Name == item.Name);

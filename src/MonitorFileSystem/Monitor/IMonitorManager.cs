@@ -6,4 +6,7 @@ public interface IMonitorManager : ICollection<IWatcher>, ICollection<IGroup>
     IGroup? FindGroup(string name);
 
     void ClearUp();
+
+    IEnumerable<IWatcher> Watchers { get; }
+    IEnumerable<IGroup> Groups { get; }
 }
