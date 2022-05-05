@@ -11,18 +11,17 @@ using NUnit.Framework;
 
 namespace MonitorFileSystem.Tests;
 
-public class MoveOperateTests
+public class MoveOperateTests : OperateBaseTests
 {
-    private IServiceProvider _provider = null!;
-
     [OneTimeSetUp]
-    public void OneTimeSetup()
+    public override void OneTimeSetup()
     {
-        _provider = Host.CreateDefaultBuilder()
+        Provider = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
-                services.AddScoped<IFileSystem, MockFileSystem>();
-                services.AddMoveOperate();
+                services.AddScoped<IFileSystem, MockFileSystem>()
+                    .AddScoped<IOperate, OperateBase>()
+                    .AddMoveOperate();
             })
             .Build()
             .Services;
@@ -36,7 +35,7 @@ public class MoveOperateTests
     [Test]
     public void ProcessFileBranch_InvalidDestinationPath_ThrowDirectoryNotFoundException()
     {
-        var scope = _provider.CreateScope();
+        var scope = Provider.CreateScope();
         
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
@@ -56,7 +55,7 @@ public class MoveOperateTests
     [Test]
     public void ProcessDirectoryBranch_WatchedEventInfo_UpdatePathToMovedPath()
     {
-        var scope = _provider.CreateScope();
+        var scope = Provider.CreateScope();
         
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
@@ -79,7 +78,7 @@ public class MoveOperateTests
     [Test]
     public void Initialization_NonParameterInitialization_MustThrowNotImplementedException()
     {
-        var scope = _provider.CreateScope();
+        var scope = Provider.CreateScope();
         
         var operate = scope.ServiceProvider.GetService<IMoveOperate>();
         Assert.IsNotNull(operate);

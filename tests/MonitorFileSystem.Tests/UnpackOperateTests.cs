@@ -12,17 +12,16 @@ using NUnit.Framework;
 
 namespace MonitorFileSystem.Tests;
 
-public class UnpackOperateTests
+public class UnpackOperateTests : OperateBaseTests
 {
-    private IServiceProvider _provider = null!;
-
     [OneTimeSetUp]
-    public void OneTimeSetup()
+    public override void OneTimeSetup()
     {
-        _provider = Host.CreateDefaultBuilder()
+        Provider = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
                 services.AddScoped<IFileSystem, MockFileSystem>()
+                    .AddScoped<IOperate, OperateBase>()
                     .AddUnpackOperate();
             })
             .Build()
@@ -37,7 +36,7 @@ public class UnpackOperateTests
     [Test]
     public void Process_PathDetect_ThrowWhenPathIsDirectory()
     {
-        var scope = _provider.CreateScope();
+        var scope = Provider.CreateScope();
 
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
@@ -55,7 +54,7 @@ public class UnpackOperateTests
     [Test]
     public void Process_PathDetect_NotThrowOnIgnoreIsTrue()
     {
-        var scope = _provider.CreateScope();
+        var scope = Provider.CreateScope();
     
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
@@ -75,7 +74,7 @@ public class UnpackOperateTests
     [Test]
     public void Process_UnpackZipArchiveWithSingleFile_UnpackToCurrentPath()
     {
-        var scope = _provider.CreateScope();
+        var scope = Provider.CreateScope();
 
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
@@ -103,7 +102,7 @@ public class UnpackOperateTests
     [Test]
     public void Process_UnpackZipArchiveWithMultiFile_UnpackToCurrentPathWithADirectory()
     {
-        var scope = _provider.CreateScope();
+        var scope = Provider.CreateScope();
     
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);

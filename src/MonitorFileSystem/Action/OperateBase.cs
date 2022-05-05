@@ -3,13 +3,13 @@ using System.IO.Abstractions;
 
 namespace MonitorFileSystem.Action;
 
-public abstract class OperateBase : IOperate
+public class OperateBase : IOperate
 {
     protected readonly ILogger<IOperate> Logger;
     // see Initialization()
     protected readonly IFileSystem FileSystem;
 
-    protected OperateBase(IFileSystem fileSystem, ILogger<OperateBase> logger)
+    public OperateBase(IFileSystem fileSystem, ILogger<OperateBase> logger)
     {
         FileSystem = fileSystem;
         Logger = logger;
@@ -56,10 +56,10 @@ public abstract class OperateBase : IOperate
     }
     
     protected void CheckIsNotInitialized()
+    {
+        if (IsInitialized)
         {
-            if (IsInitialized)
-            {
-                throw new InvalidOperationException("Instance already Initialized");
-            }
+            throw new InvalidOperationException("Instance already Initialized");
         }
+    }
 }

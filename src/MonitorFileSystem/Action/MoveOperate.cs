@@ -28,7 +28,7 @@ public class MoveOperate : OperateBase, IMoveOperate
     
     public override void Process(WatchingEventInfo info)
     {
-        CheckIsInitialized();
+        base.Process(info);
         var dest = FileSystem.Directory.Exists(_destination)
             ? FileSystem.Path.Join(_destination, info.Path)
             : _destination;
