@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,8 +19,9 @@ public class MoveOperateTests
     public void OneTimeSetup()
     {
         _provider = Host.CreateDefaultBuilder()
-            .ConfigureServices((services) =>
+            .ConfigureServices(services =>
             {
+                services.AddScoped<IFileSystem, MockFileSystem>();
                 services.AddMoveOperate();
             })
             .Build()
@@ -35,14 +36,16 @@ public class MoveOperateTests
     [Test]
     public void ProcessFileBranch_InvalidDestinationPath_ThrowDirectoryNotFoundException()
     {
-        var files = new Dictionary<string, MockFileData>
-        {
-            {"/file", new MockFileData(string.Empty)}
-        };
-        var filesystem = new MockFileSystem(files);
-        var operate = _provider.GetService<MoveOperate>();
+        var scope = _provider.CreateScope();
+        
+        
+        var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
+        Assert.IsNotNull(filesystem);
+        filesystem!.AddFile("/file", new MockFileData(string.Empty));
+        
+        var operate = scope.ServiceProvider.GetService<MoveOperate>();
         Assert.IsNotNull(operate);
-        operate!.Initialization(filesystem, "/InValidPath/file");
+        operate!.Initialization("/InValidPath/file");
         var info = new WatchingEventInfo
         {
             Path = "/file"
@@ -54,15 +57,16 @@ public class MoveOperateTests
     [Test]
     public void ProcessDirectoryBranch_WatchedEventInfo_UpdatePathToMovedPath()
     {
-        var files = new Dictionary<string, MockFileData>
-        {
-            { "/directory_1", new MockDirectoryData() },
-            { "/directory_2", new MockDirectoryData() }
-        };
-        var filesystem = new MockFileSystem(files);
-        var operate = _provider.GetService<MoveOperate>();
+        var scope = _provider.CreateScope();
+        
+        var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
+        Assert.IsNotNull(filesystem);
+        filesystem!.AddDirectory("/directory_1");
+        filesystem.AddDirectory("/directory_2");
+        
+        var operate = scope.ServiceProvider.GetService<MoveOperate>();
         Assert.IsNotNull(operate);
-        operate!.Initialization(filesystem, "/directory_2");
+        operate!.Initialization("/directory_2");
         var info = new WatchingEventInfo
         {
             Path = "/directory_1"

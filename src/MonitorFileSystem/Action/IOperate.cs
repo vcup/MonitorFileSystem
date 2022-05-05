@@ -6,7 +6,7 @@ public interface IOperate : IObserver<WatchingEventInfo>
 {
     bool IsInitialized { get; }
 
-    void Initialization(params object[] parameters);
+    void Initialization();
     void Process(WatchingEventInfo info);
     Task ProcessAsync(WatchingEventInfo info);
 }

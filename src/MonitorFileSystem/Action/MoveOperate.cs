@@ -3,27 +3,29 @@ using System.IO.Abstractions;
 
 namespace MonitorFileSystem.Action;
 
-public class MoveOperate : OperateBase
+public class MoveOperate : OperateBase, IMoveOperate
 {
     // see Initialization()
     private string _destination = null!;
 
-    public MoveOperate(ILogger<MoveOperate> logger)
-        : base(logger)
+    public MoveOperate(IFileSystem fileSystem, ILogger<MoveOperate> logger)
+        : base(fileSystem, logger)
     {
     }
 
-    public override void Initialization(params object[] parameters)
+    public override void Initialization()
     {
-        if (parameters.Length is 0)
-        {
-            throw new ArgumentException("Parameters must have a string of destination path");
-        }
-        var startIndex = parameters[0] is IFileSystem ? 1 : 0;
-        _destination = (string)parameters[startIndex];
-        base.Initialization(parameters);
+        CheckIsNotInitialized();
+        throw new NotImplementedException("this Operate have not parameterless Initialization");
     }
 
+    public void Initialization(string destination)
+    {
+        CheckIsNotInitialized();
+        _destination = destination;
+        IsInitialized = true;
+    }
+    
     public override void Process(WatchingEventInfo info)
     {
         CheckIsInitialized();
