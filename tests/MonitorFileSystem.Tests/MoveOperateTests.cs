@@ -38,12 +38,11 @@ public class MoveOperateTests
     {
         var scope = _provider.CreateScope();
         
-        
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         filesystem!.AddFile("/file", new MockFileData(string.Empty));
         
-        var operate = scope.ServiceProvider.GetService<MoveOperate>();
+        var operate = scope.ServiceProvider.GetService<IMoveOperate>();
         Assert.IsNotNull(operate);
         operate!.Initialization("/InValidPath/file");
         var info = new WatchingEventInfo
@@ -62,9 +61,9 @@ public class MoveOperateTests
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         filesystem!.AddDirectory("/directory_1");
-        filesystem.AddDirectory("/directory_2");
+        filesystem .AddDirectory("/directory_2");
         
-        var operate = scope.ServiceProvider.GetService<MoveOperate>();
+        var operate = scope.ServiceProvider.GetService<IMoveOperate>();
         Assert.IsNotNull(operate);
         operate!.Initialization("/directory_2");
         var info = new WatchingEventInfo
@@ -77,4 +76,14 @@ public class MoveOperateTests
         Assert.AreEqual("/directory_2/directory_1", info.Path);
     }
 
+    [Test]
+    public void Initialization_NonParameterInitialization_MustThrowNotImplementedException()
+    {
+        var scope = _provider.CreateScope();
+        
+        var operate = scope.ServiceProvider.GetService<IMoveOperate>();
+        Assert.IsNotNull(operate);
+
+        Assert.Throws<NotImplementedException>(() => operate!.Initialization());
+    }
 }

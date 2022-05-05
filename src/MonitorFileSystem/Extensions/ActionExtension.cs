@@ -6,7 +6,7 @@ public static class ActionExtension
 {
     public static IServiceCollection AddMoveOperate(this IServiceCollection services)
     {
-        return services.AddScoped<MoveOperate>();
+        return services.AddScoped<IMoveOperate, MoveOperate>();
     }
 
     public static IServiceCollection AddOperates(this IServiceCollection services)
