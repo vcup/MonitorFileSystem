@@ -9,11 +9,11 @@ internal class Chain : IChain
     private readonly List<IOperate> _operates;
     private readonly List<IObserver<WatchingEventInfo>> _observers;
 
-    public Chain(string name, string? description, bool? isReadOnly)
+    public Chain(string name, string description = "", bool isReadOnly = false)
     {
         Name = name;
         Description = description;
-        IsReadOnly = isReadOnly ?? false;
+        IsReadOnly = isReadOnly;
 
         _operates = new();
         _observers = new();
@@ -21,7 +21,7 @@ internal class Chain : IChain
 
     public string Name { get; }
 
-    public string? Description { get; }
+    public string Description { get; }
 
 
     public void OnCompleted()
