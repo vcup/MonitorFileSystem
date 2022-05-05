@@ -9,9 +9,16 @@ public static class ActionExtension
         return services.AddScoped<IMoveOperate, MoveOperate>();
     }
 
+    public static IServiceCollection AddUnpackOperate(this IServiceCollection services)
+    {
+        return services.AddScoped<IUnpackOperate, UnpackOperate>();
+    }
+
     public static IServiceCollection AddOperates(this IServiceCollection services)
     {
-        return services.AddMoveOperate();
+        return services.AddMoveOperate()
+            .AddUnpackOperate()
+            ;
     }
 
     public static IServiceCollection AddChain(this IServiceCollection services)
