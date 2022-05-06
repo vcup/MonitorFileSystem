@@ -5,28 +5,30 @@ import "google/protobuf/empty.proto";
 option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 
 service MonitorManagement {
-  rpc CreateWatcher        (WatcherRequest)             returns (google.protobuf.Empty) ;
-  rpc RemoveWatcher        (WatcherRequest)             returns (google.protobuf.Empty) ;
-  rpc DisableWatcher       (WatcherRequest)             returns (google.protobuf.Empty) ;
-  rpc EnableWatcher        (WatcherRequest)             returns (google.protobuf.Empty) ;
-  rpc ToggleWatcher        (WatcherRequest)             returns (google.protobuf.Empty) ;
+  rpc CreateWatcher             (WatcherRequest)                     returns (google.protobuf.Empty) ;
+  rpc RemoveWatcher             (WatcherRequest)                     returns (google.protobuf.Empty) ;
+  rpc DisableWatcher            (WatcherRequest)                     returns (google.protobuf.Empty) ;
+  rpc EnableWatcher             (WatcherRequest)                     returns (google.protobuf.Empty) ;
+  rpc ToggleWatcher             (WatcherRequest)                     returns (google.protobuf.Empty) ;
   
-  rpc CreateGroup          (GroupRequest)               returns (google.protobuf.Empty) ;
-  rpc RemoveGroup          (GroupRequest)               returns (google.protobuf.Empty) ;
-  rpc AddWatcherTo         (WatcherAndGroupRequest)     returns (google.protobuf.Empty) ;
-  rpc AddManyWatcherTo     (ManyWatcherAndGroupRequest) returns (google.protobuf.Empty) ;
-  rpc AddWatcherToMany     (WatcherAndManyGroupRequest) returns (google.protobuf.Empty) ;
-  rpc RemoveWatcherFor     (WatcherAndGroupRequest)     returns (google.protobuf.Empty) ;
-  rpc RemoveManyWatcherFor (ManyWatcherAndGroupRequest) returns (google.protobuf.Empty) ;
-  rpc RemoveWatcherForMany (WatcherAndManyGroupRequest) returns (google.protobuf.Empty) ;
+  rpc CreateGroup               (GroupRequest)                       returns (google.protobuf.Empty) ;
+  rpc RemoveGroup               (GroupRequest)                       returns (google.protobuf.Empty) ;
+  rpc AddWatcherTo              (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
+  rpc AddManyWatcherTo          (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
+  rpc AddWatcherToMany          (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
+  rpc AddManyWatcherToMany      (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty);
+  rpc RemoveWatcherFor          (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
+  rpc RemoveManyWatcherFor      (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
+  rpc RemoveWatcherForMany      (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
+  rpc RemoveManyWatcherForMany  (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty);
   
-  rpc ClearUpAll           (google.protobuf.Empty)      returns (google.protobuf.Empty) ;
-  rpc ClearWatcher         (google.protobuf.Empty)      returns (google.protobuf.Empty) ;
-  rpc ClearGroup           (google.protobuf.Empty)      returns (google.protobuf.Empty) ;
+  rpc ClearUpAll                (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
+  rpc ClearWatcher              (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
+  rpc ClearGroup                (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
   
-  rpc GetWatchers          (google.protobuf.Empty)      returns (stream WatcherResponse);
-  rpc GetWatchersOf        (GroupRequest)               returns (stream WatcherResponse);
-  rpc GetGroups            (google.protobuf.Empty)      returns (stream GroupResponse)  ;
+  rpc GetWatchers               (google.protobuf.Empty)              returns (stream WatcherResponse);
+  rpc GetWatchersOf             (GroupRequest)                       returns (stream WatcherResponse);
+  rpc GetGroups                 (google.protobuf.Empty)              returns (stream GroupResponse)  ;
 }
 
 enum Event {

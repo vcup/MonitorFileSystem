@@ -100,6 +100,19 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         return Task.FromResult(new Empty());
     }
     
+    public override Task<Empty> AddManyWatcherToMany(ManyWatcherAndManyGroupRequest request, ServerCallContext context)
+    {
+        foreach (var group in request.Groups.Select(g => g.ToGroup(_manager)))
+        {
+            foreach (var watcher in request.Watchers.Select(w => w.ToWatcher(_manager)))
+            {
+                group.Add(watcher);
+            }
+        }
+
+        return Task.FromResult(new Empty());
+    }
+
     public override Task<Empty> RemoveWatcherFor(WatcherAndGroupRequest request, ServerCallContext context)
     {
         request.Group.ToGroup(_manager).Remove(request.Watcher.ToWatcher(_manager));
@@ -121,6 +134,19 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         {
             group.ToGroup(_manager).Remove(request.Watcher.ToWatcher(_manager));
         }
+        return Task.FromResult(new Empty());
+    }
+
+    public override Task<Empty> RemoveManyWatcherForMany(ManyWatcherAndManyGroupRequest request, ServerCallContext context)
+    {
+        foreach (var group in request.Groups)
+        {
+            foreach (var watcher in request.Watchers)
+            {
+                group.ToGroup(_manager).Remove(watcher.ToWatcher(_manager));
+            }
+        }
+            
         return Task.FromResult(new Empty());
     }
 
