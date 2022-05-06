@@ -28,11 +28,20 @@ public abstract class OperateBase : IOperate
     {
         Process(value);
     }
+
+    public Guid Guid { get; protected set; }
+    public string Description { get; set; } = string.Empty;
     public bool IsInitialized { get; protected set; }
 
-    public virtual void Initialization()
+    public void Initialization()
+    {
+        Initialization(Guid.NewGuid());
+    }
+
+    public virtual void Initialization(Guid guid)
     {
         CheckIsNotInitialized();
+        Guid = guid;
         IsInitialized = true;
     }
 

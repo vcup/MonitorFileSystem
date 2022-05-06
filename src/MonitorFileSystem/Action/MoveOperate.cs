@@ -13,7 +13,7 @@ public class MoveOperate : OperateBase, IMoveOperate
     {
     }
 
-    public override void Initialization()
+    public override void Initialization(Guid guid)
     {
         CheckIsNotInitialized();
         throw new NotImplementedException("this Operate have not parameterless Initialization");
@@ -21,7 +21,13 @@ public class MoveOperate : OperateBase, IMoveOperate
 
     public void Initialization(string destination)
     {
+        Initialization(Guid.NewGuid(), destination);
+    }
+
+    public void Initialization(Guid guid, string destination)
+    {
         CheckIsNotInitialized();
+        Guid = guid;
         _destination = destination;
         IsInitialized = true;
     }

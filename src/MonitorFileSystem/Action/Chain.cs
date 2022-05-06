@@ -19,9 +19,6 @@ internal class Chain : OperateBase, IChain
     // see Initialization(string, string, bool)
     public string Name { get; private set; } = null!;
     
-    // see Initialization(string, string, bool)
-    public string Description { get; private set; } = null!;
-
     public override void OnCompleted()
     {
         foreach (var observer in _observers)
@@ -46,17 +43,21 @@ internal class Chain : OperateBase, IChain
         }
     }
 
-    public override void Initialization()
+    public override void Initialization(Guid guid)
     {
         CheckIsNotInitialized();
         throw new NotImplementedException("this Operate have not parameterless Initialization");
     }
 
-    public void Initialization(string name, string description, bool isReadOnly)
+    public void Initialization(string name, bool isReadOnly)
+    {
+        Initialization(Guid.NewGuid(), name, isReadOnly);
+    }
+    
+    public void Initialization(Guid guid, string name, bool isReadOnly)
     {
         CheckIsNotInitialized();
         Name = name;
-        Description = description;
         IsReadOnly = isReadOnly;
     }
 
@@ -67,7 +68,6 @@ internal class Chain : OperateBase, IChain
         {
             operate.Process(info);
         }
-        (this as IChain).Initialization("", "", true);
     }
 
     public override async Task ProcessAsync(WatchingEventInfo info)
