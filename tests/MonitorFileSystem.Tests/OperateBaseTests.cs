@@ -9,23 +9,9 @@ using NUnit.Framework;
 
 namespace MonitorFileSystem.Tests;
 
-public class OperateBaseTests
+public abstract class OperateBaseTests
 {
     protected IServiceProvider Provider = null!;
-    
-    [OneTimeSetUp]
-    public virtual void OneTimeSetup()
-    {
-        Provider = Host.CreateDefaultBuilder()
-            .ConfigureServices(services =>
-            {
-                services.AddScoped<IFileSystem, MockFileSystem>()
-                    .AddScoped<IOperate, OperateBase>()
-                    ;
-            })
-            .Build()
-            .Services;
-    }
     
     [Test]
     public void Process_CheckIsInitialization_ThrowExceptionWhenIsNotInitialized()
@@ -41,7 +27,7 @@ public class OperateBaseTests
     }
     
     [Test]
-    public void Process_CheckIsInitialization_ThrowExceptionWhenIsInitialized()
+    public virtual void Process_CheckIsInitialization_ThrowExceptionWhenIsInitialized()
     {
         var scope = Provider.CreateScope();
         

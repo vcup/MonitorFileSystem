@@ -15,14 +15,14 @@ namespace MonitorFileSystem.Tests;
 public class UnpackOperateTests : OperateBaseTests
 {
     [OneTimeSetUp]
-    public override void OneTimeSetup()
+    public void OneTimeSetup()
     {
         Provider = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
-                services.AddScoped<IFileSystem, MockFileSystem>()
-                    .AddScoped<IOperate, OperateBase>()
-                    .AddUnpackOperate();
+                services.AddUnpackOperate()
+                    .AddScoped<IOperate, UnpackOperate>()
+                    .AddScoped<IFileSystem, MockFileSystem>();
             })
             .Build()
             .Services;

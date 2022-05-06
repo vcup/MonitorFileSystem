@@ -14,14 +14,14 @@ namespace MonitorFileSystem.Tests;
 public class MoveOperateTests : OperateBaseTests
 {
     [OneTimeSetUp]
-    public override void OneTimeSetup()
+    public void OneTimeSetup()
     {
         Provider = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
-                services.AddScoped<IFileSystem, MockFileSystem>()
-                    .AddScoped<IOperate, OperateBase>()
-                    .AddMoveOperate();
+                services.AddMoveOperate()
+                    .AddScoped<IFileSystem, MockFileSystem>()
+                    .AddScoped<IOperate, MoveOperate>();
             })
             .Build()
             .Services;
@@ -30,6 +30,19 @@ public class MoveOperateTests : OperateBaseTests
     [SetUp]
     public void Setup()
     {
+    }
+
+    [Test]
+    public override void Process_CheckIsInitialization_ThrowExceptionWhenIsInitialized()
+    {
+        var scope = Provider.CreateScope();
+
+        var dest = "./";
+        var operate = scope.ServiceProvider.GetService<IMoveOperate>();
+        Assert.IsNotNull(operate);
+        operate!.Initialization(dest);
+        
+        Assert.Throws<InvalidOperationException>(() => operate.Initialization(dest), "Instance is not Initialized");
     }
 
     [Test]

@@ -3,13 +3,13 @@ using System.IO.Abstractions;
 
 namespace MonitorFileSystem.Action;
 
-public class OperateBase : IOperate
+public abstract class OperateBase : IOperate
 {
     protected readonly ILogger<IOperate> Logger;
     // see Initialization()
     protected readonly IFileSystem FileSystem;
 
-    public OperateBase(IFileSystem fileSystem, ILogger<OperateBase> logger)
+    protected OperateBase(IFileSystem fileSystem, ILogger<OperateBase> logger)
     {
         FileSystem = fileSystem;
         Logger = logger;
