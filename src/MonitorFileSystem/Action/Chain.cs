@@ -17,7 +17,7 @@ internal class Chain : OperateBase, IChain
     }
 
     // see Initialization(string, string, bool)
-    public string Name { get; private set; } = null!;
+    public string Name { get; set; } = null!;
     
     public override void OnCompleted()
     {

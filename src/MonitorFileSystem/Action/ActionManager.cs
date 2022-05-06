@@ -1,163 +1,86 @@
-﻿using System.Collections;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace MonitorFileSystem.Action;
 
 public class ActionManager : IActionManager
 {
-    private readonly List<IChain> _chains = new();
-    private readonly Dictionary<string, IChain> _chainCaches = new();
-    private readonly Dictionary<Guid, IOperate> _operates = new();    
+    private readonly Dictionary<Guid, IOperate> _operates = new();
+    private readonly Dictionary<Guid, IChain> _chains = new();
     
-    public Guid Add(IOperate operate)
+    public void Add(IOperate operate)
     {
-        if (Values.Contains(operate))
+        _operates.Add(operate.Guid, operate);
+    }
+
+    public void Add(IChain chain)
+    {
+        _chains.Add(chain.Guid, chain);
+    }
+
+    public bool RemoveOperate(Guid guid)
+    {
+        return _operates.Remove(guid);
+    }
+
+    public bool RemoveChain(Guid guid)
+    {
+        return _chains.Remove(guid);
+    }
+
+    public bool ContainsOperate(Guid guid)
+    {
+        return _operates.ContainsKey(guid);
+    }
+
+    public bool ContainsChain(Guid guid)
+    {
+        return _chains.ContainsKey(guid);
+    }
+
+    public bool TryGet(Guid guid, [MaybeNullWhen(false)]out IOperate operate)
+    {
+        return _operates.TryGetValue(guid, out operate);
+    }
+
+    public bool TryGet(Guid guid, [MaybeNullWhen(false)] out IChain operate)
+    {
+        return _chains.TryGetValue(guid, out operate);
+    }
+
+    public bool TryAddOperateToChain(Guid operateGuid, Guid chainGuid)
+    {
+        if (!this.TryGetOperate(operateGuid, out var operate) ||
+            !this.TryGetChain(chainGuid, out var chain))
         {
-            throw new InvalidOperationException("Operate existed!");
+            return false;
         }
-        Guid guid = Guid.NewGuid();
-        Add(guid, operate);
-
-        return guid;
+        chain.Add(operate);
+        
+        return true;
     }
 
-    public bool Contains(string name)
+    public bool TryRemoveOperateFromChain(Guid operateGuid, Guid chainGuid)
     {
-        return _chains.Any(c => name.Equals(c.Name));
-    }
-
-    public IChain? Find(string name)
-    {
-        if (_chainCaches.TryGetValue(name, out var value))
+        if (!this.TryGetOperate(operateGuid, out var operate) ||
+            !this.TryGetChain(chainGuid, out var chain))
         {
-            return value;
+            return false;
         }
+        chain.Remove(operate);
 
-        value = _chains.FindLast(c => name.Equals(c.Name));
-
-        if (value is not null)
-        {
-            _chainCaches.Add(name, value);
-        }
-
-        return value;
+        return true;
     }
 
-    public bool Remove(string name)
-    {
-        return _chains.RemoveAll(c => c.Name == name) != 0;
-    }
-
-    public IEnumerable<IChain> Chains => _chains;
-    public IEnumerable<IOperate> Operates => Values;
-    
-    public void ClearUp()
-    {
-        (this as IDictionary<Guid, IOperate>).Clear();
-        (this as ICollection<IChain>).Clear();
-    }
-
-    public void Add(KeyValuePair<Guid, IOperate> item)
-    {
-        (_operates as ICollection<KeyValuePair<Guid, IOperate>>).Add(item);
-    }
-
-    public void Add(IChain item)
-    {
-        if (Contains(item))
-        {
-            _chains.Add(item);
-        }
-    }
-
-    void ICollection<IChain>.Clear()
-    {
-        _chains.Clear();
-    }
-
-    public bool Contains(IChain item)
-    {
-        return _chains.Contains(item) || _chains.Any(c => item.Name.Equals(c.Name));
-    }
-
-    public void CopyTo(IChain[] array, int arrayIndex)
-    {
-        _chains.CopyTo(array, arrayIndex);
-    }
-
-    public bool Remove(IChain item)
-    {
-        return _chains.Remove(item);
-    }
-    
-    IEnumerator<IChain> IEnumerable<IChain>.GetEnumerator()
-    {
-        return _chains.GetEnumerator();
-    }
-    
-    int ICollection<IChain>.Count => _chains.Count;
-
-    bool ICollection<IChain>.IsReadOnly => false;
-
-    void ICollection<KeyValuePair<Guid, IOperate>>.Clear()
+    public void ClearOperate()
     {
         _operates.Clear();
     }
 
-    public bool Contains(KeyValuePair<Guid, IOperate> item)
+    public void ClearChains()
     {
-        return (_operates as ICollection<KeyValuePair<Guid, IOperate>>).Contains(item);
+        _chains.Clear();
     }
 
-    public void CopyTo(KeyValuePair<Guid, IOperate>[] array, int arrayIndex)
-    {
-        (_operates as ICollection<KeyValuePair<Guid, IOperate>>).CopyTo(array, arrayIndex);
-    }
-
-    public bool Remove(KeyValuePair<Guid, IOperate> item)
-    {
-        return (_operates as ICollection<KeyValuePair<Guid, IOperate>>).Remove(item);
-    }
-
-    int ICollection<KeyValuePair<Guid, IOperate>>.Count => _operates.Count;
-
-    bool ICollection<KeyValuePair<Guid, IOperate>>.IsReadOnly => false;
-
-    public void Add(Guid key, IOperate value)
-    {
-        _operates.Add(key, value);
-    }
-
-    public bool ContainsKey(Guid key)
-    {
-        return _operates.ContainsKey(key);
-    }
-
-    public bool Remove(Guid key)
-    {
-        return _operates.Remove(key);
-    }
-
-    public bool TryGetValue(Guid key, out IOperate value)
-    {
-        return _operates.TryGetValue(key, out value!);
-    }
-
-    public IOperate this[Guid key]
-    {
-        get => _operates[key];
-        set => _operates[key] = value;
-    }
-
-    public ICollection<Guid> Keys => _operates.Keys;
-    public ICollection<IOperate> Values => _operates.Values;
-    
-    IEnumerator<KeyValuePair<Guid, IOperate>> IEnumerable<KeyValuePair<Guid, IOperate>>.GetEnumerator()
-    {
-        return _operates.GetEnumerator();
-    }
-    
-    public IEnumerator GetEnumerator()
-    {
-        return (this as IDictionary<Guid, IOperate>).GetEnumerator();
-    }
+    public IEnumerable<IChain> Chains => _chains.Values;
+    public IEnumerable<IOperate> Operates => _operates.Values;
 }

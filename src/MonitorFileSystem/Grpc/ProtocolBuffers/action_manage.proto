@@ -7,13 +7,14 @@ option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 service ActionManagement {
   rpc CreateMoveOperate        (MoveOperateRequest)              returns (MoveOperateResponse)   ;
   rpc CreateUnpackOperate      (UnpackOperateRequest)            returns (UnpackOperateResponse) ;
-  rpc RemoveOperate            (OperateRequest)                  returns (google.protobuf.Empty) ;
+  rpc RemoveOperate            (GuidRequest)                     returns (google.protobuf.Empty) ;
   rpc UpdateOperate            (OperateRequest)                  returns (google.protobuf.Empty) ;
   rpc UpdateMoveOperate        (UpdateMoveOperateRequest)        returns (google.protobuf.Empty) ;
   rpc UpdateUnpackOperate      (UpdateMoveOperateRequest)        returns (google.protobuf.Empty) ;
   
   rpc CreateChain              (ChainRequest)                    returns (ChainResponse)         ;
-  rpc RemoveChain              (ChainRequest)                    returns (google.protobuf.Empty) ;
+  rpc UpdateChain              (UpdateChainRequest)              returns (google.protobuf.Empty) ;
+  rpc RemoveChain              (GuidRequest)                     returns (google.protobuf.Empty) ;
   rpc AddOperateTo             (OperateAndChainRequest)          returns (google.protobuf.Empty) ;
   rpc AddOperateToMany         (OperateAndManyChainRequest)      returns (google.protobuf.Empty) ;
   rpc AddManyOperateTo         (ManyOperateAndChainRequest)      returns (google.protobuf.Empty) ;
@@ -28,12 +29,12 @@ service ActionManagement {
   rpc ClearChains              (google.protobuf.Empty)           returns (google.protobuf.Empty) ;
   
   rpc GetOperates              (google.protobuf.Empty)           returns (stream OperateResponse);
-  rpc GetOperatesOf            (ChainRequest)                    returns (stream OperateResponse);
+  rpc GetOperatesOf            (GuidRequest)                     returns (stream OperateResponse);
   rpc GetChains                (google.protobuf.Empty)           returns (stream ChainResponse)  ;
   
-  rpc FindOperate              (OperateRequest)                  returns (OperateResponse)       ;
-  rpc FindChain                (ChainRequest)                    returns (ChainResponse)         ;
-  rpc FindChainWithoutOperates (ChainRequest)                    returns (ChainResponse)         ;
+  rpc FindOperate              (GuidRequest)                     returns (OperateResponse)       ;
+  rpc FindChain                (GuidRequest)                     returns (ChainResponse)         ;
+  rpc FindChainWithoutOperates (GuidRequest)                     returns (ChainResponse)         ;
 }
 
 message OperateRequest {
@@ -105,21 +106,25 @@ message ChainResponse {
 }
 
 message OperateAndChainRequest {
-  OperateRequest operate = 1;
-  ChainRequest chain = 2;
+  GuidRequest operate = 1;
+  GuidRequest chain = 2;
 }
 
 message OperateAndManyChainRequest {
-  OperateRequest operate = 1;
-  repeated ChainRequest chains = 2;
+  GuidRequest operate = 1;
+  repeated GuidRequest chains = 2;
 }
 
 message ManyOperateAndChainRequest {
-  repeated OperateRequest operates = 1;
-  ChainRequest chain = 2;
+  repeated GuidRequest operates = 1;
+  GuidRequest chain = 2;
 }
 
 message ManyOperateAndManyChainRequest {
-  repeated OperateRequest operates = 1;
-  repeated ChainRequest chains = 2;
+  repeated GuidRequest operates = 1;
+  repeated GuidRequest chains = 2;
+}
+
+message GuidRequest{
+  string guid = 1;
 }

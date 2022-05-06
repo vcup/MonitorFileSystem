@@ -26,6 +26,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             var operate = _provider.GetService<IMoveOperate>();
             Debug.Assert(operate is not null);
             operate.Initialization(request.Destination);
+            _manager.Add(operate);
 
             return operate.ToResponse();
         });
@@ -38,6 +39,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             var operate = _provider.GetService<IUnpackOperate>();
             Debug.Assert(operate is not null);
             operate.Initialization();
+            _manager.Add(operate);
             
             if (!string.IsNullOrEmpty(request.Destination))
             {
@@ -48,11 +50,11 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         });
     }
 
-    public override Task<Empty> RemoveOperate(OperateRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveOperate(GuidRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
-            _manager.Remove(Guid.Parse(request.Guid));
+            _manager.RemoveOperate(Guid.Parse(request.Guid));
             return new Empty();
         });
     }
@@ -61,9 +63,10 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            _manager.TryGetValue(Guid.Parse(request.Guid), out var operate);
-            Debug.Assert(operate is not null);
-            operate.Description = request.Description;
+            if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var operate))
+            {
+                operate.Description = request.Description;
+            }
             
             return new Empty();
         });
@@ -73,13 +76,12 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            _manager.TryGetValue(Guid.Parse(request.Guid), out var value);
-            Debug.Assert(value is not null);
-            Debug.Assert(value is IMoveOperate);
-            
-            var operate = (IMoveOperate)value;
-            operate.Description = request.Description;
-            operate.Destination = request.Destination;
+            if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var value) &&
+                value is IMoveOperate operate)
+            {
+                operate.Description = request.Description;
+                operate.Destination = request.Destination;
+            }
             
             return new Empty();
         });
@@ -89,13 +91,12 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            _manager.TryGetValue(Guid.Parse(request.Guid), out var value);
-            Debug.Assert(value is not null);
-            Debug.Assert(value is IMoveOperate);
-            
-            var operate = (IUnpackOperate)value;
-            operate.Destination = string.IsNullOrEmpty(request.Destination) ? null : request.Destination;
-            operate.Description = request.Description;
+            if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var value) &&
+                value is IUnpackOperate operate)
+            {
+                operate.Destination = string.IsNullOrEmpty(request.Destination) ? null : request.Destination;
+                operate.Description = request.Description;
+            }
             
             return new Empty();
         });
@@ -105,19 +106,34 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            var operate = _provider.GetService<IChain>();
-            Debug.Assert(operate is not null);
-            operate.Initialization(request.Name);
+            var chain = _provider.GetService<IChain>();
+            Debug.Assert(chain is not null);
+            chain.Initialization(request.Name);
+            _manager.Add(chain);
 
-            return operate.ToResponse();
+            return chain.ToResponse();
         });
     }
 
-    public override Task<Empty> RemoveChain(ChainRequest request, ServerCallContext context)
+    public override Task<Empty> UpdateChain(UpdateChainRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
-            _manager.Remove(request.Name);
+            if (_manager.TryGetChain(Guid.Parse(request.Guid), out var chain))
+            {
+                chain.Name = request.Name;
+                chain.Description = request.Description;
+            }
+            
+            return new Empty();
+        });
+    }
+
+    public override Task<Empty> RemoveChain(GuidRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            _manager.RemoveChain(Guid.Parse(request.Guid));
             return new Empty();
         });
     }
@@ -126,11 +142,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            var chain = _manager.Find(request.Chain.Name);
-            _manager.TryGetValue(Guid.Parse(request.Operate.Guid), out var operate);
-            Debug.Assert(chain is not null);
-            Debug.Assert(operate is not null);
-            chain.Add(operate);
+            _manager.TryAddOperateToChain(request);
             
             return new Empty();
         });
@@ -140,16 +152,8 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            _manager.TryGetValue(Guid.Parse(request.Operate.Guid), out var operate);
-            Debug.Assert(operate is not null);
-            
-            foreach (var chainRequest in request.Chains)
-            {
-                var chain = _manager.Find(chainRequest.Name);
-                Debug.Assert(chain is not null);
-                chain.Add(operate);
-            }
-            
+            _manager.TryAddOperateToChain(request);
+
             return new Empty();
         });
     }
@@ -158,15 +162,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            var chain = _manager.Find(request.Chain.Name);
-            Debug.Assert(chain is not null);
-
-            foreach (var operateRequest in request.Operates)
-            {
-                _manager.TryGetValue(Guid.Parse(operateRequest.Guid), out var operate);
-                Debug.Assert(operate is not null);
-                chain.Add(operate);
-            }
+            _manager.TryAddOperateToChain(request);
             
             return new Empty();
         });
@@ -176,18 +172,8 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            foreach (var chainRequest in request.Chains)
-            {
-                var chain = _manager.Find(chainRequest.Name);
-                Debug.Assert(chain is not null);
-
-                foreach (var operateRequest in request.Operates)
-                {
-                    _manager.TryGetValue(Guid.Parse(operateRequest.Guid), out var operate);
-                    Debug.Assert(operate is not null);
-                    chain.Add(operate);
-                }
-            }
+            _manager.TryAddOperateToChain(request);
+            
             return new Empty();
         });
     }
@@ -196,11 +182,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            var chain = _manager.Find(request.Chain.Name);
-            _manager.TryGetValue(Guid.Parse(request.Operate.Guid), out var operate);
-            Debug.Assert(chain is not null);
-            Debug.Assert(operate is not null);
-            chain.Remove(operate);
+            _manager.TryRemoveOperateFromChain(request);
             
             return new Empty();
         });
@@ -210,15 +192,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            _manager.TryGetValue(Guid.Parse(request.Operate.Guid), out var operate);
-            Debug.Assert(operate is not null);
-            
-            foreach (var chainRequest in request.Chains)
-            {
-                var chain = _manager.Find(chainRequest.Name);
-                Debug.Assert(chain is not null);
-                chain.Remove(operate);
-            }
+            _manager.TryRemoveOperateFromChain(request);
             
             return new Empty();
         });
@@ -228,15 +202,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            var chain = _manager.Find(request.Chain.Name);
-            Debug.Assert(chain is not null);
-
-            foreach (var operateRequest in request.Operates)
-            {
-                _manager.TryGetValue(Guid.Parse(operateRequest.Guid), out var operate);
-                Debug.Assert(operate is not null);
-                chain.Remove(operate);
-            }
+            _manager.TryRemoveOperateFromChain(request);
             
             return new Empty();
         });
@@ -246,36 +212,26 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            foreach (var chainRequest in request.Chains)
-            {
-                var chain = _manager.Find(chainRequest.Name);
-                Debug.Assert(chain is not null);
-
-                foreach (var operateRequest in request.Operates)
-                {
-                    _manager.TryGetValue(Guid.Parse(operateRequest.Guid), out var operate);
-                    Debug.Assert(operate is not null);
-                    chain.Remove(operate);
-                }
-            }
+            _manager.TryRemoveOperateFromChain(request);
+            
             return new Empty();
         });
     }
 
-    public override Task<Empty> ClearUpAll(Empty request, ServerCallContext context)
-    {
-        return Task.Run(() =>
-        {
-            _manager.ClearUp();
-            return new Empty();
-        });
+    public override async Task<Empty> ClearUpAll(Empty request, ServerCallContext context)
+    { 
+        Task[] tasks = { ClearOperates(request, context), ClearChains(request, context) };
+        await Task.WhenAll(tasks);
+
+        return new Empty();
     }
 
     public override Task<Empty> ClearOperates(Empty request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
-            (_manager as IDictionary<Guid, IOperate>).Clear();
+            _manager.ClearOperate();
+            
             return new Empty();
         });
     }
@@ -284,7 +240,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            (_manager as ICollection<IChain>).Clear();
+            _manager.ClearChains();
             return new Empty();
         });
     }
@@ -297,10 +253,13 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         }
     }
 
-    public override async Task GetOperatesOf(ChainRequest request, IServerStreamWriter<OperateResponse> responseStream, ServerCallContext context)
+    public override async Task GetOperatesOf(GuidRequest request, IServerStreamWriter<OperateResponse> responseStream, ServerCallContext context)
     {
-        var chain = _manager.Find(request.Name);
-        Debug.Assert(chain is not null);
+        if (!_manager.TryGetChain(Guid.Parse((ReadOnlySpan<char>)request.Guid), out var chain))
+        {
+            return;
+        }
+        
         foreach (var operate in chain)
         {
             await responseStream.WriteAsync(operate.ToResponse());
@@ -319,36 +278,44 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         }
     }
 
-    public override Task<OperateResponse> FindOperate(OperateRequest request, ServerCallContext context)
+    public override Task<OperateResponse> FindOperate(GuidRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
-            _manager.TryGetValue(Guid.Parse(request.Guid), out var operate);
-            Debug.Assert(operate is not null);
-            return operate.ToResponse();
+            if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var operate))
+            {
+                return operate.ToResponse();
+            }
+            return new OperateResponse();
         });
     }
 
-    public override Task<ChainResponse> FindChain(ChainRequest request, ServerCallContext context)
+    public override Task<ChainResponse> FindChain(GuidRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
-            var chain = _manager.Find(request.Name);
-            Debug.Assert(chain is not null);
-            var result = chain.ToResponse();
-            result.Operates.AddRange(chain.Select(o => o.ToResponse()));
+            if (_manager.TryGetChain(request, out var chain))
+            {
+                var result = chain.ToResponse();
+                result.Operates.AddRange(chain.Select(o => o.ToResponse()));
 
-            return result;
+                return result;
+            }
+
+            return new ChainResponse();
         });
     }
 
-    public override Task<ChainResponse> FindChainWithoutOperates(ChainRequest request, ServerCallContext context)
+    public override Task<ChainResponse> FindChainWithoutOperates(GuidRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
-            var chain = _manager.Find(request.Name);
-            Debug.Assert(chain is not null);
-            return chain.ToResponse();
+            if (_manager.TryGetChain(request, out var chain))
+            {
+                return chain.ToResponse();
+            }
+
+            return new ChainResponse();
         });
     }
 }
