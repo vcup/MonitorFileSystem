@@ -6,6 +6,8 @@ public interface IActionManager : IDictionary<Guid, IOperate>, ICollection<IChai
 
     bool Contains(string name);
     IChain? Find(string name);
+
+    bool Remove(string name);
     
     IEnumerable<IChain> Chains { get; }
     IEnumerable<IOperate> Operates { get; }

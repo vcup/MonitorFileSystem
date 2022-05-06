@@ -42,6 +42,11 @@ public class ActionManager : IActionManager
         return value;
     }
 
+    public bool Remove(string name)
+    {
+        return _chains.RemoveAll(c => c.Name == name) != 0;
+    }
+
     public IEnumerable<IChain> Chains => _chains;
     public IEnumerable<IOperate> Operates => Values;
     
