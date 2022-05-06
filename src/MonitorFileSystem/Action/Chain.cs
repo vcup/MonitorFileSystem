@@ -1,32 +1,28 @@
 ﻿using MonitorFileSystem.Monitor;
 using MonitorFileSystem.Common;
 using System.Collections;
+using System.IO.Abstractions;
 
 namespace MonitorFileSystem.Action;
 
-internal class Chain : IChain
+internal class Chain : OperateBase, IChain
 {
-    private readonly List<IOperate> _operates;
-    private readonly List<IObserver<WatchingEventInfo>> _observers;
-    private readonly Dictionary<IOperate, IDisposable> _unsubscribes;
+    private readonly List<IOperate> _operates = new();
+    private readonly List<IObserver<WatchingEventInfo>> _observers = new();
+    private readonly Dictionary<IOperate, IDisposable> _unsubscribes = new();
 
-    public Chain(string name, string description = "", bool isReadOnly = false)
+    public Chain(IFileSystem fileSystem, ILogger<Chain> logger)
+        : base(fileSystem, logger)
     {
-        Name = name;
-        Description = description;
-        IsReadOnly = isReadOnly;
-
-        _operates = new();
-        _observers = new();
-        _unsubscribes = new();
     }
 
-    public string Name { get; }
+    // see Initialization(string, string, bool)
+    public string Name { get; private set; } = null!;
+    
+    // see Initialization(string, string, bool)
+    public string Description { get; private set; } = null!;
 
-    public string Description { get; }
-
-
-    public void OnCompleted()
+    public override void OnCompleted()
     {
         foreach (var observer in _observers)
         {
@@ -34,7 +30,7 @@ internal class Chain : IChain
         }
     }
 
-    public void OnError(Exception error)
+    public override void OnError(Exception error)
     {
         foreach (var observer in _observers)
         {
@@ -42,7 +38,7 @@ internal class Chain : IChain
         }
     }
 
-    public void OnNext(WatchingEventInfo value)
+    public override void OnNext(WatchingEventInfo value)
     {
         foreach (var observer in _observers)
         {
@@ -50,22 +46,33 @@ internal class Chain : IChain
         }
     }
 
-    public bool IsInitialized => true;
-
-    public void Initialization()
+    public override void Initialization()
     {
+        CheckIsNotInitialized();
+        throw new NotImplementedException("this Operate have not parameterless Initialization");
     }
 
-    public void Process(WatchingEventInfo info)
+    public void Initialization(string name, string description, bool isReadOnly)
     {
+        CheckIsNotInitialized();
+        Name = name;
+        Description = description;
+        IsReadOnly = isReadOnly;
+    }
+
+    public override void Process(WatchingEventInfo info)
+    {
+        CheckIsInitialized();
         foreach (var operate in _operates)
         {
             operate.Process(info);
         }
+        (this as IChain).Initialization("", "", true);
     }
 
-    public async Task ProcessAsync(WatchingEventInfo info)
+    public override async Task ProcessAsync(WatchingEventInfo info)
     {
+        CheckIsInitialized();
         foreach (var operate in _operates)
         {
             await operate.ProcessAsync(info);
@@ -144,7 +151,7 @@ internal class Chain : IChain
     }
 
     public int Count => _operates.Count;
-    public bool IsReadOnly { get; }
+    public bool IsReadOnly { get; private set; }
     public int IndexOf(IOperate item)
     {
         return _operates.IndexOf(item);
