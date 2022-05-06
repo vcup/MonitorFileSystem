@@ -6,45 +6,21 @@ namespace MonitorFileSystem.Action;
 
 public class UnpackOperate : OperateBase, IUnpackOperate
 {
-    private string? _destination;
-    private bool _ignoreDirectory;
-    
     public UnpackOperate(IFileSystem fileSystem, ILogger<UnpackOperate> logger) : base(fileSystem, logger)
     {
     }
 
-    public void Initialization(bool ignoreDirectory)
-    {
-        Initialization(null, ignoreDirectory);
-    }
-
-    public void Initialization(string? destination)
-    {
-        Initialization(destination, false);
-    }
-
-    public void Initialization(string? destination, bool ignoreDirectory)
-    {
-        CheckIsNotInitialized();
-        _destination = destination;
-        _ignoreDirectory = ignoreDirectory;
-        IsInitialized = true;
-    }
+    public string? Destination { get; set; }
 
     public override void Process(WatchingEventInfo info)
     {
         base.Process(info);
-
-        if (_ignoreDirectory)
-        {
-            return;
-        }
         
         if (FileSystem.Directory.Exists(info.Path))
         {
-            throw new InvalidOperationException("Path is a Directory");
+            return;
         }
-        string dest = _destination ?? FileSystem.Path.GetDirectoryName(info.Path);
+        string dest = Destination ?? FileSystem.Path.GetDirectoryName(info.Path);
 
         using var stream = FileSystem.File.Open(info.Path, FileMode.Open, FileAccess.Read);
         using var zipArchive = new ZipArchive(stream, ZipArchiveMode.Read);
@@ -59,7 +35,7 @@ public class UnpackOperate : OperateBase, IUnpackOperate
             ExtractEntry(entry);
         }
         
-        void ExtractEntry(ZipArchiveEntry entry)
+        async void ExtractEntry(ZipArchiveEntry entry)
         { 
             var path = FileSystem.Path.Combine(dest, entry.FullName); 
             var directory = FileSystem.Path.GetDirectoryName(path);
@@ -72,11 +48,11 @@ public class UnpackOperate : OperateBase, IUnpackOperate
             {
                 return;
             }
-            using var entryStream = entry.Open();
-            using var file = FileSystem.FileStream.Create(path, FileMode.CreateNew, FileAccess.Write);
+
+            await using var entryStream = entry.Open();
+            await using var file = FileSystem.FileStream.Create(path, FileMode.CreateNew, FileAccess.Write);
             
-            entryStream.CopyTo(file);
+            await entryStream.CopyToAsync(file);
         }
     }
-
 }

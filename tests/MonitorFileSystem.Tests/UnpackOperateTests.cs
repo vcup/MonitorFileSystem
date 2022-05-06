@@ -32,35 +32,17 @@ public class UnpackOperateTests : OperateBaseTests
     public void Setup()
     {
     }
-
+    
     [Test]
-    public void Process_PathDetect_ThrowWhenPathIsDirectory()
+    public void Process_PathDetect_NotThrowWhenPathIsDirectory()
     {
         var scope = Provider.CreateScope();
-
+    
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         filesystem!.AddDirectory("/directory_1");
         var operate = scope.ServiceProvider.GetService<IUnpackOperate>();
         operate!.Initialization();
-        var info = new WatchingEventInfo
-        {
-            Path = "/directory_1"
-        };
-
-        Assert.Throws<InvalidOperationException>(() => { operate.Process(info); });
-    }
-    
-    [Test]
-    public void Process_PathDetect_NotThrowOnIgnoreIsTrue()
-    {
-        var scope = Provider.CreateScope();
-    
-        var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
-        Assert.IsNotNull(filesystem);
-        filesystem!.AddDirectory("/directory_1");
-        var operate = scope.ServiceProvider.GetService<IUnpackOperate>();
-        operate!.Initialization(true);
         var info = new WatchingEventInfo
         {
             Path = "/directory_1"

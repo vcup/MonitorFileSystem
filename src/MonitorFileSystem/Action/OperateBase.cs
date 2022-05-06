@@ -52,7 +52,6 @@ public abstract class OperateBase : IOperate
 
     public virtual Task ProcessAsync(WatchingEventInfo info)
     {
-        CheckIsInitialized();
         return Task.Run(() => Process(info));
     }
 
