@@ -5,15 +5,15 @@ import "google/protobuf/empty.proto";
 option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 
 service ActionManagement {
-  rpc CreateMoveOperate        (MoveOperateRequest)       returns (MoveOperateResponse)   ;
-  rpc CreateUnpackOperate      (UnpackOperateRequest)     returns (UnpackOperateResponse) ;
-  rpc RemoveOperate            (OperateRequest)           returns (google.protobuf.Empty) ;
-  rpc UpdateOperate            (OperateRequest)           returns (google.protobuf.Empty) ;
-  rpc UpdateMoveOperate        (UpdateMoveOperateRequest) returns (google.protobuf.Empty) ;
-  rpc UpdateUnpackOperate      (UpdateMoveOperateRequest) returns (google.protobuf.Empty) ;
+  rpc CreateMoveOperate        (MoveOperateRequest)              returns (MoveOperateResponse)   ;
+  rpc CreateUnpackOperate      (UnpackOperateRequest)            returns (UnpackOperateResponse) ;
+  rpc RemoveOperate            (OperateRequest)                  returns (google.protobuf.Empty) ;
+  rpc UpdateOperate            (OperateRequest)                  returns (google.protobuf.Empty) ;
+  rpc UpdateMoveOperate        (UpdateMoveOperateRequest)        returns (google.protobuf.Empty) ;
+  rpc UpdateUnpackOperate      (UpdateMoveOperateRequest)        returns (google.protobuf.Empty) ;
   
-  rpc CreateChain              (ChainRequest)             returns (ChainResponse)         ;
-  rpc RemoveChain              (ChainRequest)             returns (google.protobuf.Empty) ;
+  rpc CreateChain              (ChainRequest)                    returns (ChainResponse)         ;
+  rpc RemoveChain              (ChainRequest)                    returns (google.protobuf.Empty) ;
   rpc AddOperateTo             (OperateAndChainRequest)          returns (google.protobuf.Empty) ;
   rpc AddOperateToMany         (OperateAndManyChainRequest)      returns (google.protobuf.Empty) ;
   rpc AddManyOperateTo         (ManyOperateAndChainRequest)      returns (google.protobuf.Empty) ;
@@ -23,17 +23,17 @@ service ActionManagement {
   rpc RemoveManyOperateFor     (ManyOperateAndChainRequest)      returns (google.protobuf.Empty) ;
   rpc RemoveManyOperateForMany (ManyOperateAndManyChainRequest)  returns (google.protobuf.Empty) ;
   
-  rpc ClearUpAll               (google.protobuf.Empty)    returns (google.protobuf.Empty) ;
-  rpc ClearOperates            (google.protobuf.Empty)    returns (google.protobuf.Empty) ;
-  rpc ClearChains              (google.protobuf.Empty)    returns (google.protobuf.Empty) ;
+  rpc ClearUpAll               (google.protobuf.Empty)           returns (google.protobuf.Empty) ;
+  rpc ClearOperates            (google.protobuf.Empty)           returns (google.protobuf.Empty) ;
+  rpc ClearChains              (google.protobuf.Empty)           returns (google.protobuf.Empty) ;
   
-  rpc GetOperates              (google.protobuf.Empty)    returns (stream OperateResponse);
-  rpc GetOperatesOf            (ChainRequest)             returns (stream OperateResponse);
-  rpc GetChains                (google.protobuf.Empty)    returns (stream ChainResponse)  ;
+  rpc GetOperates              (google.protobuf.Empty)           returns (stream OperateResponse);
+  rpc GetOperatesOf            (ChainRequest)                    returns (stream OperateResponse);
+  rpc GetChains                (google.protobuf.Empty)           returns (stream ChainResponse)  ;
   
-  rpc FindOperate              (OperateRequest)           returns (OperateResponse)       ;
-  rpc FindChain                (ChainRequest)             returns (ChainResponse)         ;
-  rpc FindChainWithoutOperates (ChainRequest)             returns (ChainResponse)         ;
+  rpc FindOperate              (OperateRequest)                  returns (OperateResponse)       ;
+  rpc FindChain                (ChainRequest)                    returns (ChainResponse)         ;
+  rpc FindChainWithoutOperates (ChainRequest)                    returns (ChainResponse)         ;
 }
 
 message OperateRequest {
