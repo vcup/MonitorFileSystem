@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.IO.Abstractions;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MonitorFileSystem.Action;
@@ -27,13 +26,8 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             var operate = _provider.GetService<IMoveOperate>();
             Debug.Assert(operate is not null);
             operate.Initialization(request.Destination);
-            
-            return new MoveOperateResponse
-            {
-                Guid = operate.Guid.ToString(),
-                Destination = operate.Destination,
-                Description = operate.Description = request.Description
-            };
+
+            return operate.ToResponse();
         });
     }
 
@@ -50,12 +44,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
                 operate.Destination = request.Destination;
             }
 
-            return new UnpackOperateResponse
-            {
-                Guid = operate.Guid.ToString(),
-                Destination = operate.Destination ?? string.Empty,
-                Description = operate.Description = request.Description
-            };
+            return operate.ToResponse();
         });
     }
 
@@ -120,12 +109,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             Debug.Assert(operate is not null);
             operate.Initialization(request.Name);
 
-            return new ChainResponse
-            {
-                Guid = operate.Guid.ToString(),
-                Name = operate.Name,
-                Description = operate.Description = request.Description
-            };
+            return operate.ToResponse();
         });
     }
 
@@ -278,4 +262,93 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         });
     }
 
+    public override Task<Empty> ClearUpAll(Empty request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            _manager.ClearUp();
+            return new Empty();
+        });
+    }
+
+    public override Task<Empty> ClearOperates(Empty request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            (_manager as IDictionary<Guid, IOperate>).Clear();
+            return new Empty();
+        });
+    }
+
+    public override Task<Empty> ClearChains(Empty request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            (_manager as ICollection<IChain>).Clear();
+            return new Empty();
+        });
+    }
+
+    public override async Task GetOperates(Empty request, IServerStreamWriter<OperateResponse> responseStream, ServerCallContext context)
+    {
+        foreach (var operate in _manager.Operates)
+        {
+            await responseStream.WriteAsync(operate.ToResponse());
+        }
+    }
+
+    public override async Task GetOperatesOf(ChainRequest request, IServerStreamWriter<OperateResponse> responseStream, ServerCallContext context)
+    {
+        var chain = _manager.Find(request.Name);
+        Debug.Assert(chain is not null);
+        foreach (var operate in chain)
+        {
+            await responseStream.WriteAsync(operate.ToResponse());
+        }
+    }
+
+    public override async Task GetChains(Empty request, IServerStreamWriter<ChainResponse> responseStream, ServerCallContext context)
+    {
+        foreach (var chain in _manager.Chains)
+        {
+            var response = chain.ToResponse();
+            
+            response.Operates.AddRange(chain.Select(o => o.ToResponse()));
+
+            await responseStream.WriteAsync(response);
+        }
+    }
+
+    public override Task<OperateResponse> FindOperate(OperateRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            _manager.TryGetValue(Guid.Parse(request.Guid), out var operate);
+            Debug.Assert(operate is not null);
+            return operate.ToResponse();
+        });
+    }
+
+    public override Task<ChainResponse> FindChain(ChainRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            var chain = _manager.Find(request.Name);
+            Debug.Assert(chain is not null);
+            var result = chain.ToResponse();
+            result.Operates.AddRange(chain.Select(o => o.ToResponse()));
+
+            return result;
+        });
+    }
+
+    public override Task<ChainResponse> FindChainWithoutOperates(ChainRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            var chain = _manager.Find(request.Name);
+            Debug.Assert(chain is not null);
+            return chain.ToResponse();
+        });
+    }
 }
