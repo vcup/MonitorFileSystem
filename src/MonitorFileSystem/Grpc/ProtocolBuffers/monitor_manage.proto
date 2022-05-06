@@ -30,19 +30,19 @@ service MonitorManagement {
 }
 
 enum Event {
-  None          = 0   ;
-  Created       = 1   ;
-  Deleted       = 2   ;
-  Renamed       = 4   ;
-  Changed       = 6136;
-  FileName      = 16  ; // >>4 : 1
-  DirectoryName = 32  ; // >>4 : 2
-  Attributes    = 64  ; // >>4 : 4
-  Size          = 128 ; // >>4 : 8
-  LastWrite     = 256 ; // >>4 : 16
-  LastAccess    = 512 ; // >>4 : 32
-  CreationTime  = 1024; // >>4 : 64
-  Security      = 4096; // >>4 : 256
+  None          = 0   ; // 0b0000_0000_0000_0000
+  Created       = 1   ; // 0b0000_0000_0000_0001
+  Deleted       = 2   ; // 0b0000_0000_0000_0010
+  Renamed       = 4   ; // 0b0000_0000_0000_0100
+  Changed       = 6136; // 0b0001_0111_1111_1000
+  FileName      = 16  ; // 0b0000_0000_0001_0000
+  DirectoryName = 32  ; // 0b0000_0000_0010_0000
+  Attributes    = 64  ; // 0b0000_0000_0100_0000
+  Size          = 128 ; // 0b0000_0000_1000_0000
+  LastWrite     = 256 ; // 0b0000_0001_0000_0000
+  LastAccess    = 512 ; // 0b0000_0010_0000_0000
+  CreationTime  = 1024; // 0b0000_0100_0000_0000
+  Security      = 4096; // 0b0001_0000_0000_0000
 }
 
 message WatcherRequest {
