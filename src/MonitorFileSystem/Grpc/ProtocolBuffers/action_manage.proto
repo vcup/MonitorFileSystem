@@ -1,0 +1,125 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
+
+service ActionManagement {
+  rpc CreateMoveOperate        (MoveOperateRequest)       returns (MoveOperateResponse)   ;
+  rpc CreateUnpackOperate      (UnpackOperateRequest)     returns (UnpackOperateResponse) ;
+  rpc RemoveOperate            (OperateRequest)           returns (google.protobuf.Empty) ;
+  rpc UpdateOperate            (OperateRequest)           returns (google.protobuf.Empty) ;
+  rpc UpdateMoveOperate        (UpdateMoveOperateRequest) returns (google.protobuf.Empty) ;
+  rpc UpdateUnpackOperate      (UpdateMoveOperateRequest) returns (google.protobuf.Empty) ;
+  
+  rpc CreateChain              (ChainRequest)             returns (ChainResponse)         ;
+  rpc RemoveChain              (ChainRequest)             returns (google.protobuf.Empty) ;
+  rpc AddOperateTo             (OperateAndChainRequest)          returns (google.protobuf.Empty) ;
+  rpc AddOperateToMany         (OperateAndManyChainRequest)      returns (google.protobuf.Empty) ;
+  rpc AddManyOperateTo         (ManyOperateAndChainRequest)      returns (google.protobuf.Empty) ;
+  rpc AddManyOperateToMany     (ManyOperateAndManyChainRequest)  returns (google.protobuf.Empty) ;
+  rpc RemoveOperateFor         (OperateAndChainRequest)          returns (google.protobuf.Empty) ;
+  rpc RemoveOperateForMany     (OperateAndManyChainRequest)      returns (google.protobuf.Empty) ;
+  rpc RemoveManyOperateFor     (ManyOperateAndChainRequest)      returns (google.protobuf.Empty) ;
+  rpc RemoveManyOperateForMany (ManyOperateAndManyChainRequest)  returns (google.protobuf.Empty) ;
+  
+  rpc ClearUpAll               (google.protobuf.Empty)    returns (google.protobuf.Empty) ;
+  rpc ClearOperates            (google.protobuf.Empty)    returns (google.protobuf.Empty) ;
+  rpc ClearChains              (google.protobuf.Empty)    returns (google.protobuf.Empty) ;
+  
+  rpc GetOperates              (google.protobuf.Empty)    returns (stream OperateResponse);
+  rpc GetOperatesOf            (ChainRequest)             returns (stream OperateResponse);
+  rpc GetChains                (google.protobuf.Empty)    returns (stream ChainResponse)  ;
+  
+  rpc FindOperate              (OperateRequest)           returns (OperateResponse)       ;
+  rpc FindChain                (ChainRequest)             returns (ChainResponse)         ;
+  rpc FindChainWithoutOperates (ChainRequest)             returns (ChainResponse)         ;
+}
+
+message OperateRequest {
+  string guid = 1;
+  string description = 2;
+}
+
+message OperateResponse {
+  oneof operate {
+    UnpackOperateResponse unpack = 1;
+    MoveOperateResponse move = 2;
+  }
+}
+
+message MoveOperateRequest {
+  string destination = 1;
+  string description = 2;
+}
+
+message UpdateMoveOperateRequest {
+  string guid = 1;
+  string destination = 2;
+  string description = 3;
+}
+
+message MoveOperateResponse {
+  string guid = 1;
+  string destination = 2;
+  string description = 3;
+}
+
+message UnpackOperateRequest {
+  string destination = 1; // when empty, will unpack to watched event path
+  bool ignore_directory = 2;
+  string description = 3;
+}
+
+message UpdateUnPackOperateRequest {
+  string guid = 1;
+  string destination = 2;
+  bool ignore_directory = 3;
+  string description = 4; 
+}
+
+message UnpackOperateResponse {
+  string guid = 1;
+  string destination = 2;
+  bool ignore_directory = 3;
+  string description = 4;
+}
+
+message ChainRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message UpdateChainRequest{
+  string guid = 1;
+  string name = 2;
+  string description = 3; 
+}
+
+message ChainResponse {
+  string guid = 1;
+  string name = 2;
+  string description = 3;
+  
+  repeated OperateResponse operates = 4;
+}
+
+message OperateAndChainRequest {
+  OperateRequest operate = 1;
+  ChainRequest chain = 2;
+}
+
+message OperateAndManyChainRequest {
+  OperateRequest operate = 1;
+  repeated ChainRequest chains = 2;
+}
+
+message ManyOperateAndChainRequest {
+  repeated OperateRequest operates = 1;
+  ChainRequest chain = 2;
+}
+
+message ManyOperateAndManyChainRequest {
+  repeated OperateRequest operates = 1;
+  repeated ChainRequest chains = 2;
+}

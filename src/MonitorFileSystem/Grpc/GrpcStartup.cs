@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using MonitorFileSystem.Action;
 using MonitorFileSystem.Grpc.Services;
 using MonitorFileSystem.Monitor;
 
@@ -11,6 +12,7 @@ public class GrpcStartup
     {
         services
             .AddSingleton<IMonitorManager, MonitorManager>()
+            .AddSingleton<IActionManager, ActionManager>()
             .AddGrpc();
     }
 
@@ -25,6 +27,7 @@ public class GrpcStartup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapGrpcService<MonitorManagementService>();
+            endpoints.MapGrpcService<ActionManagementService>();
         });
     }
 }
