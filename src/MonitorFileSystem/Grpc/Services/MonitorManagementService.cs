@@ -150,7 +150,15 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             await responseStream.WriteAsync(watcher.ToResponse());
         }
     }
-    
+
+    public override async Task GetWatchersOf(GroupRequest request, IServerStreamWriter<WatcherResponse> responseStream, ServerCallContext context)
+    {
+        foreach (var watcher in request.ToGroup(_manager))
+        {
+            await responseStream.WriteAsync(watcher.ToResponse());
+        }
+    }
+
     public override async Task GetGroups(Empty request, IServerStreamWriter<GroupResponse> responseStream, ServerCallContext context)
     {
         foreach (var group in _manager.Groups)

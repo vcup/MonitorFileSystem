@@ -25,6 +25,7 @@ service MonitorManagement {
   rpc ClearGroup           (google.protobuf.Empty)      returns (google.protobuf.Empty) ;
   
   rpc GetWatchers          (google.protobuf.Empty)      returns (stream WatcherResponse);
+  rpc GetWatchersOf        (GroupRequest)               returns (stream WatcherResponse);
   rpc GetGroups            (google.protobuf.Empty)      returns (stream GroupResponse)  ;
 }
 
