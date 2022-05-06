@@ -45,14 +45,14 @@ public class MoveOperate : OperateBase, IMoveOperate
             FileSystem.File.Move(info.Path, Destination, true);
             // if destIsFile is null, dest path also is a File. because a file is Moved to dest path
             
-            Logger.LogTrace("MoveOperate Process on File branch, {path} -> {dest}", info.Path, dest);
+            Logger.LogTrace("MoveOperate Process on File branch, {Path} -> {Dest}", info.Path, dest);
         }
         else
         {
             FileSystem.Directory.Move(info.Path, dest);
             // if destIsFile is null, dest path also is a directory. because a directory is Moved to dest path
             
-            Logger.LogTrace("MoveOperate Process on Directory branch, {path} -> {dest}", info.Path, dest);
+            Logger.LogTrace("MoveOperate Process on Directory branch, {Path} -> {Dest}", info.Path, dest);
         }
 
         info.Path = dest;

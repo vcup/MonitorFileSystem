@@ -1,8 +1,5 @@
 ﻿using System;
-using System.IO.Abstractions;
-using System.IO.Abstractions.TestingHelpers;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MonitorFileSystem.Action;
 using MonitorFileSystem.Monitor;
 using NUnit.Framework;

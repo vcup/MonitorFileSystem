@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using MonitorFileSystem.Monitor;
+﻿using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Action;
 

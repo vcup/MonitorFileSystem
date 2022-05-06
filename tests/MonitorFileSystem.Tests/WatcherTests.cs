@@ -39,6 +39,7 @@ public class WatcherTests
         var fileSystem = new TestFileSystem(factory);
 
         var watcher = new Watcher("Tester", "./", "*", @event, fileSystem);
+        Assert.IsTrue(watcher.Monitoring);
 
         Assert.IsNotNull(factory.LastCreatedFileSystemWatcher);
         Assert.AreEqual(factory.LastCreatedFileSystemWatcher!.NotifyFilter, filters);
@@ -57,10 +58,6 @@ public class WatcherTests
     private class TestFileSystemWatcher : IFileSystemWatcherFactory
     {
         private IFileSystemWatcher? _lastCreatedFileSystemWatcher;
-
-        public TestFileSystemWatcher()
-        {
-        }
 
         public IFileSystemWatcher? LastCreatedFileSystemWatcher => _lastCreatedFileSystemWatcher;
 
