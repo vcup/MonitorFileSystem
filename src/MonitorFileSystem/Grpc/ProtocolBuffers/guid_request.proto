@@ -1,0 +1,5 @@
+﻿syntax = "proto3";
+
+message GuidRequest {
+  string guid = 1;
+}

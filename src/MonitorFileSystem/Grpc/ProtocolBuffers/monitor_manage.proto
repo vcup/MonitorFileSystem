@@ -1,22 +1,25 @@
 ﻿syntax = "proto3";
 
 import "google/protobuf/empty.proto";
+import "Grpc/ProtocolBuffers/guid_request.proto";
 
 option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 
 service MonitorManagement {
-  rpc CreateWatcher             (WatcherRequest)                     returns (google.protobuf.Empty) ;
-  rpc RemoveWatcher             (WatcherRequest)                     returns (google.protobuf.Empty) ;
-  rpc DisableWatcher            (WatcherRequest)                     returns (google.protobuf.Empty) ;
-  rpc EnableWatcher             (WatcherRequest)                     returns (google.protobuf.Empty) ;
-  rpc ToggleWatcher             (WatcherRequest)                     returns (google.protobuf.Empty) ;
+  rpc CreateWatcher             (WatcherRequest)                     returns (WatcherResponse)       ;
+  rpc RemoveWatcher             (GuidRequest)                     returns (google.protobuf.Empty) ;
+  rpc DisableWatcher            (GuidRequest)                     returns (google.protobuf.Empty) ;
+  rpc EnableWatcher             (GuidRequest)                     returns (google.protobuf.Empty) ;
+  rpc ToggleWatcher             (GuidRequest)                     returns (google.protobuf.Empty) ;
+  rpc UpdateWatcher             (UpdateWatcherRequest)                     returns (google.protobuf.Empty) ;
   
-  rpc CreateGroup               (GroupRequest)                       returns (google.protobuf.Empty) ;
-  rpc RemoveGroup               (GroupRequest)                       returns (google.protobuf.Empty) ;
+  rpc CreateGroup               (GroupRequest)                       returns (GroupResponse) ;
+  rpc RemoveGroup               (GuidRequest)                       returns (google.protobuf.Empty) ;
+  rpc UpdateGroup               (UpdateGroupRequest)                       returns (google.protobuf.Empty) ;
   rpc AddWatcherTo              (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
   rpc AddManyWatcherTo          (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
   rpc AddWatcherToMany          (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
-  rpc AddManyWatcherToMany      (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty);
+  rpc AddManyWatcherToMany      (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty) ;
   rpc RemoveWatcherFor          (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
   rpc RemoveManyWatcherFor      (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
   rpc RemoveWatcherForMany      (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
@@ -27,8 +30,12 @@ service MonitorManagement {
   rpc ClearGroup                (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
   
   rpc GetWatchers               (google.protobuf.Empty)              returns (stream WatcherResponse);
-  rpc GetWatchersOf             (GroupRequest)                       returns (stream WatcherResponse);
+  rpc GetWatchersOf             (GuidRequest)                       returns (stream WatcherResponse);
   rpc GetGroups                 (google.protobuf.Empty)              returns (stream GroupResponse)  ;
+  
+  rpc FindWatcher               (GuidRequest)                        returns (WatcherResponse)       ;
+  rpc FindGroup                 (GuidRequest)                        returns (GroupResponse)         ;
+  rpc FindGroupWithoutOperates  (GuidRequest)                        returns (GroupResponse)         ;
 }
 
 enum Event {
@@ -57,13 +64,25 @@ message WatcherRequest {
   }
 }
 
-message WatcherResponse {
-  string name = 1;
-  string path = 2;
-  string filter = 3;
+message UpdateWatcherRequest {
+  string guid = 1;
+  string name = 2;
+  string path = 3;
+  string filter = 4;
+  
+  oneof event {
+    Event event_value = 5;
+  }
+}
 
-  Event event = 4;
-  bool is_enable = 5;
+message WatcherResponse {
+  string guid = 1;
+  string name = 2;
+  string path = 3;
+  string filter = 4;
+
+  Event event = 5;
+  bool is_enable = 6;
 }
 
 message GroupRequest {
@@ -71,36 +90,35 @@ message GroupRequest {
   string description = 2;
 }
 
+message UpdateGroupRequest {
+  string guid = 1;
+  string name = 2;
+  string description = 3;
+}
+
 message GroupResponse {
-  string name = 1;
-  string description = 2;
-  repeated WatcherResponse watchers = 3;
-}
-
-message ManyWatcherRequest {
-  repeated WatcherRequest watchers = 1;
-}
-
-message ManyGroupRequest {
-  repeated GroupRequest watchers = 1;
+  string guid = 1;
+  string name = 2;
+  string description = 3;
+  repeated WatcherResponse watchers = 4;
 }
 
 message WatcherAndGroupRequest {
-  WatcherRequest watcher = 1;
-  GroupRequest group = 2;
+  GuidRequest watcher = 1;
+  GuidRequest group = 2;
 }
 
 message ManyWatcherAndGroupRequest {
-  repeated WatcherRequest watchers = 1;
-  GroupRequest group = 2;
+  repeated GuidRequest watchers = 1;
+  GuidRequest group = 2;
 }
 
 message WatcherAndManyGroupRequest {
-  WatcherRequest watcher = 1;
-  repeated GroupRequest groups = 2;
+  GuidRequest watcher = 1;
+  repeated GuidRequest groups = 2;
 }
 
 message ManyWatcherAndManyGroupRequest {
-  repeated WatcherRequest watchers = 1;
-  repeated GroupRequest groups = 2;
+  repeated GuidRequest watchers = 1;
+  repeated GuidRequest groups = 2;
 }

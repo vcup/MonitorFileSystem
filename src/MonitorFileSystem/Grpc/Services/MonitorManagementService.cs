@@ -16,157 +16,211 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         _manager = manager;
     }
 
-    public override Task<Empty> CreateWatcher(WatcherRequest request, ServerCallContext context)
+    public override Task<WatcherResponse> CreateWatcher(WatcherRequest request, ServerCallContext context)
     {
-        IWatcher watcher;
-        if (request.EventCase.HasFlag(WatcherRequest.EventOneofCase.EventValue))
+        return Task.Run(() =>
         {
-            watcher = new Watcher(request.Name, request.Path, request.Filter, (WatchingEvent)request.EventValue);
-            
-            _logger.LogInformation("Created Watcher({Name}) with Event", watcher.Name);
-        }
-        else
+            var result = request.ToWatcher();
+            _manager.Add(result);
+            return result.ToResponse();
+        });
+    }
+
+    public override Task<Empty> RemoveWatcher(GuidRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
         {
-            watcher = new Watcher(request.Name, request.Path, request.Filter);
-            _logger.LogInformation("Created Watcher({Name}) without Event", watcher.Name);
-        }
-        _logger.LogTrace("{Name} - Path: {Path} Filter: {Filter} Event: {Event}",
-            watcher.Name, watcher.MonitorPath, watcher.Filter, watcher.WatchingEvent);
-        
-        _manager.Add(watcher);
-
-        return Task.FromResult(new Empty());
+            _manager.RemoveWatcher(Guid.Parse(request.Guid));
+            return new Empty();
+        });
     }
 
-    public override Task<Empty> RemoveWatcher(WatcherRequest request, ServerCallContext context)
+    public override Task<Empty> DisableWatcher(GuidRequest request, ServerCallContext context)
     {
-        _manager.Remove(request.ToWatcher());
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetWatcher(request, out var watcher))
+            {
+                watcher.Monitoring = false;
+            }
+            return new Empty();
+        });
     }
 
-    public override Task<Empty> DisableWatcher(WatcherRequest request, ServerCallContext context)
+    public override Task<Empty> EnableWatcher(GuidRequest request, ServerCallContext context)
     {
-        request.ToWatcher(_manager).Monitoring = false;
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetWatcher(request, out var watcher))
+            {
+                watcher.Monitoring = true;
+            }
+            return new Empty();
+        });
     }
 
-    public override Task<Empty> EnableWatcher(WatcherRequest request, ServerCallContext context)
+    public override Task<Empty> ToggleWatcher(GuidRequest request, ServerCallContext context)
     {
-        request.ToWatcher(_manager).Monitoring = true;
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetWatcher(request, out var watcher))
+            {
+                watcher.Monitoring = !watcher.Monitoring;
+            }
+            return new Empty();
+        });
     }
 
-    public override Task<Empty> ToggleWatcher(WatcherRequest request, ServerCallContext context)
+    public override Task<Empty> UpdateWatcher(UpdateWatcherRequest request, ServerCallContext context)
     {
-        var watcher = request.ToWatcher(_manager);
-        watcher.Monitoring = !watcher.Monitoring;
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetWatcher(Guid.Parse(request.Guid), out var watcher))
+            {
+                watcher.Name = request.Name;
+                watcher.MonitorPath = request.Path;
+                watcher.Filter = request.Filter;
+
+                if (request.EventCase.HasFlag(UpdateWatcherRequest.EventOneofCase.EventValue))
+                {
+                    watcher.WatchingEvent = (WatchingEvent)request.EventValue;
+                }
+            }
+            return new Empty();
+        });
     }
 
-    
-    public override Task<Empty> CreateGroup(GroupRequest request, ServerCallContext context)
+    public override Task<GroupResponse> CreateGroup(GroupRequest request, ServerCallContext context)
     {
-        _manager.Add(request.ToGroup());
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            var result = request.ToGroup();
+            _manager.Add(result);
+            return result.ToResponse();
+        });
     }
 
-    public override Task<Empty> RemoveGroup(GroupRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveGroup(GuidRequest request, ServerCallContext context)
     {
-        _manager.Remove(request.ToGroup());
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            _manager.RemoveGroup(Guid.Parse(request.Guid));
+            return new Empty();
+        });
+    }
+
+    public override Task<Empty> UpdateGroup(UpdateGroupRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetGroup(Guid.Parse(request.Guid), out var group))
+            {
+                group.Name = request.Name;
+                group.Description = request.Description;
+            }
+            return new Empty();
+        });
     }
 
     public override Task<Empty> AddWatcherTo(WatcherAndGroupRequest request, ServerCallContext context)
     {
-        request.Group.ToGroup(_manager).Add(request.Watcher.ToWatcher(_manager));
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            _manager.TryAddWatcherToGroup(request);
+            return new Empty();
+        });
     }
 
     public override Task<Empty> AddManyWatcherTo(ManyWatcherAndGroupRequest request, ServerCallContext context)
     {
-        foreach (var watcher in request.Watchers)
+        return Task.Run(() =>
         {
-            request.Group.ToGroup(_manager).Add(watcher.ToWatcher(_manager));
-        }
-        return Task.FromResult(new Empty());
+            _manager.TryAddWatcherToGroup(request);
+            return new Empty();
+        });
     }
 
     public override Task<Empty> AddWatcherToMany(WatcherAndManyGroupRequest request, ServerCallContext context)
     {
-        foreach (var group in request.Groups)
+        return Task.Run(() =>
         {
-            group.ToGroup(_manager).Add(request.Watcher.ToWatcher(_manager));
-        }
-        return Task.FromResult(new Empty());
+            _manager.TryAddWatcherToGroup(request);
+            return new Empty();
+        });
     }
     
     public override Task<Empty> AddManyWatcherToMany(ManyWatcherAndManyGroupRequest request, ServerCallContext context)
     {
-        foreach (var group in request.Groups.Select(g => g.ToGroup(_manager)))
+        return Task.Run(() =>
         {
-            foreach (var watcher in request.Watchers.Select(w => w.ToWatcher(_manager)))
-            {
-                group.Add(watcher);
-            }
-        }
-
-        return Task.FromResult(new Empty());
+            _manager.TryAddWatcherToGroup(request);
+            return new Empty();
+        });
     }
 
     public override Task<Empty> RemoveWatcherFor(WatcherAndGroupRequest request, ServerCallContext context)
     {
-        request.Group.ToGroup(_manager).Remove(request.Watcher.ToWatcher(_manager));
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            _manager.TryRemoveWatcherFromGroup(request);
+            return new Empty();
+        });
     }
     
     public override Task<Empty> RemoveManyWatcherFor(ManyWatcherAndGroupRequest request, ServerCallContext context)
     {
-        foreach (var watcher in request.Watchers)
+        return Task.Run(() =>
         {
-            request.Group.ToGroup(_manager).Remove(watcher.ToWatcher(_manager));
-        }
-        return Task.FromResult(new Empty());
+            _manager.TryRemoveWatcherFromGroup(request);
+            return new Empty();
+        });
     }
     
     public override Task<Empty> RemoveWatcherForMany(WatcherAndManyGroupRequest request, ServerCallContext context)
     {
-        foreach (var group in request.Groups)
+        return Task.Run(() =>
         {
-            group.ToGroup(_manager).Remove(request.Watcher.ToWatcher(_manager));
-        }
-        return Task.FromResult(new Empty());
+            _manager.TryRemoveWatcherFromGroup(request);
+            return new Empty();
+        });
     }
 
     public override Task<Empty> RemoveManyWatcherForMany(ManyWatcherAndManyGroupRequest request, ServerCallContext context)
     {
-        foreach (var group in request.Groups)
+        return Task.Run(() =>
         {
-            foreach (var watcher in request.Watchers)
-            {
-                group.ToGroup(_manager).Remove(watcher.ToWatcher(_manager));
-            }
-        }
-            
-        return Task.FromResult(new Empty());
+            _manager.TryRemoveWatcherFromGroup(request);
+            return new Empty();
+        });
     }
 
 
     public override Task<Empty> ClearUpAll(Empty request, ServerCallContext context)
     {
-        _manager.ClearUp();
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            _manager.ClearWatchers();
+            _manager.ClearGroups();
+            return new Empty();
+        });
     }
 
     public override Task<Empty> ClearWatcher(Empty request, ServerCallContext context)
     {
-        (_manager as ICollection<IWatcher>).Clear();
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            _manager.ClearWatchers();
+            return new Empty();
+        });
     }
 
     public override Task<Empty> ClearGroup(Empty request, ServerCallContext context)
     {
-        (_manager as ICollection<IGroup>).Clear();
-        return Task.FromResult(new Empty());
+        return Task.Run(() =>
+        {
+            _manager.ClearGroups();
+            return new Empty();
+        });
     }
 
     public override async Task GetWatchers(Empty request, IServerStreamWriter<WatcherResponse> responseStream, ServerCallContext context)
@@ -177,9 +231,14 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         }
     }
 
-    public override async Task GetWatchersOf(GroupRequest request, IServerStreamWriter<WatcherResponse> responseStream, ServerCallContext context)
+    public override async Task GetWatchersOf(GuidRequest request, IServerStreamWriter<WatcherResponse> responseStream, ServerCallContext context)
     {
-        foreach (var watcher in request.ToGroup(_manager))
+        if (!_manager.TryGetGroup(request, out var group))
+        {
+            return;
+        }
+        
+        foreach (var watcher in group)
         {
             await responseStream.WriteAsync(watcher.ToResponse());
         }
@@ -191,5 +250,46 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         {
             await responseStream.WriteAsync(group.ToResponse());
         }
+    }
+
+    public override Task<WatcherResponse> FindWatcher(GuidRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetWatcher(request, out var watcher))
+            {
+                return watcher.ToResponse();
+            }
+
+            return new WatcherResponse();
+        });
+    }
+
+    public override Task<GroupResponse> FindGroup(GuidRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetGroup(request, out var group))
+            {
+                var response = group.ToResponse();
+                response.Watchers.AddRange(group.Select(w => w.ToResponse()));
+                return response;
+            }
+
+            return new GroupResponse();
+        });
+    }
+
+    public override Task<GroupResponse> FindGroupWithoutOperates(GuidRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetGroup(request, out var group))
+            {
+                return group.ToResponse();
+            }
+
+            return new GroupResponse();
+        });
     }
 }
