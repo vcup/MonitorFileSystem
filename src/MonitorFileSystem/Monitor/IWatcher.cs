@@ -2,9 +2,11 @@
 
 public interface IWatcher : IObservable<WatchingEventInfo>
 {
-    string Name { get; }
-    string MonitorPath { get; }
-    string Filter { get; }
+    Guid Guid { get; }
+    
+    string Name { get; set; }
+    string MonitorPath { get; set; }
+    string Filter { get; set; }
 
     bool Monitoring { get; set; }
     bool MonitorSubDirectory { get; set; }

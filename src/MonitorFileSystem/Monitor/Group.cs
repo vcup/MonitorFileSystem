@@ -9,12 +9,17 @@ public class Group : IGroup
     private readonly List<IWatcher> _watchers;
     private readonly Dictionary<IWatcher, IDisposable> _unsubscribes;
 
-    public Group(string name) : this(name, String.Empty)
+    public Group(Guid guid) : this(guid, guid.ToString(), String.Empty)
+    {
+    }
+
+    public Group(string name) : this(Guid.NewGuid(), name, String.Empty)
     {
     }
     
-    public Group(string name, string description)
+    public Group(Guid guid, string name, string description)
     {
+        Guid = guid;
         Name = name;
         Description = description;
         _observers = new();
@@ -22,9 +27,10 @@ public class Group : IGroup
         _unsubscribes = new();
     }
 
-    public string Name { get; }
+    public Guid Guid { get; }
+    public string Name { get; set; }
 
-    public string Description { get; }
+    public string Description { get; set; }
 
     /// <summary>
     /// <p>

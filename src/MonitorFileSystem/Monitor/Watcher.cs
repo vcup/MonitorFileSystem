@@ -19,14 +19,9 @@ public class Watcher : IWatcher
     {
     }
 
-    #region Only used when testing
-
     public Watcher(string name, string path, string filter, IFileSystem fileSystem)
+        : this(Guid.NewGuid(), name, path, filter, fileSystem)
     {
-        Name = name;
-        _watcher = fileSystem.FileSystemWatcher.CreateNew(path, filter);
-
-        _watcher.Error += OnError;
     }
     
     public Watcher(string name, string path, string filter, WatchingEvent @event, IFileSystem fileSystem)
@@ -35,13 +30,29 @@ public class Watcher : IWatcher
         WatchingEvent = @event;
     }
 
-    #endregion
+    public Watcher(Guid guid, string name, string path, string filter, IFileSystem fileSystem)
+    {
+        Guid = guid;
+        Name = name;
+        _watcher = fileSystem.FileSystemWatcher.CreateNew(path, filter);
 
-    public string Name { get; }
+        _watcher.Error += OnError;
+    }
 
-    public string MonitorPath => _watcher.Path;
+    public Guid Guid { get; }
+    public string Name { get; set; }
 
-    public string Filter => _watcher.Filter;
+    public string MonitorPath
+    {
+        get => _watcher.Path;
+        set => _watcher.Path = value;
+    }
+
+    public string Filter
+    {
+        get => _watcher.Filter;
+        set => _watcher.Filter = Filter;
+    }
 
     public WatchingEvent WatchingEvent {
         get => _event;

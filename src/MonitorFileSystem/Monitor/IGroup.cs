@@ -6,14 +6,18 @@
 public interface IGroup : IObservable<WatchingEventInfo>, IObserver<WatchingEventInfo>, IEnumerable<IWatcher>
 {
     /// <summary>
-    /// A name of this Group, should be unique
+    /// Guid of this Group
     /// </summary>
-    string Name { get; }
+    Guid Guid { get; }
+    /// <summary>
+    /// A name of this Group
+    /// </summary>
+    string Name { get; set; }
     
     /// <summary>
     /// A description of this Group
     /// </summary>
-    string Description { get; }
+    string Description { get; set; }
 
     /// <summary>
     /// add a Watcher to this Group
