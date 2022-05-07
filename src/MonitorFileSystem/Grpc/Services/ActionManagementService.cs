@@ -230,7 +230,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            _manager.ClearOperate();
+            _manager.ClearOperates();
             
             return new Empty();
         });

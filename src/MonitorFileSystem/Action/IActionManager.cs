@@ -24,7 +24,7 @@ public interface IActionManager
 
     bool TryRemoveOperateFromChain(Guid operateGuid, Guid chainGuid);
 
-    void ClearOperate();
+    void ClearOperates();
     void ClearChains();
 
     IEnumerable<IChain> Chains { get; }

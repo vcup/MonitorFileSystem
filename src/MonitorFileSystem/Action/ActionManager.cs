@@ -71,7 +71,7 @@ public class ActionManager : IActionManager
         return true;
     }
 
-    public void ClearOperate()
+    public void ClearOperates()
     {
         _operates.Clear();
     }

@@ -2,6 +2,8 @@
 
 import "google/protobuf/empty.proto";
 
+import "Grpc/ProtocolBuffers/guid_request.proto";
+
 option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 
 service ActionManagement {
@@ -123,8 +125,4 @@ message ManyOperateAndChainRequest {
 message ManyOperateAndManyChainRequest {
   repeated GuidRequest operates = 1;
   repeated GuidRequest chains = 2;
-}
-
-message GuidRequest{
-  string guid = 1;
 }

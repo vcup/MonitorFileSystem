@@ -7,15 +7,15 @@ option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 
 service MonitorManagement {
   rpc CreateWatcher             (WatcherRequest)                     returns (WatcherResponse)       ;
-  rpc RemoveWatcher             (GuidRequest)                     returns (google.protobuf.Empty) ;
-  rpc DisableWatcher            (GuidRequest)                     returns (google.protobuf.Empty) ;
-  rpc EnableWatcher             (GuidRequest)                     returns (google.protobuf.Empty) ;
-  rpc ToggleWatcher             (GuidRequest)                     returns (google.protobuf.Empty) ;
-  rpc UpdateWatcher             (UpdateWatcherRequest)                     returns (google.protobuf.Empty) ;
+  rpc RemoveWatcher             (GuidRequest)                        returns (google.protobuf.Empty) ;
+  rpc DisableWatcher            (GuidRequest)                        returns (google.protobuf.Empty) ;
+  rpc EnableWatcher             (GuidRequest)                        returns (google.protobuf.Empty) ;
+  rpc ToggleWatcher             (GuidRequest)                        returns (google.protobuf.Empty) ;
+  rpc UpdateWatcher             (UpdateWatcherRequest)               returns (google.protobuf.Empty) ;
   
   rpc CreateGroup               (GroupRequest)                       returns (GroupResponse) ;
-  rpc RemoveGroup               (GuidRequest)                       returns (google.protobuf.Empty) ;
-  rpc UpdateGroup               (UpdateGroupRequest)                       returns (google.protobuf.Empty) ;
+  rpc RemoveGroup               (GuidRequest)                        returns (google.protobuf.Empty) ;
+  rpc UpdateGroup               (UpdateGroupRequest)                 returns (google.protobuf.Empty) ;
   rpc AddWatcherTo              (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
   rpc AddManyWatcherTo          (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
   rpc AddWatcherToMany          (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
@@ -23,14 +23,14 @@ service MonitorManagement {
   rpc RemoveWatcherFor          (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
   rpc RemoveManyWatcherFor      (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
   rpc RemoveWatcherForMany      (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
-  rpc RemoveManyWatcherForMany  (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty);
+  rpc RemoveManyWatcherForMany  (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty) ;
   
   rpc ClearUpAll                (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
   rpc ClearWatcher              (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
   rpc ClearGroup                (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
   
   rpc GetWatchers               (google.protobuf.Empty)              returns (stream WatcherResponse);
-  rpc GetWatchersOf             (GuidRequest)                       returns (stream WatcherResponse);
+  rpc GetWatchersOf             (GuidRequest)                        returns (stream WatcherResponse);
   rpc GetGroups                 (google.protobuf.Empty)              returns (stream GroupResponse)  ;
   
   rpc FindWatcher               (GuidRequest)                        returns (WatcherResponse)       ;

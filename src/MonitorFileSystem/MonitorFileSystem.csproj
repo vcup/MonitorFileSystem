@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="./Grpc/ProtocolBuffers/monitor_manage.proto" GrpcServices="Server" />
-    <Protobuf Include="./Grpc/ProtocolBuffers/action_manage.proto" GrpcServices="Server" />
+    <Protobuf Include="Grpc/ProtocolBuffers/*.proto" GrpcServices="Server" />
     
     <PackageReference Include="Grpc.AspNetCore" Version="2.46.0-pre1" />
     <PackageReference Include="System.IO.Abstractions" Version="17.0.3" />
