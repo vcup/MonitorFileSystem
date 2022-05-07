@@ -16,6 +16,10 @@ public class Group : IGroup
     public Group(string name) : this(Guid.NewGuid(), name, String.Empty)
     {
     }
+
+    public Group(string name, string description) : this (Guid.NewGuid(), name, description)
+    {
+    }
     
     public Group(Guid guid, string name, string description)
     {
