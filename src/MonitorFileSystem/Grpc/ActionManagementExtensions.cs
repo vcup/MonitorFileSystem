@@ -4,7 +4,7 @@ using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Grpc;
 
-public static class ActionManageExtensions
+public static class ActionManagementExtensions
 {
     public static MoveOperateResponse ToResponse(this IMoveOperate operate)
     {

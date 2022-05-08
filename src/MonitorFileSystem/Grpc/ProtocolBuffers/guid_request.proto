@@ -1,5 +1,7 @@
 ﻿syntax = "proto3";
 
+option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
+
 message GuidRequest {
   string guid = 1;
 }
