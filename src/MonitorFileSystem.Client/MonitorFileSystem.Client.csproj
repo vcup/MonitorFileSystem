@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Protobuf Include="../MonitorFileSystem/Grpc/ProtocolBuffers/*.proto" GrpcServices="Client"
+              Link="ProtocolBuffers/*.proto" ProtoRoot="../MonitorFileSystem" />
+    
+    <PackageReference Include="Grpc.AspNetCore" Version="2.46.0-pre1" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
+  </ItemGroup>
+
 </Project>
