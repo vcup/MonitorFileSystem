@@ -1,0 +1,48 @@
+﻿syntax = "proto3";
+
+import "Grpc/ProtocolBuffers/guid.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
+
+service MasterManagement {
+  rpc AttachActionToMonitor         (MonitorAndActionRequest)         returns (google.protobuf.Empty)         ;
+  rpc AttachActionToManyMonitor     (ManyMonitorAndActionRequest)     returns (google.protobuf.Empty)         ;
+  rpc AttachManyActionToMonitor     (MonitorAndManyActionRequest)     returns (google.protobuf.Empty)         ;
+  rpc AttachManyActionToManyMonitor (ManyMonitorAndManyActionRequest) returns (google.protobuf.Empty)         ;
+  rpc DetachActionToMonitor         (MonitorAndActionRequest)         returns (google.protobuf.Empty)         ;
+  rpc DetachActionToManyMonitor     (ManyMonitorAndActionRequest)     returns (google.protobuf.Empty)         ;
+  rpc DetachManyActionToMonitor     (MonitorAndManyActionRequest)     returns (google.protobuf.Empty)         ;
+  rpc DetachManyActionToManyMonitor (ManyMonitorAndManyActionRequest) returns (google.protobuf.Empty)         ;
+
+  rpc GetActions                    (google.protobuf.Empty)           returns (stream GuidRequest)            ;
+  rpc GetMonitors                   (google.protobuf.Empty)           returns (stream GuidRequest)            ;
+  rpc GetMappedActionAndMonitor     (google.protobuf.Empty)           returns (stream MonitorAndActionRequest);
+  
+  rpc ActionAttachedMonitors        (GuidRequest)                     returns (stream GuidRequest)            ;
+  rpc ManyActionAttachedMonitors    (stream GuidRequest)              returns (stream GuidRequest)            ;
+  rpc ActionsOnMonitor              (GuidRequest)                     returns (stream GuidRequest)            ;
+  rpc ActionsOnManyMonitors         (stream GuidRequest)              returns (stream GuidRequest)            ;
+  
+  rpc Clear                         (google.protobuf.Empty)           returns (google.protobuf.Empty)         ;
+}
+
+message MonitorAndActionRequest{
+  GuidRequest monitor = 1;
+  GuidRequest action = 2;
+}
+
+message ManyMonitorAndActionRequest{
+  repeated GuidRequest monitors = 1;
+  GuidRequest action = 2;
+}
+
+message MonitorAndManyActionRequest{
+  GuidRequest monitor = 1;
+  repeated GuidRequest actions = 2;
+}
+
+message ManyMonitorAndManyActionRequest{
+  repeated GuidRequest monitors = 1;
+  repeated GuidRequest actions = 2;
+}

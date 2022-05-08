@@ -28,6 +28,7 @@ public class GrpcStartup
         {
             endpoints.MapGrpcService<MonitorManagementService>();
             endpoints.MapGrpcService<ActionManagementService>();
+            endpoints.MapGrpcService<MasterManagementService>();
         });
     }
 }

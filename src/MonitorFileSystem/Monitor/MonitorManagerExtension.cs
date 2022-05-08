@@ -16,6 +16,25 @@ public static class MonitorManagerExtension
         return manager.TryGet(guid, out group);
     }
 
+    public static bool TryGetObservable(this IMonitorManager manager, Guid guid,
+        [MaybeNullWhen(false)] out IObservable<WatchingEventInfo> result)
+    {
+        if (manager.TryGetWatcher(guid, out var watcher))
+        {
+            result = watcher;
+            return true;
+        }
+
+        if (manager.TryGetGroup(guid, out var group))
+        {
+            result = group;
+            return true;
+        }
+
+        result = null;
+        return false;
+    }
+
     public static bool TryAddWatcherToGroup(this IMonitorManager manager, IWatcher watcher, Guid guid)
     {
         if (!manager.TryGetGroup(guid, out var group)) return false;

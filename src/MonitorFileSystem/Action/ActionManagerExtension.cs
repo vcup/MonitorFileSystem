@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Action;
 
@@ -14,6 +15,25 @@ public static class ActionManagerExtension
         [MaybeNullWhen(false)] out IChain chain)
     {
         return manager.TryGet(guid, out chain);
+    }
+
+    public static bool TryGetObserver(this IActionManager manager, Guid guid,
+        [MaybeNullWhen(false)] out IObserver<WatchingEventInfo> result)
+    {
+        if (manager.TryGetOperate(guid, out var watcher))
+        {
+            result = watcher;
+            return true;
+        }
+
+        if (manager.TryGetChain(guid, out var group))
+        {
+            result = group;
+            return true;
+        }
+
+        result = null;
+        return false;
     }
 
     public static bool TryAddOperateToChain(this IActionManager manager, IOperate operate, Guid guid)
