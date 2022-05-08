@@ -163,7 +163,7 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
     }
 
 
-    public override async Task GetActions(Empty request, IServerStreamWriter<GuidRequest> responseStream, ServerCallContext context)
+    public override async Task GetActions(Empty request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var actionGuids = _disposables.Keys
             .Select(guids => guids.Item2);
@@ -174,7 +174,7 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         }
     }
 
-    public override async Task GetMonitors(Empty request, IServerStreamWriter<GuidRequest> responseStream, ServerCallContext context)
+    public override async Task GetMonitors(Empty request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var monitorGuids = _disposables.Keys
             .Select(guids => guids.Item1);
@@ -185,11 +185,11 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         }
     }
 
-    public override async Task GetMappedActionAndMonitor(Empty request, IServerStreamWriter<MonitorAndActionRequest> responseStream, ServerCallContext context)
+    public override async Task GetMappedActionAndMonitor(Empty request, IServerStreamWriter<MonitorAndActionResponse> responseStream, ServerCallContext context)
     {
         foreach (var (monitorGuid, actionGuid) in _disposables.Keys)
         {
-            await responseStream.WriteAsync(new MonitorAndActionRequest
+            await responseStream.WriteAsync(new MonitorAndActionResponse
             {
                 Monitor = monitorGuid.ToResponse(),
                 Action = actionGuid.ToResponse()
@@ -198,7 +198,7 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
     }
 
 
-    public override async Task ActionAttachedMonitors(GuidRequest request, IServerStreamWriter<GuidRequest> responseStream, ServerCallContext context)
+    public override async Task ActionAttachedMonitors(GuidRequest request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var monitors = _disposables.Keys
             .Where(guids => guids.Item2 == request.GetGuid())
@@ -206,11 +206,11 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
 
         foreach (var guid in monitors)
         {
-            await responseStream.WriteAsync(new GuidRequest { Guid = guid.ToString() });
+            await responseStream.WriteAsync(guid.ToResponse());
         }
     }
 
-    public override async Task ManyActionAttachedMonitors(IAsyncStreamReader<GuidRequest> requestStream, IServerStreamWriter<GuidRequest> responseStream,
+    public override async Task ManyActionAttachedMonitors(IAsyncStreamReader<GuidRequest> requestStream, IServerStreamWriter<GuidResponse> responseStream,
         ServerCallContext context)
     {
         var actionGuid = requestStream.Current.GetGuid();
@@ -220,11 +220,11 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
 
         foreach (var guid in monitors)
         {
-            await responseStream.WriteAsync(new GuidRequest { Guid = guid.ToString() });
+            await responseStream.WriteAsync(guid.ToResponse());
         }
     }
 
-    public override async Task ActionsOnMonitor(GuidRequest request, IServerStreamWriter<GuidRequest> responseStream, ServerCallContext context)
+    public override async Task ActionsOnMonitor(GuidRequest request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var monitorGuid = request.GetGuid();
         var actionGuids = _disposables.Keys
@@ -233,12 +233,12 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
 
         foreach (var guid in actionGuids)
         {
-            await responseStream.WriteAsync(new GuidRequest { Guid = guid.ToString() });
+            await responseStream.WriteAsync(guid.ToResponse());
         }
     }
 
-    public override async Task ActionsOnManyMonitors(IAsyncStreamReader<GuidRequest> requestStream, IServerStreamWriter<GuidRequest> responseStream,
-        ServerCallContext context)
+    public override async Task ActionsOnManyMonitors(IAsyncStreamReader<GuidRequest> requestStream,
+        IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var monitorGuid = requestStream.Current.GetGuid();
         var actionGuids = _disposables.Keys
@@ -247,7 +247,7 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
 
         foreach (var guid in actionGuids)
         {
-            await responseStream.WriteAsync(new GuidRequest { Guid = guid.ToString() });
+            await responseStream.WriteAsync(guid.ToResponse());
         }
     }
 

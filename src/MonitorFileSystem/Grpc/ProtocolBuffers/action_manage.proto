@@ -2,7 +2,7 @@
 
 import "google/protobuf/empty.proto";
 
-import "Grpc/ProtocolBuffers/guid_request.proto";
+import "Grpc/ProtocolBuffers/guid.proto";
 
 option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 

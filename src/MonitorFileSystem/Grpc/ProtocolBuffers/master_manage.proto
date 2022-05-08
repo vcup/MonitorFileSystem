@@ -6,30 +6,35 @@ import "google/protobuf/empty.proto";
 option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 
 service MasterManagement {
-  rpc AttachActionToMonitor         (MonitorAndActionRequest)         returns (google.protobuf.Empty)         ;
-  rpc AttachActionToManyMonitor     (ManyMonitorAndActionRequest)     returns (google.protobuf.Empty)         ;
-  rpc AttachManyActionToMonitor     (MonitorAndManyActionRequest)     returns (google.protobuf.Empty)         ;
-  rpc AttachManyActionToManyMonitor (ManyMonitorAndManyActionRequest) returns (google.protobuf.Empty)         ;
-  rpc DetachActionToMonitor         (MonitorAndActionRequest)         returns (google.protobuf.Empty)         ;
-  rpc DetachActionToManyMonitor     (ManyMonitorAndActionRequest)     returns (google.protobuf.Empty)         ;
-  rpc DetachManyActionToMonitor     (MonitorAndManyActionRequest)     returns (google.protobuf.Empty)         ;
-  rpc DetachManyActionToManyMonitor (ManyMonitorAndManyActionRequest) returns (google.protobuf.Empty)         ;
+  rpc AttachActionToMonitor         (MonitorAndActionRequest)         returns (google.protobuf.Empty)          ;
+  rpc AttachActionToManyMonitor     (ManyMonitorAndActionRequest)     returns (google.protobuf.Empty)          ;
+  rpc AttachManyActionToMonitor     (MonitorAndManyActionRequest)     returns (google.protobuf.Empty)          ;
+  rpc AttachManyActionToManyMonitor (ManyMonitorAndManyActionRequest) returns (google.protobuf.Empty)          ;
+  rpc DetachActionToMonitor         (MonitorAndActionRequest)         returns (google.protobuf.Empty)          ;
+  rpc DetachActionToManyMonitor     (ManyMonitorAndActionRequest)     returns (google.protobuf.Empty)          ;
+  rpc DetachManyActionToMonitor     (MonitorAndManyActionRequest)     returns (google.protobuf.Empty)          ;
+  rpc DetachManyActionToManyMonitor (ManyMonitorAndManyActionRequest) returns (google.protobuf.Empty)          ;
 
-  rpc GetActions                    (google.protobuf.Empty)           returns (stream GuidRequest)            ;
-  rpc GetMonitors                   (google.protobuf.Empty)           returns (stream GuidRequest)            ;
-  rpc GetMappedActionAndMonitor     (google.protobuf.Empty)           returns (stream MonitorAndActionRequest);
+  rpc GetActions                    (google.protobuf.Empty)           returns (stream GuidResponse)            ;
+  rpc GetMonitors                   (google.protobuf.Empty)           returns (stream GuidResponse)            ;
+  rpc GetMappedActionAndMonitor     (google.protobuf.Empty)           returns (stream MonitorAndActionResponse);
   
-  rpc ActionAttachedMonitors        (GuidRequest)                     returns (stream GuidRequest)            ;
-  rpc ManyActionAttachedMonitors    (stream GuidRequest)              returns (stream GuidRequest)            ;
-  rpc ActionsOnMonitor              (GuidRequest)                     returns (stream GuidRequest)            ;
-  rpc ActionsOnManyMonitors         (stream GuidRequest)              returns (stream GuidRequest)            ;
+  rpc ActionAttachedMonitors        (GuidRequest)                     returns (stream GuidResponse)            ;
+  rpc ManyActionAttachedMonitors    (stream GuidRequest)              returns (stream GuidResponse)            ;
+  rpc ActionsOnMonitor              (GuidRequest)                     returns (stream GuidResponse)            ;
+  rpc ActionsOnManyMonitors         (stream GuidRequest)              returns (stream GuidResponse)            ;
   
-  rpc Clear                         (google.protobuf.Empty)           returns (google.protobuf.Empty)         ;
+  rpc Clear                         (google.protobuf.Empty)           returns (google.protobuf.Empty)          ;
 }
 
 message MonitorAndActionRequest{
   GuidRequest monitor = 1;
   GuidRequest action = 2;
+}
+
+message MonitorAndActionResponse{
+  GuidResponse monitor = 1;
+  GuidResponse action = 2;
 }
 
 message ManyMonitorAndActionRequest{

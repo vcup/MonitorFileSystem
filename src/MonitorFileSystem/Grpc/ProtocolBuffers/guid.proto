@@ -5,3 +5,7 @@ option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 message GuidRequest {
   string guid = 1;
 }
+
+message GuidResponse {
+  string guid = 1;
+}

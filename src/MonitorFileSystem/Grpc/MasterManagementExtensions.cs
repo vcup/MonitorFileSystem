@@ -36,8 +36,8 @@ public static class MasterManagementExtensions
         return Guid.Parse(request.Guid);
     }
 
-    public static GuidRequest ToResponse(this Guid guid)
+    public static GuidResponse ToResponse(this Guid guid)
     {
-        return new GuidRequest { Guid = guid.ToString() };
+        return new GuidResponse { Guid = guid.ToString() };
     }
 }
