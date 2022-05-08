@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitorFileSystem", "src\Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitorFileSystem.Tests", "tests\MonitorFileSystem.Tests\MonitorFileSystem.Tests.csproj", "{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorFileSystem.Client", "src\MonitorFileSystem.Client\MonitorFileSystem.Client.csproj", "{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E6F5530-A8C5-4EB6-81F8-F1B85DA37BEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
