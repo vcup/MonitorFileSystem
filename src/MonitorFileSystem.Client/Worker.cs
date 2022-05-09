@@ -1,6 +1,5 @@
 ﻿using System.CommandLine;
 using MonitorFileSystem.Client.Commands;
-using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client;
 
@@ -10,12 +9,11 @@ public class Worker : BackgroundService
     private readonly CommandLineArguments _arguments;
     private readonly IHostApplicationLifetime _lifetime;
     
-    public Worker(GlobalOptions options, CommandLineArguments arguments, IHostApplicationLifetime lifetime, MonitorManagement.MonitorManagementClient client)
+    public Worker(GlobalOptions options, CommandLineArguments arguments, IHostApplicationLifetime lifetime)
     {
         _options = options;
         _arguments = arguments;
         _lifetime = lifetime;
-        client.ClearWatcher(new Google.Protobuf.WellKnownTypes.Empty());
     }
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

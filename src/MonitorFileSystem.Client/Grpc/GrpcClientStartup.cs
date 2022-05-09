@@ -1,4 +1,6 @@
-﻿using Grpc.Net.ClientFactory;
+﻿using Grpc.Core;
+using Grpc.Net.Client;
+using MonitorFileSystem.Client.Commands;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Grpc;
@@ -7,15 +9,15 @@ public static class GrpcClientStartup
 {
     public static IServiceCollection AddGrpcClients(this IServiceCollection services)
     {
-        services.AddGrpcClient<MonitorManagement.MonitorManagementClient>(Setup);
-        services.AddGrpcClient<ActionManagement.ActionManagementClient>(Setup);
-        services.AddGrpcClient<MasterManagement.MasterManagementClient>(Setup);
-
-        void Setup(GrpcClientFactoryOptions options)
+        services.AddScoped<ChannelBase>(provider =>
         {
-            options.Address = new Uri("http://localhost:5000");
-        }
-
+            var settings = provider.GetRequiredService<GrpcSettings>();
+            return GrpcChannel.ForAddress(settings.Address);
+        });
+        services.AddTransient<MonitorManagement.MonitorManagementClient>();
+        services.AddTransient<ActionManagement.ActionManagementClient>();
+        services.AddTransient<MasterManagement.MasterManagementClient>();
+        
         return services;
     }
 }

@@ -11,8 +11,15 @@
     <Protobuf Include="../MonitorFileSystem/Grpc/ProtocolBuffers/*.proto" GrpcServices="Client"
               Link="ProtocolBuffers/*.proto" ProtoRoot="../MonitorFileSystem" />
     
-    <PackageReference Include="Grpc.AspNetCore" Version="2.46.0-pre1" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.20.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.46.0-pre1" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.46.0-pre1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0-preview.3.22175.4" />
+    <PackageReference Include="Grpc.Tools" Version="2.40.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
