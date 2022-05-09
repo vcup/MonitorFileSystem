@@ -1,6 +1,5 @@
 ﻿using MonitorFileSystem.Client;
 using MonitorFileSystem.Client.Commands;
-using MonitorFileSystem.Client.Grpc;
 
 using IHost host = new HostBuilder()
     .ConfigureHostConfiguration(builder =>

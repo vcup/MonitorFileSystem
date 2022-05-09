@@ -3,7 +3,7 @@ using Grpc.Net.Client;
 using MonitorFileSystem.Client.Commands;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
-namespace MonitorFileSystem.Client.Grpc;
+namespace MonitorFileSystem.Client;
 
 public static class GrpcClientStartup
 {
