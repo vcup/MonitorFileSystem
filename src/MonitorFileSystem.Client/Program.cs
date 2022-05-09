@@ -1,3 +1,21 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using MonitorFileSystem.Client;
+using MonitorFileSystem.Client.Commands;
 
-Console.WriteLine("Hello, World!");
+using IHost host = new HostBuilder()
+    .ConfigureHostConfiguration(builder =>
+    {
+        builder.AddEnvironmentVariables()
+            .AddJsonFile("appsettings.json")
+            ;
+    })
+    .ConfigureServices(services =>
+    {
+        services.AddSingleton(new CommandLineArguments(args))
+            .AddSingleton<GrpcSettings>()
+            .AddSingleton<GlobalOptions>()
+            .AddHostedService<Worker>()
+            ;
+    })
+    .Build();
+
+await host.RunAsync();
