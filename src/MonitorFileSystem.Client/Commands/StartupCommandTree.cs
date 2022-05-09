@@ -21,6 +21,8 @@ public static class StartupCommandTree
                     rootCommand.Add(option);
                 }
             }
+            
+            rootCommand.AddCommand(new WatchCommand(provider.GetRequiredService<MonitorManagement.MonitorManagementClient>()));
 
             return new CommandTree(rootCommand, args.Arguments);
         });

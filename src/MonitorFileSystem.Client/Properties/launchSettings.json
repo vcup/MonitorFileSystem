@@ -3,7 +3,7 @@
   "profiles": {
     "MonitorFileSystem.Client": {
       "commandName": "Project",
-      "commandLineArgs": "--help",
+      "commandLineArgs": "watch add --help",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }
