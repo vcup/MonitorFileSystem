@@ -1,5 +1,6 @@
 ﻿using MonitorFileSystem.Client;
 using MonitorFileSystem.Client.Commands;
+using MonitorFileSystem.Client.Grpc;
 
 using IHost host = new HostBuilder()
     .ConfigureHostConfiguration(builder =>
@@ -11,8 +12,9 @@ using IHost host = new HostBuilder()
     .ConfigureServices(services =>
     {
         services.AddSingleton(new CommandLineArguments(args))
-            .AddSingleton<GrpcSettings>()
-            .AddSingleton<GlobalOptions>()
+            .AddScoped<GrpcSettings>()
+            .AddScoped<GlobalOptions>()
+            .AddGrpcClients()
             .AddHostedService<Worker>()
             ;
     })

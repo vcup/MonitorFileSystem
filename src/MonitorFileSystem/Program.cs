@@ -4,7 +4,7 @@ using MonitorFileSystem.Extensions;
 using MonitorFileSystem.Grpc;
 using MonitorFileSystem.Monitor;
 
-IHost host = Host.CreateDefaultBuilder(args)
+using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddActions()
