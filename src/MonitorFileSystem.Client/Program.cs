@@ -14,6 +14,7 @@ using IHost host = new HostBuilder()
             .AddScoped<GrpcSettings>()
             .AddScoped<GlobalOptions>()
             .AddGrpcClients()
+            .AddCommandTree()
             .AddHostedService<Worker>()
             ;
     })
