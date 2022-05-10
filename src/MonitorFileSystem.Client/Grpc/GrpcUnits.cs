@@ -3,7 +3,7 @@ using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Grpc;
 
-public static class GrpcUnits
+internal static class GrpcUnits
 {
     private static GrpcChannel? _grpcChannel;
     static GrpcUnits()
@@ -13,7 +13,7 @@ public static class GrpcUnits
     
     public static GrpcSettings Settings { get; }
 
-    public static GrpcChannel Channel => _grpcChannel ??= GrpcChannel.ForAddress(Settings.Address);
+    private static GrpcChannel Channel => _grpcChannel ??= GrpcChannel.ForAddress(Settings.Address);
 
     public static MonitorManagement.MonitorManagementClient MonitorManagementClient => new (Channel);
     public static ActionManagement.ActionManagementClient ActionManagementClient => new (Channel);

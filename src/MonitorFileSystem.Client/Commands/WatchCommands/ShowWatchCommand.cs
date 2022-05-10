@@ -5,7 +5,7 @@ using MonitorFileSystem.Client.Grpc;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
 
-public class ShowWatchCommand : Command
+internal class ShowWatchCommand : Command
 {
     public ShowWatchCommand()
         : base("show", "show all watcher of target grpc service")

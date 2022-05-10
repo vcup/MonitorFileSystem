@@ -3,7 +3,7 @@ using MonitorFileSystem.Client.Grpc;
 
 namespace MonitorFileSystem.Client.Commands;
 
-public class GlobalOptions
+internal class GlobalOptions
 {
     public GlobalOptions()
     {
