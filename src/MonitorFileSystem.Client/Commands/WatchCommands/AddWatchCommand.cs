@@ -1,17 +1,14 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Grpc;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
 
 internal class AddWatchCommand : Command
 {
-    private readonly MonitorManagement.MonitorManagementClient _client;
-    
-    public AddWatchCommand(MonitorManagement.MonitorManagementClient client)
+    public AddWatchCommand()
         : base("add", "Create a watcher")
     {
-        _client = client;
-        
         var name = new Argument<string>
         {
             Name = "name",
@@ -42,7 +39,8 @@ internal class AddWatchCommand : Command
 
     private void AddWatcher(string name, string path, string filter)
     {
-        var response = _client.CreateWatcher(new WatcherRequest
+        var client = new MonitorManagement.MonitorManagementClient(GrpcUnits.Channel);
+        var response = client.CreateWatcher(new WatcherRequest
         {
             Name = name,
             Path = path,
