@@ -15,12 +15,13 @@ public class GrpcSettings
         get => _uri.ToString();
         set
         {
-            if (!Uri.TryCreate(value, UriKind.Absolute, out var uri) && uri.IsFile)
+            if (Uri.TryCreate(value, UriKind.Absolute, out var uri) && uri.IsFile)
             {
-                return; // can throw some
+                _uri = uri;
+                return;
             }
 
-            _uri = uri;
+            throw new ArgumentException("{Name} is a invalid address", nameof(value));
         }
     }
 
