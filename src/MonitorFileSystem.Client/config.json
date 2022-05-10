@@ -1,0 +1,5 @@
+﻿{
+  "Grpc": {
+    "Address": "https://localhost:5001"
+  }
+}

@@ -5,19 +5,19 @@ namespace MonitorFileSystem.Client.Commands;
 
 public class GlobalOptions
 {
-    public GlobalOptions(GrpcSettings settings)
+    public GlobalOptions()
     {
         GrpcAddress = new Option<string>(
             "--address",
-            () => settings.Address,
+            () => GrpcUnits.Settings.AddressString,
             "address of GrpcService");
         GrpcAddress.AddAlias("-d");
         GrpcAddress.AddValidator(result =>
         {
             var address = result.GetValueOrDefault<string>();
-            if (Uri.TryCreate(address, UriKind.Absolute, out var uri) && !uri.IsFile)
+            if (address is not null)
             {
-                settings.Address = address;
+                GrpcUnits.Settings.AddressString = address;
             }
         });
     }
