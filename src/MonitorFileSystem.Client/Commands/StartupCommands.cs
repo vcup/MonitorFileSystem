@@ -9,6 +9,7 @@ public static class StartupCommands
     {
         var watch = new WatchCommand();
         watch.AddCommand(new AddWatchCommand());
+        watch.AddCommand(new RemoveWatchCommand());
         var showCommand = new ShowWatchCommand();
         watch.AddCommand(showCommand);
         watch.SetHandler(showCommand.ShowWatchers);
