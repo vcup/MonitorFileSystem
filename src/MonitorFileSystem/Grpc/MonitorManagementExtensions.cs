@@ -93,6 +93,7 @@ public static class MonitorManagementExtensions
     {
         return new WatcherResponse
         {
+            Guid = watcher.Guid.ToString(),
             Name = watcher.Name,
             Path = watcher.MonitorPath,
             Filter = watcher.Filter,
@@ -101,19 +102,11 @@ public static class MonitorManagementExtensions
         };
     }
 
-    public static GroupRequest ToRequest(this IGroup group)
-    {
-        return new GroupRequest
-        {
-            Name = group.Name,
-            Description = group.Description,
-        };
-    }
-
     public static GroupResponse ToResponse(this IGroup group)
     {
         return new GroupResponse
         {
+            Guid = group.Guid.ToString(),
             Name = group.Name,
             Description = group.Description,
         };
