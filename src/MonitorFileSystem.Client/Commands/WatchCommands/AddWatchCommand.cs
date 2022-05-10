@@ -39,14 +39,13 @@ internal class AddWatchCommand : Command
 
     private void AddWatcher(string name, string path, string filter)
     {
-        var client = new MonitorManagement.MonitorManagementClient(GrpcUnits.Channel);
-        var response = client.CreateWatcher(new WatcherRequest
+        var request = new WatcherRequest
         {
             Name = name,
             Path = path,
             Filter = filter,
-            // EventValue = @event
-        });
+        };
+        var response = GrpcUnits.MonitorManagementClient.CreateWatcher(request);
         
         Console.WriteLine(response.Guid);
     }

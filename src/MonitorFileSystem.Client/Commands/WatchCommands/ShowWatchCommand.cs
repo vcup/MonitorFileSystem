@@ -14,12 +14,11 @@ public class ShowWatchCommand : Command
         this.SetHandler(ShowWatchers);
     }
 
-    public async Task ShowWatchers()
+    internal async Task ShowWatchers()
     {
-        var client = new MonitorManagement.MonitorManagementClient(GrpcUnits.Channel);
         var request = new Empty();
 
-        var response = client.GetWatchers(request);
+        var response = GrpcUnits.MonitorManagementClient.GetWatchers(request);
         await foreach (var watchers in response.ResponseStream.ReadAllAsync())
         {
             Console.WriteLine(watchers.Guid);
