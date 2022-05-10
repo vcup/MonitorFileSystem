@@ -5,10 +5,13 @@ namespace MonitorFileSystem.Client.Commands;
 
 public static class StartupCommands
 {
-    public static Command AddClientCommands(this Command command)
+    public static Command AddWatchCommands(this Command command)
     {
         var watch = new WatchCommand();
         watch.AddCommand(new AddWatchCommand());
+        var showCommand = new ShowWatchCommand();
+        watch.AddCommand(showCommand);
+        watch.SetHandler(showCommand.ShowWatchers);
         
         command.AddCommand(watch);
         return command;

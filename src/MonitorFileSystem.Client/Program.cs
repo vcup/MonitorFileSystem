@@ -4,6 +4,6 @@ using MonitorFileSystem.Client.Commands;
 var rootCommand = new RootCommand("commandline client of monitor file system service");
 
 rootCommand.AddGlobalOptions()
-    .AddClientCommands();
+    .AddWatchCommands();
 
 return await rootCommand.InvokeAsync(args);
