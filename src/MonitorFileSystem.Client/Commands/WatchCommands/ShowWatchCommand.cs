@@ -2,7 +2,6 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MonitorFileSystem.Client.Grpc;
-using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
 
