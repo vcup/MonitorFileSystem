@@ -1,23 +1,5 @@
-﻿using MonitorFileSystem.Client;
-using MonitorFileSystem.Client.Commands;
+﻿using System.CommandLine;
 
-using IHost host = new HostBuilder()
-    .ConfigureHostConfiguration(builder =>
-    {
-        builder.AddEnvironmentVariables()
-            .AddJsonFile("appsettings.json")
-            ;
-    })
-    .ConfigureServices(services =>
-    {
-        services.AddSingleton(new CommandLineArguments(args))
-            .AddScoped<GrpcSettings>()
-            .AddScoped<GlobalOptions>()
-            .AddGrpcClients()
-            .AddCommandTree()
-            .AddHostedService<Worker>()
-            ;
-    })
-    .Build();
+var rootCommand = new RootCommand("commandline client of monitor file system service");
 
-await host.RunAsync();
+return await rootCommand.InvokeAsync(args);
