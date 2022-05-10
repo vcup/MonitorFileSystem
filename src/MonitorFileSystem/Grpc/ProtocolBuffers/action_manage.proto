@@ -21,10 +21,10 @@ service ActionManagement {
   rpc AddOperateToMany         (OperateAndManyChainRequest)      returns (google.protobuf.Empty) ;
   rpc AddManyOperateTo         (ManyOperateAndChainRequest)      returns (google.protobuf.Empty) ;
   rpc AddManyOperateToMany     (ManyOperateAndManyChainRequest)  returns (google.protobuf.Empty) ;
-  rpc RemoveOperateFor         (OperateAndChainRequest)          returns (google.protobuf.Empty) ;
-  rpc RemoveOperateForMany     (OperateAndManyChainRequest)      returns (google.protobuf.Empty) ;
-  rpc RemoveManyOperateFor     (ManyOperateAndChainRequest)      returns (google.protobuf.Empty) ;
-  rpc RemoveManyOperateForMany (ManyOperateAndManyChainRequest)  returns (google.protobuf.Empty) ;
+  rpc RemoveOperateFrom         (OperateAndChainRequest)         returns (google.protobuf.Empty) ;
+  rpc RemoveOperateFromMany     (OperateAndManyChainRequest)     returns (google.protobuf.Empty) ;
+  rpc RemoveManyOperateFrom     (ManyOperateAndChainRequest)     returns (google.protobuf.Empty) ;
+  rpc RemoveManyOperateFromMany (ManyOperateAndManyChainRequest) returns (google.protobuf.Empty) ;
   
   rpc ClearUpAll               (google.protobuf.Empty)           returns (google.protobuf.Empty) ;
   rpc ClearOperates            (google.protobuf.Empty)           returns (google.protobuf.Empty) ;

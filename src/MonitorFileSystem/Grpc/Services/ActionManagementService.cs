@@ -178,7 +178,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         });
     }
 
-    public override Task<Empty> RemoveOperateFor(OperateAndChainRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveOperateFrom(OperateAndChainRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -188,7 +188,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         });
     }
 
-    public override Task<Empty> RemoveOperateForMany(OperateAndManyChainRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveOperateFromMany(OperateAndManyChainRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -198,7 +198,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         });
     }
 
-    public override Task<Empty> RemoveManyOperateFor(ManyOperateAndChainRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveManyOperateFrom(ManyOperateAndChainRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -208,7 +208,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         });
     }
 
-    public override Task<Empty> RemoveManyOperateForMany(ManyOperateAndManyChainRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveManyOperateFromMany(ManyOperateAndManyChainRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {

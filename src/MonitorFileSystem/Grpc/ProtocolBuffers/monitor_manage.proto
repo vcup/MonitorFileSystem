@@ -20,10 +20,10 @@ service MonitorManagement {
   rpc AddManyWatcherTo          (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
   rpc AddWatcherToMany          (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
   rpc AddManyWatcherToMany      (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty) ;
-  rpc RemoveWatcherFor          (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
-  rpc RemoveManyWatcherFor      (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
-  rpc RemoveWatcherForMany      (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
-  rpc RemoveManyWatcherForMany  (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty) ;
+  rpc RemoveWatcherFrom          (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
+  rpc RemoveManyWatcherFrom      (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
+  rpc RemoveWatcherFromMany      (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
+  rpc RemoveManyWatcherFromMany  (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty) ;
   
   rpc ClearUpAll                (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
   rpc ClearWatcher              (google.protobuf.Empty)              returns (google.protobuf.Empty) ;

@@ -35,12 +35,7 @@ public static class ActionManagementExtensions
                 result.Move = moveOperate.ToResponse();
                 break;
             case IUnpackOperate unpackOperate:
-                result.Unpack = new UnpackOperateResponse
-                {
-                    Guid = unpackOperate.Guid.ToString(),
-                    Destination = unpackOperate.Destination,
-                    Description = unpackOperate.Description,
-                };
+                result.Unpack = unpackOperate.ToResponse();
                 break;
         }
 

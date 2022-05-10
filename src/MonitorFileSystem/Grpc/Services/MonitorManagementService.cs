@@ -158,7 +158,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         });
     }
 
-    public override Task<Empty> RemoveWatcherFor(WatcherAndGroupRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveWatcherFrom(WatcherAndGroupRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -167,7 +167,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         });
     }
     
-    public override Task<Empty> RemoveManyWatcherFor(ManyWatcherAndGroupRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveManyWatcherFrom(ManyWatcherAndGroupRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -176,7 +176,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         });
     }
     
-    public override Task<Empty> RemoveWatcherForMany(WatcherAndManyGroupRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveWatcherFromMany(WatcherAndManyGroupRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -185,7 +185,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         });
     }
 
-    public override Task<Empty> RemoveManyWatcherForMany(ManyWatcherAndManyGroupRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveManyWatcherFromMany(ManyWatcherAndManyGroupRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
