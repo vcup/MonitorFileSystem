@@ -13,6 +13,7 @@ public static class StartupCommands
         var showCommand = new ShowWatchCommand();
         watch.AddCommand(showCommand);
         watch.SetHandler(showCommand.ShowWatchers);
+        watch.AddCommand(new UpdateWatchCommand());
         
         command.AddCommand(watch);
         return command;
