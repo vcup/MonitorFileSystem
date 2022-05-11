@@ -4,7 +4,7 @@ using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
-public class AddUnpackOperateCommand : Command
+internal class AddUnpackOperateCommand : Command
 {
     public AddUnpackOperateCommand() : base("unpack")
     {
@@ -25,7 +25,7 @@ public class AddUnpackOperateCommand : Command
         this.SetHandler<string, string>(Create, destination, description);
     }
 
-    private async Task Create(string destination, string description)
+    private static async Task Create(string destination, string description)
     {
         var request = new UnpackOperateRequest
         {

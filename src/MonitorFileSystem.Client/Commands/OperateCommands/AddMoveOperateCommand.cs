@@ -4,7 +4,7 @@ using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
-public class AddMoveOperateCommand : Command
+internal class AddMoveOperateCommand : Command
 {
     public AddMoveOperateCommand() : base("move")
     {
@@ -24,7 +24,7 @@ public class AddMoveOperateCommand : Command
         this.SetHandler<string, string>(Create, destination, description);
     }
 
-    private async Task Create(string destination, string description)
+    private static async Task Create(string destination, string description)
     {
         var request = new MoveOperateRequest
         {

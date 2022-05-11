@@ -5,7 +5,7 @@ using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
 
-public class EventWatchCommand : Command
+internal class EventWatchCommand : Command
 {
     public EventWatchCommand()
         : base("event", "set a watcher watching filesystem event for target grpc service")
@@ -48,7 +48,7 @@ public class EventWatchCommand : Command
         this.SetHandler<string>(Show, guid);
     }
 
-    private async Task Add(string guid, WatchingEvent @event)
+    private static async Task Add(string guid, WatchingEvent @event)
     {
         var request = new UpdateWatcherEventRequest
         {
@@ -59,7 +59,7 @@ public class EventWatchCommand : Command
         await GrpcUnits.MonitorManagementClient.AddWatcherMonitorEventAsync(request);
     }
     
-    private async Task Remove(string guid, WatchingEvent @event)
+    private static async Task Remove(string guid, WatchingEvent @event)
     {
         var request = new UpdateWatcherEventRequest
         {
@@ -70,7 +70,7 @@ public class EventWatchCommand : Command
         await GrpcUnits.MonitorManagementClient.RemoveWatcherMonitorEventAsync(request);
     }
     
-    private async Task Show(string guid)
+    private static async Task Show(string guid)
     {
         var request = new GuidRequest
         {
@@ -82,7 +82,7 @@ public class EventWatchCommand : Command
         Console.WriteLine((WatchingEvent)response.Event);
     }
     
-    private async Task Set(string guid, WatchingEvent @event)
+    private static async Task Set(string guid, WatchingEvent @event)
     {
         var request = new UpdateWatcherEventRequest
         {

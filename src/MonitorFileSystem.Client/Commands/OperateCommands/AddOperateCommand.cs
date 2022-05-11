@@ -2,7 +2,7 @@
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
-public class AddOperateCommand : Command
+internal class AddOperateCommand : Command
 {
     public AddOperateCommand()
         : base("add")

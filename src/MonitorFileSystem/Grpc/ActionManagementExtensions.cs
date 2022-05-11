@@ -21,7 +21,7 @@ public static class ActionManagementExtensions
         return new UnpackOperateResponse
         { 
             Guid = operate.Guid.ToString(),
-            Destination = operate.Destination ?? String.Empty,
+            Destination = operate.Destination ?? string.Empty,
             Description = operate.Description
         };
     }

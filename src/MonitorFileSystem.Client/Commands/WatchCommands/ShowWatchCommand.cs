@@ -13,7 +13,7 @@ internal class ShowWatchCommand : Command
         this.SetHandler(ShowWatchers);
     }
 
-    internal async Task ShowWatchers()
+    internal static async Task ShowWatchers()
     {
         var request = new Empty();
 

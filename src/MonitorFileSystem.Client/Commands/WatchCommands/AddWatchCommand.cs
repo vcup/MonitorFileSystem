@@ -43,10 +43,10 @@ internal class AddWatchCommand : Command
         AddArgument(name);
         
         this.SetHandler<string, string, string, WatchingEvent>
-            (AddWatcher, name, path, filter, @event);
+            (CreateWatcher, name, path, filter, @event);
     }
 
-    private void AddWatcher(string name, string path, string filter, WatchingEvent @event)
+    private static async Task CreateWatcher(string name, string path, string filter, WatchingEvent @event)
     {
         var request = new WatcherRequest
         {
@@ -55,7 +55,7 @@ internal class AddWatchCommand : Command
             Filter = filter,
             EventFlags = (int)@event
         };
-        var response = GrpcUnits.MonitorManagementClient.CreateWatcher(request);
+        var response = await GrpcUnits.MonitorManagementClient.CreateWatcherAsync(request);
         
         Console.WriteLine(response.Guid);
     }

@@ -19,13 +19,13 @@ internal class RemoveWatchCommand : Command
         this.SetHandler<string>(RemoveWatcher, guid);
     }
 
-    private void RemoveWatcher(string guid)
+    private static async Task RemoveWatcher(string guid)
     {
         var request = new GuidRequest
         {
             Guid = guid
         };
 
-        GrpcUnits.MonitorManagementClient.RemoveWatcher(request);
+        await GrpcUnits.MonitorManagementClient.RemoveWatcherAsync(request);
     }
 }

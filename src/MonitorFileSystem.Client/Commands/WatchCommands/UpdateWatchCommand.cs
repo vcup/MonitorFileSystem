@@ -5,7 +5,7 @@ using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
 
-public class UpdateWatchCommand : Command
+internal class UpdateWatchCommand : Command
 {
     public UpdateWatchCommand()
         : base("update", "update a watcher for target grpc service")
@@ -49,7 +49,7 @@ public class UpdateWatchCommand : Command
             UpdateWatcher, guid, name, path, filter, @event);
     }
 
-    private void UpdateWatcher(string guid, string? name, string? path, string? filter, WatchingEvent? @event)
+    private static async Task UpdateWatcher(string guid, string? name, string? path, string? filter, WatchingEvent? @event)
     {
         var request = new UpdateWatcherRequest
         {
@@ -76,6 +76,6 @@ public class UpdateWatchCommand : Command
             request.EventFlags = (int)@event.Value;
         }
 
-        GrpcUnits.MonitorManagementClient.UpdateWatcher(request);
+        await GrpcUnits.MonitorManagementClient.UpdateWatcherAsync(request);
     }
 }
