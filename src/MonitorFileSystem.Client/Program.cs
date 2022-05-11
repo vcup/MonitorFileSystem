@@ -5,6 +5,7 @@ var rootCommand = new RootCommand("commandline client of monitor file system ser
 
 rootCommand.AddGlobalOptions()
     .AddWatchCommands()
+    .AddOperateCommands()
     ;
 
 return await rootCommand.InvokeAsync(args);
