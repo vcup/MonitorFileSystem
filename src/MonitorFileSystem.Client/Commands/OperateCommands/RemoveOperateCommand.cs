@@ -4,7 +4,7 @@ using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
-public class RemoveOperateCommand : Command
+internal class RemoveOperateCommand : Command
 {
     public RemoveOperateCommand() : base("remove")
     {

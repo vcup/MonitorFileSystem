@@ -46,8 +46,8 @@ message OperateRequest {
 
 message OperateResponse {
   oneof operate {
-    UnpackOperateResponse unpack = 1;
-    MoveOperateResponse move = 2;
+    MoveOperateResponse move = 1;
+    UnpackOperateResponse unpack = 2;
   }
 }
 
