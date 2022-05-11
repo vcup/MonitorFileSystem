@@ -14,6 +14,7 @@ public static class StartupCommands
         watch.AddCommand(showCommand);
         watch.SetHandler(showCommand.ShowWatchers);
         watch.AddCommand(new UpdateWatchCommand());
+        watch.AddCommand(new EventWatchCommand());
         
         command.AddCommand(watch);
         return command;

@@ -3,7 +3,7 @@
   "profiles": {
     "MonitorFileSystem.Client": {
       "commandName": "Project",
-      "commandLineArgs": "watch add ./ * Changed",
+      "commandLineArgs": "watch event set 12230deb-bcb0-4705-969c-b5392c048edb Changed",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

@@ -32,6 +32,12 @@ public static class MonitorManagementExtensions
     {
         return manager.TryGetWatcher(Guid.Parse(request.Guid), out watcher);
     }
+
+    public static bool TryGetWatcher(this IMonitorManager manager, UpdateWatcherEventRequest request,
+        [MaybeNullWhen(false)] out IWatcher watcher)
+    {
+        return manager.TryGetWatcher(Guid.Parse(request.Guid), out watcher);
+    }
     
     public static bool TryGetGroup(this IMonitorManager manager, GuidRequest request, [MaybeNullWhen(false)] out IGroup group)
     {

@@ -106,6 +106,73 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         });
     }
 
+    public override Task<Empty> AddWatcherMonitorEvent(UpdateWatcherEventRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetWatcher(request, out var watcher))
+            {
+                switch (request.ValueCase)
+                {
+                    case UpdateWatcherEventRequest.ValueOneofCase.None:
+                        break;
+                    case UpdateWatcherEventRequest.ValueOneofCase.Event:
+                        watcher.WatchingEvent |= (WatchingEvent)request.Event;
+                        break;
+                    case UpdateWatcherEventRequest.ValueOneofCase.EventFlags:
+                        watcher.WatchingEvent |= (WatchingEvent)request.EventFlags;
+                        break;
+                }
+            }
+            return new Empty();
+        });
+    }
+
+    public override Task<Empty> RemoveWatcherMonitorEvent(UpdateWatcherEventRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetWatcher(request, out var watcher))
+            {
+                switch (request.ValueCase)
+                {
+                    case UpdateWatcherEventRequest.ValueOneofCase.None:
+                        break;
+                    case UpdateWatcherEventRequest.ValueOneofCase.Event:
+                        watcher.WatchingEvent &= ~(WatchingEvent)request.Event;
+                        break;
+                    case UpdateWatcherEventRequest.ValueOneofCase.EventFlags:
+                        watcher.WatchingEvent &= ~(WatchingEvent)request.EventFlags;
+                        break;
+                }
+            }
+            return new Empty();
+        });
+    }
+
+    public override Task<Empty> SetWatcherMonitorEvent(UpdateWatcherEventRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetWatcher(request, out var watcher))
+            {
+                switch (request.ValueCase)
+                {
+                    case UpdateWatcherEventRequest.ValueOneofCase.None:
+                        break;
+                    case UpdateWatcherEventRequest.ValueOneofCase.Event:
+                        watcher.WatchingEvent = (WatchingEvent)request.Event;
+                        break;
+                    case UpdateWatcherEventRequest.ValueOneofCase.EventFlags:
+                        watcher.WatchingEvent = (WatchingEvent)request.EventFlags;
+                        break;
+                }
+            }
+            return new Empty();
+        });
+    }
+
+
     public override Task<GroupResponse> CreateGroup(GroupRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
@@ -239,6 +306,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         });
     }
 
+    
     public override async Task GetWatchers(Empty request, IServerStreamWriter<WatcherResponse> responseStream, ServerCallContext context)
     {
         foreach (var watcher in _manager.Watchers)
@@ -267,6 +335,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             await responseStream.WriteAsync(group.ToResponse());
         }
     }
+    
 
     public override Task<WatcherResponse> FindWatcher(GuidRequest request, ServerCallContext context)
     {

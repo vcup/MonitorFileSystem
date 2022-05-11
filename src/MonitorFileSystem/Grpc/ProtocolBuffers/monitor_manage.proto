@@ -12,6 +12,9 @@ service MonitorManagement {
   rpc EnableWatcher             (GuidRequest)                        returns (google.protobuf.Empty) ;
   rpc ToggleWatcher             (GuidRequest)                        returns (google.protobuf.Empty) ;
   rpc UpdateWatcher             (UpdateWatcherRequest)               returns (google.protobuf.Empty) ;
+  rpc AddWatcherMonitorEvent    (UpdateWatcherEventRequest)          returns (google.protobuf.Empty) ;
+  rpc RemoveWatcherMonitorEvent (UpdateWatcherEventRequest)          returns (google.protobuf.Empty) ;
+  rpc SetWatcherMonitorEvent    (UpdateWatcherEventRequest)          returns (google.protobuf.Empty) ;
   
   rpc CreateGroup               (GroupRequest)                       returns (GroupResponse) ;
   rpc RemoveGroup               (GuidRequest)                        returns (google.protobuf.Empty) ;
@@ -20,10 +23,10 @@ service MonitorManagement {
   rpc AddManyWatcherTo          (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
   rpc AddWatcherToMany          (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
   rpc AddManyWatcherToMany      (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty) ;
-  rpc RemoveWatcherFrom          (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
-  rpc RemoveManyWatcherFrom      (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
-  rpc RemoveWatcherFromMany      (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
-  rpc RemoveManyWatcherFromMany  (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty) ;
+  rpc RemoveWatcherFrom         (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;
+  rpc RemoveManyWatcherFrom     (ManyWatcherAndGroupRequest)         returns (google.protobuf.Empty) ;
+  rpc RemoveWatcherFromMany     (WatcherAndManyGroupRequest)         returns (google.protobuf.Empty) ;
+  rpc RemoveManyWatcherFromMany (ManyWatcherAndManyGroupRequest)     returns (google.protobuf.Empty) ;
   
   rpc ClearUpAll                (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
   rpc ClearWatcher              (google.protobuf.Empty)              returns (google.protobuf.Empty) ;
@@ -71,6 +74,15 @@ message UpdateWatcherRequest {
   optional string filter = 4;
   optional Event event = 5;
   optional int32 event_flags = 6;
+}
+
+message UpdateWatcherEventRequest {
+  string guid = 1;
+  
+  oneof value {
+    Event event = 2;
+    int32 event_flags = 3;
+  }
 }
 
 message WatcherResponse {
