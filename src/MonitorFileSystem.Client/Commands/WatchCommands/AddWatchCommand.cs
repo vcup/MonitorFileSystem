@@ -29,21 +29,30 @@ internal class AddWatchCommand : Command
         };
         filter.SetDefaultValue("*");
 
+        var @event = new Argument<Event>
+        {
+            Name = "event",
+            Description = "watching filesystem events"
+        };
+        @event.SetDefaultValue(Event.None);
+
         AddArgument(path);
         AddArgument(filter);
+        AddArgument(@event);
         AddArgument(name);
         
-        this.SetHandler<string, string, string>
-            (AddWatcher, name, path, filter);
+        this.SetHandler<string, string, string, Event>
+            (AddWatcher, name, path, filter, @event);
     }
 
-    private void AddWatcher(string name, string path, string filter)
+    private void AddWatcher(string name, string path, string filter, Event @event)
     {
         var request = new WatcherRequest
         {
             Name = name,
             Path = path,
             Filter = filter,
+            Event = @event
         };
         var response = GrpcUnits.MonitorManagementClient.CreateWatcher(request);
         
