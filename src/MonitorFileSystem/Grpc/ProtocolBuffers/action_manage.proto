@@ -70,8 +70,8 @@ message MoveOperateResponse {
 
 message UnpackOperateRequest {
   string destination = 1; // when empty, will unpack to watched event path
-  bool ignore_directory = 2;
-  string description = 3;
+  string description = 2;
+  bool ignore_directory = 3;
 }
 
 message UpdateUnPackOperateRequest {

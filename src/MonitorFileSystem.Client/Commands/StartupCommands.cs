@@ -24,6 +24,7 @@ public static class StartupCommands
     public static Command AddOperateCommands(this Command command)
     {
         var operate = new OperateCommand();
+        operate.AddCommand(new AddOperateCommand());
 
         command.AddCommand(operate);
         return command;

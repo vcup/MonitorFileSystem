@@ -45,6 +45,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             {
                 operate.Destination = request.Destination;
             }
+            operate.Description = request.Description;
 
             return operate.ToResponse();
         });
