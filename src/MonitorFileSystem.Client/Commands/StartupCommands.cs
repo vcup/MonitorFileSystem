@@ -9,13 +9,13 @@ public static class StartupCommands
     public static Command AddWatchCommands(this Command command)
     {
         var watch = new WatchCommand();
+        
         watch.AddCommand(new AddWatchCommand());
         watch.AddCommand(new RemoveWatchCommand());
-        var showCommand = new ShowWatchCommand();
-        watch.AddCommand(showCommand);
-        watch.SetHandler(ShowWatchCommand.ShowWatchers);
+        watch.AddCommand(new ShowWatchCommand());
         watch.AddCommand(new UpdateWatchCommand());
         watch.AddCommand(new EventWatchCommand());
+        watch.SetHandler(ShowWatchCommand.ShowWatchers);
         
         command.AddCommand(watch);
         return command;
