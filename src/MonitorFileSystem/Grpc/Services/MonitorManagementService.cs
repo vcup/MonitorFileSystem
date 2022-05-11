@@ -96,6 +96,11 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
                 {
                     watcher.WatchingEvent = (WatchingEvent)request.Event;
                 }
+
+                if (request.HasEventFlags)
+                {
+                    watcher.WatchingEvent = (WatchingEvent)request.EventFlags;
+                }
             }
             return new Empty();
         });

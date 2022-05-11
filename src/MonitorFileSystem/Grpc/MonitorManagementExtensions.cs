@@ -14,6 +14,11 @@ public static class MonitorManagementExtensions
         {
             result.WatchingEvent = (WatchingEvent)request.Event;
         }
+
+        if (request.HasEventFlags)
+        {
+            result.WatchingEvent = (WatchingEvent)request.EventFlags;
+        }
         
         return result;
     }
@@ -97,7 +102,7 @@ public static class MonitorManagementExtensions
             Name = watcher.Name,
             Path = watcher.MonitorPath,
             Filter = watcher.Filter,
-            Event = (Event)watcher.WatchingEvent,
+            Event = (int)watcher.WatchingEvent,
             IsEnable = watcher.Monitoring,
         };
     }

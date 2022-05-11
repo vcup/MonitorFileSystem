@@ -1,6 +1,7 @@
 ﻿using System.CommandLine;
 using MonitorFileSystem.Client.Grpc;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
+using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
 
@@ -32,7 +33,7 @@ public class UpdateWatchCommand : Command
         };
         filter.SetDefaultValue(null);
         
-        var @event = new Argument<Event?>
+        var @event = new Argument<WatchingEvent?>
         {
             Name = "event"
         };
@@ -44,11 +45,11 @@ public class UpdateWatchCommand : Command
         AddArgument(filter);
         AddArgument(@event);
         
-        this.SetHandler<string, string?, string?, string?, Event?>(
+        this.SetHandler<string, string?, string?, string?, WatchingEvent?>(
             UpdateWatcher, guid, name, path, filter, @event);
     }
 
-    private void UpdateWatcher(string guid, string? name, string? path, string? filter, Event? @event)
+    private void UpdateWatcher(string guid, string? name, string? path, string? filter, WatchingEvent? @event)
     {
         var request = new UpdateWatcherRequest
         {
@@ -72,7 +73,7 @@ public class UpdateWatchCommand : Command
 
         if (@event.HasValue)
         {
-            request.Event = @event.Value;
+            request.EventFlags = (int)@event.Value;
         }
 
         GrpcUnits.MonitorManagementClient.UpdateWatcher(request);

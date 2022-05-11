@@ -60,6 +60,7 @@ message WatcherRequest {
   string filter = 3;
   
   optional Event event = 4;
+  optional int32 event_flags = 5;
 }
 
 message UpdateWatcherRequest {
@@ -69,6 +70,7 @@ message UpdateWatcherRequest {
   optional string path = 3;
   optional string filter = 4;
   optional Event event = 5;
+  optional int32 event_flags = 6;
 }
 
 message WatcherResponse {
@@ -77,7 +79,7 @@ message WatcherResponse {
   string path = 3;
   string filter = 4;
 
-  Event event = 5;
+  int32 event = 5;
   bool is_enable = 6;
 }
 

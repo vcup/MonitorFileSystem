@@ -19,4 +19,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\MonitorFileSystem\Monitor\WatchingEvent.cs">
+      <Link>WatchingEvent.cs</Link>
+    </Compile>
+  </ItemGroup>
+
 </Project>
