@@ -26,7 +26,9 @@ public static class StartupCommands
         var operate = new OperateCommand();
         operate.AddCommand(new AddOperateCommand());
         operate.AddCommand(new RemoveOperateCommand());
+        operate.AddCommand(new ShowOperateCommand());
 
+        operate.SetHandler(ShowOperateCommand.ShowOperate);
         command.AddCommand(operate);
         return command;
     }
