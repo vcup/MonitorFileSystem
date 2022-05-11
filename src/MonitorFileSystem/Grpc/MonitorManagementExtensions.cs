@@ -10,9 +10,9 @@ public static class MonitorManagementExtensions
     {
         var result = new Watcher(request.Name, request.Path, request.Filter);
 
-        if (request.EventCase.HasFlag(WatcherRequest.EventOneofCase.EventValue))
+        if (request.HasEvent)
         {
-            result.WatchingEvent = (WatchingEvent)request.EventValue;
+            result.WatchingEvent = (WatchingEvent)request.Event;
         }
         
         return result;

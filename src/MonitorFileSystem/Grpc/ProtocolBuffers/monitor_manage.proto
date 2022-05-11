@@ -59,20 +59,16 @@ message WatcherRequest {
   string path = 2;
   string filter = 3;
   
-  oneof event {
-    Event event_value = 4;
-  }
+  optional Event event = 4;
 }
 
 message UpdateWatcherRequest {
   string guid = 1;
-  string name = 2;
-  string path = 3;
-  string filter = 4;
   
-  oneof event {
-    Event event_value = 5;
-  }
+  optional string name = 2;
+  optional string path = 3;
+  optional string filter = 4;
+  optional Event event = 5;
 }
 
 message WatcherResponse {

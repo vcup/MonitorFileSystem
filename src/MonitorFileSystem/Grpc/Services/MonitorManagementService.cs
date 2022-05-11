@@ -77,13 +77,24 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         {
             if (_manager.TryGetWatcher(Guid.Parse(request.Guid), out var watcher))
             {
-                watcher.Name = request.Name;
-                watcher.MonitorPath = request.Path;
-                watcher.Filter = request.Filter;
-
-                if (request.EventCase.HasFlag(UpdateWatcherRequest.EventOneofCase.EventValue))
+                if (request.HasName)
                 {
-                    watcher.WatchingEvent = (WatchingEvent)request.EventValue;
+                    watcher.Name = request.Name;
+                }
+
+                if (request.HasPath)
+                {
+                    watcher.MonitorPath = request.Path;
+                }
+
+                if (request.HasFilter)
+                {
+                    watcher.Filter = request.Filter;
+                }
+
+                if (request.HasEvent)
+                {
+                    watcher.WatchingEvent = (WatchingEvent)request.Event;
                 }
             }
             return new Empty();
