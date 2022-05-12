@@ -30,8 +30,7 @@ internal class AddUnpackOperateCommand : Command
         var request = new UnpackOperateRequest
         {
             Destination = destination,
-            Description = description,
-            IgnoreDirectory = true
+            Description = description
         };
 
         var response = await GrpcUnits.ActionManagementClient.CreateUnpackOperateAsync(request);

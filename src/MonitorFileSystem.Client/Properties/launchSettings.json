@@ -3,7 +3,7 @@
   "profiles": {
     "MonitorFileSystem.Client": {
       "commandName": "Project",
-      "commandLineArgs": "operate show",
+      "commandLineArgs": "operate update --help",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

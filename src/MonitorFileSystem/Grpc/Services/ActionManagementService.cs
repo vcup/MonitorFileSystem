@@ -64,7 +64,8 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var operate))
+            if (request.HasDescription &&
+                _manager.TryGetOperate(Guid.Parse(request.Guid), out var operate))
             {
                 operate.Description = request.Description;
             }
@@ -80,23 +81,32 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var value) &&
                 value is IMoveOperate operate)
             {
-                operate.Description = request.Description;
                 operate.Destination = request.Destination;
+                if (request.HasDescription)
+                {
+                    operate.Description = request.Description;
+                }
             }
             
             return new Empty();
         });
     }
 
-    public override Task<Empty> UpdateUnpackOperate(UpdateMoveOperateRequest request, ServerCallContext context)
+    public override Task<Empty> UpdateUnpackOperate(UpdateUnpackOperateRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
             if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var value) &&
                 value is IUnpackOperate operate)
             {
-                operate.Destination = string.IsNullOrEmpty(request.Destination) ? null : request.Destination;
-                operate.Description = request.Description;
+                if (request.HasDestination)
+                {
+                    operate.Destination = string.IsNullOrEmpty(request.Destination) ? null : request.Destination;
+                }
+                if (request.HasDescription)
+                {
+                    operate.Description = request.Description;
+                }
             }
             
             return new Empty();
