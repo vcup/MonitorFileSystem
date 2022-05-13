@@ -21,7 +21,7 @@ internal class ShowRelationCommand : Command
         this.SetHandler<string?>(ShowRelation, guid);
     }
 
-    public static async Task ShowRelation(string? guid)
+    private static async Task ShowRelation(string? guid)
     {
         if (guid is null)
         {
