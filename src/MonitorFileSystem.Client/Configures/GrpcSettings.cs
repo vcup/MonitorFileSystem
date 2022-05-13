@@ -1,4 +1,4 @@
-﻿namespace MonitorFileSystem.Client.Grpc;
+﻿namespace MonitorFileSystem.Client.Configures;
 
 internal class GrpcSettings
 {

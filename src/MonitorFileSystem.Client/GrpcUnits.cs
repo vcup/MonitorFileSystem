@@ -1,19 +1,14 @@
 ﻿using Grpc.Net.Client;
+using MonitorFileSystem.Client.Configures;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
-namespace MonitorFileSystem.Client.Grpc;
+namespace MonitorFileSystem.Client;
 
 internal static class GrpcUnits
 {
     private static GrpcChannel? _grpcChannel;
-    static GrpcUnits()
-    {
-        Settings = new GrpcSettings();
-    }
     
-    public static GrpcSettings Settings { get; }
-
-    private static GrpcChannel Channel => _grpcChannel ??= GrpcChannel.ForAddress(Settings.Address);
+    private static GrpcChannel Channel => _grpcChannel ??= GrpcChannel.ForAddress(Configure.GrpcSettings.Address);
 
     public static MonitorManagement.MonitorManagementClient MonitorManagementClient => new (Channel);
     public static ActionManagement.ActionManagementClient ActionManagementClient => new (Channel);

@@ -1,7 +1,6 @@
 ﻿using System.CommandLine;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using MonitorFileSystem.Client.Grpc;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
 

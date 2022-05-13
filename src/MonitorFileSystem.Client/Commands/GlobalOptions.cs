@@ -1,5 +1,5 @@
 ﻿using System.CommandLine;
-using MonitorFileSystem.Client.Grpc;
+using MonitorFileSystem.Client.Configures;
 
 namespace MonitorFileSystem.Client.Commands;
 
@@ -9,7 +9,7 @@ internal class GlobalOptions
     {
         GrpcAddress = new Option<string>(
             "--address",
-            () => GrpcUnits.Settings.AddressString,
+            () => Configure.GrpcSettings.AddressString,
             "address of GrpcService");
         GrpcAddress.AddAlias("-d");
         GrpcAddress.AddValidator(result =>
@@ -17,10 +17,10 @@ internal class GlobalOptions
             var address = result.GetValueOrDefault<string>();
             if (address is not null)
             {
-                GrpcUnits.Settings.AddressString = address;
+                Configure.GrpcSettings.AddressString = address;
             }
         });
     }
-    
+
     public Option<string> GrpcAddress { get; }
 }
