@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Commands.LinkCommands;
 using MonitorFileSystem.Client.Commands.OperateCommands;
 using MonitorFileSystem.Client.Commands.WatchCommands;
 
@@ -31,6 +32,15 @@ public static class StartupCommands
 
         operate.SetHandler(ShowOperateCommand.ShowOperate);
         command.AddCommand(operate);
+        return command;
+    }
+
+    public static Command AddLinkCommands(this Command command)
+    {
+        command.AddCommand(new LinkCommand());
+        command.AddCommand(new ShowRelationCommand());
+        command.AddCommand(new UnlinkCommand());
+        
         return command;
     }
 
