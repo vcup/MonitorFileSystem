@@ -21,7 +21,7 @@ internal static class Configure
         }
         catch (FileNotFoundException)
         {
-            Settings = new Settings { GrpcSettings = new() };
+            Settings = new Settings();
             using var configFile = File.CreateText(ConfigFilePath);
             var serializer = new SerializerBuilder()
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
