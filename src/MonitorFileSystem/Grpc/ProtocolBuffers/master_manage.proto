@@ -17,7 +17,10 @@ service MasterManagement {
 
   rpc GetActions                    (google.protobuf.Empty)           returns (stream GuidResponse)            ;
   rpc GetMonitors                   (google.protobuf.Empty)           returns (stream GuidResponse)            ;
-  rpc GetMappedActionAndMonitor     (google.protobuf.Empty)           returns (stream MonitorAndActionResponse);
+  rpc GetRelations                  (google.protobuf.Empty)           returns (stream MonitorAndActionResponse);
+  rpc GetRelationOfAction           (GuidRequest)                     returns (stream GuidResponse)            ;
+  rpc GetRelationOfMonitor          (GuidRequest)                     returns (stream GuidResponse)            ;
+  rpc GetRelationOfEither           (GuidRequest)                     returns (stream GuidResponse)            ;
   
   rpc ActionAttachedMonitors        (GuidRequest)                     returns (stream GuidResponse)            ;
   rpc ManyActionAttachedMonitors    (stream GuidRequest)              returns (stream GuidResponse)            ;
