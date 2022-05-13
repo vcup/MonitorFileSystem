@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 using MonitorFileSystem.Monitor;
 
@@ -12,27 +13,27 @@ internal class AddWatchCommand : Command
         var name = new Argument<string>
         {
             Name = "name",
-            Description = "name of watcher"
+            Description = CommandTexts.Watch_Add_Name_Description
         };
         name.SetDefaultValue(string.Empty);
 
         var path = new Argument<string>
         {
             Name = "path",
-            Description = "watching path",
+            Description = CommandTexts.Watch_Add_Path_Description
         };
 
         var filter = new Argument<string>
         {
             Name = "filter",
-            Description = "regular expression",
+            Description = CommandTexts.Watch_Add_Filter_Description
         };
         filter.SetDefaultValue("*");
 
         var @event = new Argument<WatchingEvent>
         {
             Name = "event",
-            Description = "watching filesystem events"
+            Description = CommandTexts.Watch_Add_Event_Description
         };
         @event.SetDefaultValue(WatchingEvent.None);
 

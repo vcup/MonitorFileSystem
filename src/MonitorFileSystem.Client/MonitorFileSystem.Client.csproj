@@ -22,6 +22,17 @@
     <Protobuf Include="../MonitorFileSystem/Grpc/ProtocolBuffers/*.proto" GrpcServices="Client" Link="ProtocolBuffers/*.proto" ProtoRoot="../MonitorFileSystem" />
     
     <Compile Include="..\MonitorFileSystem\Monitor\WatchingEvent.cs" Link="WatchingEvent.cs" />
+
+    <Compile Update="Resources\CommandTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CommandTexts.resx</DependentUpon>
+    </Compile>
+
+    <EmbeddedResource Update="Resources\CommandTexts.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommandTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
