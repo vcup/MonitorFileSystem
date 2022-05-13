@@ -1,15 +1,13 @@
-﻿namespace MonitorFileSystem.Client.Configures;
+﻿using YamlDotNet.Serialization;
+
+namespace MonitorFileSystem.Client.Configures;
 
 internal class GrpcSettings
 {
     // will set on AddressString.set
     private Uri _uri = null!;
-    
-    public GrpcSettings()
-    {
-        AddressString = "https://localhost:5001";
-    }
 
+    [YamlMember(Alias = "Address", Description = "default is https://localhost:5001")]
     public string AddressString
     {
         get => _uri.ToString();
@@ -19,10 +17,11 @@ internal class GrpcSettings
             {
                 throw new ArgumentException("{Name} is a invalid address", nameof(value));
             }
-            
+
             _uri = uri;
         }
     }
 
+    [YamlIgnore]
     public Uri Address => _uri;
 }

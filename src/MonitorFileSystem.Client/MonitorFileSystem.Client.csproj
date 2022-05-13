@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="../MonitorFileSystem/Grpc/ProtocolBuffers/*.proto" GrpcServices="Client" Link="ProtocolBuffers/*.proto" ProtoRoot="../MonitorFileSystem" />
-    
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
     <PackageReference Include="Google.Protobuf" Version="3.20.1" />
     <PackageReference Include="Grpc.Net.Client" Version="2.46.0-pre1" />
@@ -20,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\MonitorFileSystem\Monitor\WatchingEvent.cs">
-      <Link>WatchingEvent.cs</Link>
-    </Compile>
+    <Protobuf Include="../MonitorFileSystem/Grpc/ProtocolBuffers/*.proto" GrpcServices="Client" Link="ProtocolBuffers/*.proto" ProtoRoot="../MonitorFileSystem" />
+    
+    <Compile Include="..\MonitorFileSystem\Monitor\WatchingEvent.cs" Link="WatchingEvent.cs" />
   </ItemGroup>
 
 </Project>
