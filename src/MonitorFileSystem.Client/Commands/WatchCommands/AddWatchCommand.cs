@@ -8,7 +8,7 @@ namespace MonitorFileSystem.Client.Commands.WatchCommands;
 internal class AddWatchCommand : Command
 {
     public AddWatchCommand()
-        : base("add", "Create a watcher")
+        : base("add", CommandTexts.Watch_Add_Command_Description)
     {
         var name = new Argument<string>
         {

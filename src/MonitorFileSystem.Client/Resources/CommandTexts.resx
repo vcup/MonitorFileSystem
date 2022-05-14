@@ -18,6 +18,12 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="Watch_Command_Description" xml:space="preserve">
+        <value>manage watchers for remote grpc service</value>
+    </data>
+    <data name="Watch_Add_Command_Description" xml:space="preserve">
+        <value>create a watcher for target grpc service</value>
+    </data>
     <data name="Watch_Add_Name_Description" xml:space="preserve">
         <value>name of will create watcher</value>
     </data>
@@ -29,5 +35,53 @@
     </data>
     <data name="Watch_Add_Event_Description" xml:space="preserve">
         <value>specify will monitor filesystem event</value>
+    </data>
+    <data name="Watch_Remove_Command_Description" xml:space="preserve">
+        <value>remove watcher from target grpc service</value>
+    </data>
+    <data name="Watch_Remove_Guid_Description" xml:space="preserve">
+        <value>guid of will removed watcher</value>
+    </data>
+    <data name="Watch_Show_Command_Description" xml:space="preserve">
+        <value>show all watcher from target grpc service</value>
+    </data>
+    <data name="Watch_Update_Command_Description" xml:space="preserve">
+        <value>update a watcher from target grpc service</value>
+    </data>
+    <data name="Watch_Update_Guid_Description" xml:space="preserve">
+        <value>guid of will update watcher</value>
+    </data>
+    <data name="Watch_Update_Name_Description" xml:space="preserve">
+        <value>specify a name of will update watcher</value>
+    </data>
+    <data name="Watch_Update_Path_Description" xml:space="preserve">
+        <value>update monitoring path of watcher</value>
+    </data>
+    <data name="Watch_Update_Filter_Description" xml:space="preserve">
+        <value>specify regular expression to update watcher watching file or directory</value>
+    </data>
+    <data name="Watch_Update_Event_Description" xml:space="preserve">
+        <value>specify watching file system event to update watcher</value>
+    </data>
+    <data name="Watch_Event_Command_Description" xml:space="preserve">
+        <value>settings a watcher watching filesystem event for target grpc service</value>
+    </data>
+    <data name="Watch_Event_Guid_Description" xml:space="preserve">
+        <value>guid of watcher to setting watching event</value>
+    </data>
+    <data name="Watch_Event_Event_Description" xml:space="preserve">
+        <value>specify filesystem event for watcher</value>
+    </data>
+    <data name="Watch_Event_Add_Command_Description" xml:space="preserve">
+        <value>add watching filesystem event for watcher</value>
+    </data>
+    <data name="Watch_Event_Remove_Command_Description" xml:space="preserve">
+        <value>remove watching filesystem event for watcher</value>
+    </data>
+    <data name="Watch_Event_Show_Command_Description" xml:space="preserve">
+        <value>show a watcher watching filesystem events</value>
+    </data>
+    <data name="Watch_Event_Set_Description" xml:space="preserve">
+        <value>set a filesystem event for watcher</value>
     </data>
 </root>

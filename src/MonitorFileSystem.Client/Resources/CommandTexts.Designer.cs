@@ -61,6 +61,15 @@ namespace MonitorFileSystem.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to create a watcher for target grpc service.
+        /// </summary>
+        internal static string Watch_Add_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Add_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to specify will monitor filesystem event.
         /// </summary>
         internal static string Watch_Add_Event_Description {
@@ -93,6 +102,159 @@ namespace MonitorFileSystem.Client.Resources {
         internal static string Watch_Add_Path_Description {
             get {
                 return ResourceManager.GetString("Watch_Add_Path_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to manage watchers for remote grpc service.
+        /// </summary>
+        internal static string Watch_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to add watching filesystem event for watcher.
+        /// </summary>
+        internal static string Watch_Event_Add_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Event_Add_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to settings a watcher watching filesystem event for target grpc service.
+        /// </summary>
+        internal static string Watch_Event_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Event_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to specify filesystem event for watcher.
+        /// </summary>
+        internal static string Watch_Event_Event_Description {
+            get {
+                return ResourceManager.GetString("Watch_Event_Event_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to guid of watcher to setting watching event.
+        /// </summary>
+        internal static string Watch_Event_Guid_Description {
+            get {
+                return ResourceManager.GetString("Watch_Event_Guid_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to remove watching filesystem event for watcher.
+        /// </summary>
+        internal static string Watch_Event_Remove_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Event_Remove_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to set a filesystem event for watcher.
+        /// </summary>
+        internal static string Watch_Event_Set_Description {
+            get {
+                return ResourceManager.GetString("Watch_Event_Set_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to show a watcher watching filesystem events.
+        /// </summary>
+        internal static string Watch_Event_Show_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Event_Show_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to remove watcher from target grpc service.
+        /// </summary>
+        internal static string Watch_Remove_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Remove_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to guid of will removed watcher.
+        /// </summary>
+        internal static string Watch_Remove_Guid_Description {
+            get {
+                return ResourceManager.GetString("Watch_Remove_Guid_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to show all watcher from target grpc service.
+        /// </summary>
+        internal static string Watch_Show_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Show_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to update a watcher from target grpc service.
+        /// </summary>
+        internal static string Watch_Update_Command_Description {
+            get {
+                return ResourceManager.GetString("Watch_Update_Command_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to specify watching file system event to update watcher.
+        /// </summary>
+        internal static string Watch_Update_Event_Description {
+            get {
+                return ResourceManager.GetString("Watch_Update_Event_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to specify regular expression to update watcher watching file or directory.
+        /// </summary>
+        internal static string Watch_Update_Filter_Description {
+            get {
+                return ResourceManager.GetString("Watch_Update_Filter_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to guid of will update watcher.
+        /// </summary>
+        internal static string Watch_Update_Guid_Description {
+            get {
+                return ResourceManager.GetString("Watch_Update_Guid_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to specify a name of will update watcher.
+        /// </summary>
+        internal static string Watch_Update_Name_Description {
+            get {
+                return ResourceManager.GetString("Watch_Update_Name_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to update monitoring path of watcher.
+        /// </summary>
+        internal static string Watch_Update_Path_Description {
+            get {
+                return ResourceManager.GetString("Watch_Update_Path_Description", resourceCulture);
             }
         }
     }

@@ -1,13 +1,14 @@
 ﻿using System.CommandLine;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using MonitorFileSystem.Client.Resources;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
 
 internal class ShowWatchCommand : Command
 {
     public ShowWatchCommand()
-        : base("show", "show all watcher of target grpc service")
+        : base("show", CommandTexts.Watch_Show_Command_Description)
     {
         this.SetHandler(ShowWatchers);
     }

@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 using MonitorFileSystem.Monitor;
 
@@ -7,33 +8,35 @@ namespace MonitorFileSystem.Client.Commands.WatchCommands;
 internal class EventWatchCommand : Command
 {
     public EventWatchCommand()
-        : base("event", "set a watcher watching filesystem event for target grpc service")
+        : base("event", CommandTexts.Watch_Event_Command_Description)
     {
         var guid = new Argument<string>
         {
-            Name = "guid"
+            Name = "guid",
+            Description = CommandTexts.Watch_Event_Guid_Description
         };
 
         var @event = new Argument<WatchingEvent>
         {
-            Name = "event"
+            Name = "event",
+            Description = CommandTexts.Watch_Event_Event_Description
         };
 
-        var add = new Command("add", "add watching event for watcher");
+        var add = new Command("add", CommandTexts.Watch_Event_Add_Command_Description);
         add.AddArgument(guid);
         add.AddArgument(@event);
         add.SetHandler<string, WatchingEvent>(Add, guid, @event);
         
-        var remove = new Command("remove", "remove watching event for watcher");
+        var remove = new Command("remove", CommandTexts.Watch_Event_Remove_Command_Description);
         remove.AddArgument(guid);
         remove.AddArgument(@event);
         remove.SetHandler<string, WatchingEvent>(Remove, guid, @event);
         
-        var show = new Command("show", "show a watcher watching filesystem events");
+        var show = new Command("show", CommandTexts.Watch_Event_Show_Command_Description);
         show.AddArgument(guid);
         show.SetHandler<string>(Show, guid);
         
-        var set = new Command("set", "set watcher watching event");
+        var set = new Command("set", CommandTexts.Watch_Event_Set_Description);
         set.AddArgument(guid);
         set.AddArgument(@event);
         set.SetHandler<string, WatchingEvent>(Set, guid, @event);

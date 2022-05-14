@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 using MonitorFileSystem.Monitor;
 
@@ -7,34 +8,39 @@ namespace MonitorFileSystem.Client.Commands.WatchCommands;
 internal class UpdateWatchCommand : Command
 {
     public UpdateWatchCommand()
-        : base("update", "update a watcher for target grpc service")
+        : base("update", CommandTexts.Watch_Update_Command_Description)
     {
         var guid = new Argument<string>
         {
-            Name = "guid"
+            Name = "guid",
+            Description = CommandTexts.Watch_Update_Guid_Description
         };
 
         var name = new Argument<string?>
         {
-            Name = "name"
+            Name = "name",
+            Description = CommandTexts.Watch_Update_Name_Description
         };
         name.SetDefaultValue(null);
 
         var path = new Argument<string?>
         {
-            Name = "path"
+            Name = "path",
+            Description = CommandTexts.Watch_Update_Path_Description
         };
         path.SetDefaultValue(null);
 
         var filter = new Argument<string?>
         {
-            Name = "filter"
+            Name = "filter",
+            Description = CommandTexts.Watch_Update_Filter_Description
         };
         filter.SetDefaultValue(null);
         
         var @event = new Argument<WatchingEvent?>
         {
-            Name = "event"
+            Name = "event",
+            Description = CommandTexts.Watch_Update_Event_Description
         };
         @event.SetDefaultValue(null);
 

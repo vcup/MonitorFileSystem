@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.WatchCommands;
@@ -6,12 +7,12 @@ namespace MonitorFileSystem.Client.Commands.WatchCommands;
 internal class RemoveWatchCommand : Command
 {
     public RemoveWatchCommand()
-        : base("remove", "remove watcher from target grpc service")
+        : base("remove", CommandTexts.Watch_Remove_Command_Description)
     {
         var guid = new Argument<string>
         {
             Name = "guid",
-            Description = "guid of Watcher"
+            Description = CommandTexts.Watch_Remove_Guid_Description
         };
         AddArgument(guid);
         
