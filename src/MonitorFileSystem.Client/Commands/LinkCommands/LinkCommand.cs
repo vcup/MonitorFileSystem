@@ -1,22 +1,24 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.LinkCommands;
 
 internal class LinkCommand : Command
 {
-    public LinkCommand() : base("link")
+    public LinkCommand()
+        : base("link", CommandTexts.Link_CommandDescription)
     {
         var monitor = new Argument<string>
         {
             Name = "monitor",
-            Description = "Guid of watcher or group"
+            Description = CommandTexts.Link_Monitor_ArgumentDescription
         };
 
         var action = new Argument<string>
         {
             Name = "action",
-            Description = "Guid of operate or chain"
+            Description = CommandTexts.Link_Action_ArgumentDescription
         };
 
         AddArgument(monitor);

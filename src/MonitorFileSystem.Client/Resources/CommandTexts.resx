@@ -150,4 +150,13 @@
     <data name="Operate_Update_Unpack_Description_ArgumentDescription" xml:space="preserve">
         <value>update descriptive text of operate</value>
     </data>
+    <data name="Link_CommandDescription" xml:space="preserve">
+        <value>attach a operate or chain to watcher or group</value>
+    </data>
+    <data name="Link_Monitor_ArgumentDescription" xml:space="preserve">
+        <value>Guid of watcher or group</value>
+    </data>
+    <data name="Link_Action_ArgumentDescription" xml:space="preserve">
+        <value>Guid of operate or chain</value>
+    </data>
 </root>

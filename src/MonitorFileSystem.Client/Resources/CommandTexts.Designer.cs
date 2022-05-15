@@ -61,6 +61,33 @@ namespace MonitorFileSystem.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Guid of operate or chain.
+        /// </summary>
+        internal static string Link_Action_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Link_Action_ArgumentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to attach a operate or chain to watcher or group.
+        /// </summary>
+        internal static string Link_CommandDescription {
+            get {
+                return ResourceManager.GetString("Link_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Guid of watcher or group.
+        /// </summary>
+        internal static string Link_Monitor_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Link_Monitor_ArgumentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add a operate for target grpc service.
         /// </summary>
         internal static string Operate_Add_CommandDescription {
