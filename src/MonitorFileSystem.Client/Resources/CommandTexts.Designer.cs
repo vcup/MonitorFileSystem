@@ -61,6 +61,42 @@ namespace MonitorFileSystem.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to create a new move operate for target grpc service.
+        /// </summary>
+        internal static string Operate_Add_Move_CommandDescription {
+            get {
+                return ResourceManager.GetString("Operate_Add_Move_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to descriptive text of operate.
+        /// </summary>
+        internal static string Operate_Add_Move_Description_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Operate_Add_Move_Description_ArgumentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to when operate attached watcher watched events, will move to specify destination path.
+        /// </summary>
+        internal static string Operate_Add_Move_Destination_ArgumentDesciption {
+            get {
+                return ResourceManager.GetString("Operate_Add_Move_Destination_ArgumentDesciption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to manage operates for remote grpc service.
+        /// </summary>
+        internal static string Operate_CommandDescription {
+            get {
+                return ResourceManager.GetString("Operate_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create a watcher for target grpc service.
         /// </summary>
         internal static string Watch_Add_CommandDescription {

@@ -1,20 +1,23 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
 internal class AddMoveOperateCommand : Command
 {
-    public AddMoveOperateCommand() : base("move")
+    public AddMoveOperateCommand() : base("move", CommandTexts.Operate_Add_Move_CommandDescription)
     {
         var destination = new Argument<string>
         {
-            Name = "destination"
+            Name = "destination",
+            Description = CommandTexts.Operate_Add_Move_Destination_ArgumentDesciption
         };
 
         var description = new Argument<string>
         {
-            Name = "description"
+            Name = "description",
+            Description = CommandTexts.Operate_Add_Move_Description_ArgumentDescription
         };
         description.SetDefaultValue(string.Empty);
         

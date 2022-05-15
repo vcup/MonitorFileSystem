@@ -84,4 +84,16 @@
     <data name="Watch_Event_Set_CommandDescription" xml:space="preserve">
         <value>set a filesystem event for watcher</value>
     </data>
+    <data name="Operate_CommandDescription" xml:space="preserve">
+        <value>manage operates for remote grpc service</value>
+    </data>
+    <data name="Operate_Add_Move_CommandDescription" xml:space="preserve">
+        <value>create a new move operate for target grpc service</value>
+    </data>
+    <data name="Operate_Add_Move_Destination_ArgumentDesciption" xml:space="preserve">
+        <value>when operate attached watcher watched events, will move to specify destination path</value>
+    </data>
+    <data name="Operate_Add_Move_Description_ArgumentDescription" xml:space="preserve">
+        <value>descriptive text of operate</value>
+    </data>
 </root>
