@@ -286,6 +286,51 @@ namespace MonitorFileSystem.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to show relation for target grpc service.
+        /// </summary>
+        internal static string Show_CommandDescription {
+            get {
+                return ResourceManager.GetString("Show_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to optional, guid of monitor or action, if set, show specify monitor or action relations, else show all relation.
+        /// </summary>
+        internal static string Show_Guid_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Show_Guid_ArgumentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to guid of specify action.
+        /// </summary>
+        internal static string Unlink_Action_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Unlink_Action_ArgumentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to detach specify action to monitor.
+        /// </summary>
+        internal static string Unlink_CommandDescription {
+            get {
+                return ResourceManager.GetString("Unlink_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to guid of specify monitor.
+        /// </summary>
+        internal static string Unlink_Monitor_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Unlink_Monitor_ArgumentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create a watcher for target grpc service.
         /// </summary>
         internal static string Watch_Add_CommandDescription {

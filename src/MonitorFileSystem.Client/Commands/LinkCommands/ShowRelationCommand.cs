@@ -1,18 +1,20 @@
 ﻿using System.CommandLine;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.LinkCommands;
 
 internal class ShowRelationCommand : Command
 {
-    public ShowRelationCommand() : base("show")
+    public ShowRelationCommand()
+        : base("show", CommandTexts.Show_CommandDescription)
     {
         var guid = new Argument<string?>
         {
             Name = "guid",
-            Description = "guid of Monitor or Action"
+            Description = CommandTexts.Show_Guid_ArgumentDescription
         };
         guid.SetDefaultValue(null);
         

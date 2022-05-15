@@ -159,4 +159,19 @@
     <data name="Link_Action_ArgumentDescription" xml:space="preserve">
         <value>Guid of operate or chain</value>
     </data>
+    <data name="Show_CommandDescription" xml:space="preserve">
+        <value>show relation for target grpc service</value>
+    </data>
+    <data name="Show_Guid_ArgumentDescription" xml:space="preserve">
+        <value>optional, guid of monitor or action, if set, show specify monitor or action relations, else show all relation</value>
+    </data>
+    <data name="Unlink_CommandDescription" xml:space="preserve">
+        <value>detach specify action to monitor</value>
+    </data>
+    <data name="Unlink_Monitor_ArgumentDescription" xml:space="preserve">
+        <value>guid of specify monitor</value>
+    </data>
+    <data name="Unlink_Action_ArgumentDescription" xml:space="preserve">
+        <value>guid of specify action</value>
+    </data>
 </root>
