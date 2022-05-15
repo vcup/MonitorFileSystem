@@ -108,4 +108,10 @@
     <data name="Operate_Add_Unpack_Description_ArgumentDescription" xml:space="preserve">
         <value>optional description of operate</value>
     </data>
+    <data name="Operate_Remove_CommandDescription" xml:space="preserve">
+        <value>remove specify operate</value>
+    </data>
+    <data name="Operate_Remove_Guid_ArgumentDescription" xml:space="preserve">
+        <value>guid of will remove oeprate</value>
+    </data>
 </root>

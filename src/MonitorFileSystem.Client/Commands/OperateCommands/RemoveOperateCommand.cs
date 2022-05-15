@@ -1,15 +1,18 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
 internal class RemoveOperateCommand : Command
 {
-    public RemoveOperateCommand() : base("remove")
+    public RemoveOperateCommand()
+        : base("remove", CommandTexts.Operate_Remove_CommandDescription)
     {
         var guid = new Argument<string>
         {
-            Name = "guid"
+            Name = "guid",
+            Description = CommandTexts.Operate_Remove_Guid_ArgumentDescription
         };
         
         AddArgument(guid);

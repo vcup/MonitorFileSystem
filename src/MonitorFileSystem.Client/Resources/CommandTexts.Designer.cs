@@ -133,6 +133,24 @@ namespace MonitorFileSystem.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to remove specify operate.
+        /// </summary>
+        internal static string Operate_Remove_CommandDescription {
+            get {
+                return ResourceManager.GetString("Operate_Remove_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to guid of will remove oeprate.
+        /// </summary>
+        internal static string Operate_Remove_Guid_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Operate_Remove_Guid_ArgumentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create a watcher for target grpc service.
         /// </summary>
         internal static string Watch_Add_CommandDescription {
