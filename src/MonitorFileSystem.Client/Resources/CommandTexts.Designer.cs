@@ -61,18 +61,20 @@ namespace MonitorFileSystem.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to add a operate for target grpc service.
+        /// </summary>
+        internal static string Operate_Add_CommandDescription {
+            get {
+                return ResourceManager.GetString("Operate_Add_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create a new move operate for target grpc service.
         /// </summary>
         internal static string Operate_Add_Move_CommandDescription {
             get {
                 return ResourceManager.GetString("Operate_Add_Move_CommandDescription", resourceCulture);
-            }
-        }
-
-        internal static string Operate_Add_CommandDescription
-        {
-            get {
-               return ResourceManager.GetString("Operate_Add_CommandDescription", resourceCulture);
             }
         }
         
@@ -91,6 +93,33 @@ namespace MonitorFileSystem.Client.Resources {
         internal static string Operate_Add_Move_Destination_ArgumentDesciption {
             get {
                 return ResourceManager.GetString("Operate_Add_Move_Destination_ArgumentDesciption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to create a unpack operate, will unpack provoke filesystem event file.
+        /// </summary>
+        internal static string Operate_Add_Unpack_CommandDescription {
+            get {
+                return ResourceManager.GetString("Operate_Add_Unpack_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to optional description of operate.
+        /// </summary>
+        internal static string Operate_Add_Unpack_Description_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Operate_Add_Unpack_Description_ArgumentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to path of unpack destination, optional, if set will unpack content to specify path, else will unpack to file path.
+        /// </summary>
+        internal static string Operate_Add_Unpack_Destination_ArgumentDescription {
+            get {
+                return ResourceManager.GetString("Operate_Add_Unpack_Destination_ArgumentDescription", resourceCulture);
             }
         }
         

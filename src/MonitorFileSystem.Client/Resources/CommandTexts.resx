@@ -99,4 +99,13 @@
     <data name="Operate_Add_Move_Description_ArgumentDescription" xml:space="preserve">
         <value>descriptive text of operate</value>
     </data>
+    <data name="Operate_Add_Unpack_CommandDescription" xml:space="preserve">
+        <value>create a unpack operate, will unpack provoke filesystem event file</value>
+    </data>
+    <data name="Operate_Add_Unpack_Destination_ArgumentDescription" xml:space="preserve">
+        <value>path of unpack destination, optional, if set will unpack content to specify path, else will unpack to file path</value>
+    </data>
+    <data name="Operate_Add_Unpack_Description_ArgumentDescription" xml:space="preserve">
+        <value>optional description of operate</value>
+    </data>
 </root>

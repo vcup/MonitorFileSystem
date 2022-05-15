@@ -1,21 +1,24 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
 internal class AddUnpackOperateCommand : Command
 {
-    public AddUnpackOperateCommand() : base("unpack")
+    public AddUnpackOperateCommand() : base("unpack", CommandTexts.Operate_Add_Unpack_CommandDescription)
     {
         var destination = new Argument<string>
         {
-            Name = "destination"
+            Name = "destination",
+            Description = CommandTexts.Operate_Add_Unpack_Destination_ArgumentDescription
         };
         destination.SetDefaultValue(string.Empty);
 
         var description = new Argument<string>
         {
-            Name = "description"
+            Name = "description",
+            Description = CommandTexts.Operate_Add_Unpack_Description_ArgumentDescription
         };
         description.SetDefaultValue(string.Empty);
 
