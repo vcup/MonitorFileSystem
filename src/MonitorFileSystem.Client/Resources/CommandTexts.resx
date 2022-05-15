@@ -117,4 +117,37 @@
     <data name="Operate_Show_CommandDescription" xml:space="preserve">
         <value>show all operate</value>
     </data>
+    <data name="Operate_Update_CommandDescription" xml:space="preserve">
+        <value>update any specify operate description</value>
+    </data>
+    <data name="Operate_Update_Guid_ArgumentDescription" xml:space="preserve">
+        <value>guid of will update operate</value>
+    </data>
+    <data name="Operate_Update_Description_ArgumentDescription" xml:space="preserve">
+        <value>update descriptive text of operate</value>
+    </data>
+    <data name="Operate_Update_Move_CommandDescription" xml:space="preserve">
+        <value>update a move operate</value>
+    </data>
+    <data name="Operate_Update_Move_Guid_ArgumentDescription" xml:space="preserve">
+        <value>specify updating move operate</value>
+    </data>
+    <data name="Operate_Update_Move_Destination_ArgumentDescription" xml:space="preserve">
+        <value>update destination of operate</value>
+    </data>
+    <data name="Operate_Update_Move_Description_ArgumentDescription" xml:space="preserve">
+        <value>update descriptive text of operate</value>
+    </data>
+    <data name="Operate_Update_Unpack_CommandDescription" xml:space="preserve">
+        <value>update a unpack operate</value>
+    </data>
+    <data name="Operate_Update_Unpack_Guid_ArgumentDescription" xml:space="preserve">
+        <value>specify updating unpack operate</value>
+    </data>
+    <data name="Operate_Update_Unpack_Destination_ArgumentDescription" xml:space="preserve">
+        <value>update destination of operate</value>
+    </data>
+    <data name="Operate_Update_Unpack_Description_ArgumentDescription" xml:space="preserve">
+        <value>update descriptive text of operate</value>
+    </data>
 </root>

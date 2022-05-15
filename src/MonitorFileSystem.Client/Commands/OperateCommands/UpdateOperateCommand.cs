@@ -1,20 +1,24 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
 internal class UpdateOperateCommand : Command
 {
-    public UpdateOperateCommand() : base("update")
+    public UpdateOperateCommand()
+        : base("update", CommandTexts.Operate_Update_CommandDescription)
     {
         var guid = new Argument<string>
         {
-            Name = "guid"
+            Name = "guid",
+            Description = CommandTexts.Operate_Update_Guid_ArgumentDescription
         };
 
         var description = new Argument<string?>
         {
-            Name = "description"
+            Name = "description",
+            Description = CommandTexts.Operate_Update_Description_ArgumentDescription
         };
         description.SetDefaultValue(null);
         

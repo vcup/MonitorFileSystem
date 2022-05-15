@@ -1,26 +1,31 @@
 ﻿using System.CommandLine;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
 internal class UpdateUnpackOperateCommand : Command
 {
-    public UpdateUnpackOperateCommand() : base("unpack")
+    public UpdateUnpackOperateCommand()
+        : base("unpack", CommandTexts.Operate_Update_Unpack_CommandDescription)
     {
         var guid = new Argument<string>
         {
-            Name = "guid"
+            Name = "guid",
+            Description = CommandTexts.Operate_Update_Unpack_Destination_ArgumentDescription
         };
 
         var destination = new Argument<string?>
         {
-            Name = "destination"
+            Name = "destination",
+            Description = CommandTexts.Operate_Update_Unpack_Destination_ArgumentDescription
         };
         destination.SetDefaultValue(null);
 
         var description = new Argument<string?>
         {
-            Name = "description"
+            Name = "description",
+            Description = CommandTexts.Operate_Update_Unpack_Description_ArgumentDescription
         };
         description.SetDefaultValue(null);
         
