@@ -8,39 +8,39 @@ namespace MonitorFileSystem.Client.Commands.WatchCommands;
 internal class UpdateWatchCommand : Command
 {
     public UpdateWatchCommand()
-        : base("update", CommandTexts.Watch_Update_Command_Description)
+        : base("update", CommandTexts.Watch_Update_CommandDescription)
     {
         var guid = new Argument<string>
         {
             Name = "guid",
-            Description = CommandTexts.Watch_Update_Guid_Description
+            Description = CommandTexts.Watch_Update_Guid_ArgumentDescription
         };
 
         var name = new Argument<string?>
         {
             Name = "name",
-            Description = CommandTexts.Watch_Update_Name_Description
+            Description = CommandTexts.Watch_Update_Name_ArgumentDescription
         };
         name.SetDefaultValue(null);
 
         var path = new Argument<string?>
         {
             Name = "path",
-            Description = CommandTexts.Watch_Update_Path_Description
+            Description = CommandTexts.Watch_Update_Path_ArgumentDescription
         };
         path.SetDefaultValue(null);
 
         var filter = new Argument<string?>
         {
             Name = "filter",
-            Description = CommandTexts.Watch_Update_Filter_Description
+            Description = CommandTexts.Watch_Update_Filter_ArgumentDescription
         };
         filter.SetDefaultValue(null);
         
         var @event = new Argument<WatchingEvent?>
         {
             Name = "event",
-            Description = CommandTexts.Watch_Update_Event_Description
+            Description = CommandTexts.Watch_Update_Event_ArgumentDescription
         };
         @event.SetDefaultValue(null);
 

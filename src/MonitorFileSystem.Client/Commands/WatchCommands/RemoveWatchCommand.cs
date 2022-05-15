@@ -7,12 +7,12 @@ namespace MonitorFileSystem.Client.Commands.WatchCommands;
 internal class RemoveWatchCommand : Command
 {
     public RemoveWatchCommand()
-        : base("remove", CommandTexts.Watch_Remove_Command_Description)
+        : base("remove", CommandTexts.Watch_Remove_CommandDescription)
     {
         var guid = new Argument<string>
         {
             Name = "guid",
-            Description = CommandTexts.Watch_Remove_Guid_Description
+            Description = CommandTexts.Watch_Remove_Guid_ArgumentDescription
         };
         AddArgument(guid);
         

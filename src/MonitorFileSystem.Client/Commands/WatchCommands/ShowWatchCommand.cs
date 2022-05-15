@@ -8,7 +8,7 @@ namespace MonitorFileSystem.Client.Commands.WatchCommands;
 internal class ShowWatchCommand : Command
 {
     public ShowWatchCommand()
-        : base("show", CommandTexts.Watch_Show_Command_Description)
+        : base("show", CommandTexts.Watch_Show_CommandDescription)
     {
         this.SetHandler(ShowWatchers);
     }
