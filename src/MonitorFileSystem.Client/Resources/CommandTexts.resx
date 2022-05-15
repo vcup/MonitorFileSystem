@@ -87,6 +87,9 @@
     <data name="Operate_CommandDescription" xml:space="preserve">
         <value>manage operates for remote grpc service</value>
     </data>
+    <data name="Operate_Add_CommandDescription" xml:space="preserve">
+        <value>add a operate for target grpc service</value>
+    </data>
     <data name="Operate_Add_Move_CommandDescription" xml:space="preserve">
         <value>create a new move operate for target grpc service</value>
     </data>

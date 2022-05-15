@@ -68,6 +68,13 @@ namespace MonitorFileSystem.Client.Resources {
                 return ResourceManager.GetString("Operate_Add_Move_CommandDescription", resourceCulture);
             }
         }
+
+        internal static string Operate_Add_CommandDescription
+        {
+            get {
+               return ResourceManager.GetString("Operate_Add_CommandDescription", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to descriptive text of operate.
