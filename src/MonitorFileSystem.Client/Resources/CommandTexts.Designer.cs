@@ -61,6 +61,15 @@ namespace MonitorFileSystem.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to address of target grpc service.
+        /// </summary>
+        internal static string GrpcAddress_OptionDescription {
+            get {
+                return ResourceManager.GetString("GrpcAddress_OptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Guid of operate or chain.
         /// </summary>
         internal static string Link_Action_ArgumentDescription {

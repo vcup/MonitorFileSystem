@@ -174,4 +174,7 @@
     <data name="Unlink_Action_ArgumentDescription" xml:space="preserve">
         <value>guid of specify action</value>
     </data>
+    <data name="GrpcAddress_OptionDescription" xml:space="preserve">
+        <value>address of target grpc service</value>
+    </data>
 </root>
