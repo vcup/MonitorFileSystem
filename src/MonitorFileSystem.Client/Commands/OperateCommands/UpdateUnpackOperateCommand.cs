@@ -12,7 +12,7 @@ internal class UpdateUnpackOperateCommand : Command
         var guid = new Argument<string>
         {
             Name = "guid",
-            Description = CommandTexts.Operate_Update_Unpack_Destination_ArgumentDescription
+            Description = CommandTexts.Operate_Update_Unpack_Guid_ArgumentDescription
         };
 
         var destination = new Argument<string?>
