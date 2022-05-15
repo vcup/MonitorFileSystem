@@ -1,18 +1,20 @@
 ﻿using System.CommandLine;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using MonitorFileSystem.Client.Resources;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;
 
 internal class ShowOperateCommand : Command
 {
-    public ShowOperateCommand() : base("show")
+    public ShowOperateCommand()
+        : base("show", CommandTexts.Operate_Show_CommandDescription)
     {
         this.SetHandler(ShowOperate);
     }
 
-    internal static async Task ShowOperate()
+    public static async Task ShowOperate()
     {
         var request = new Empty();
 

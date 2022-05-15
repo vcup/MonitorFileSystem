@@ -151,6 +151,15 @@ namespace MonitorFileSystem.Client.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to show all operate.
+        /// </summary>
+        internal static string Operate_Show_CommandDescription {
+            get {
+                return ResourceManager.GetString("Operate_Show_CommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to create a watcher for target grpc service.
         /// </summary>
         internal static string Watch_Add_CommandDescription {

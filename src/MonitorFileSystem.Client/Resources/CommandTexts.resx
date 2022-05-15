@@ -114,4 +114,7 @@
     <data name="Operate_Remove_Guid_ArgumentDescription" xml:space="preserve">
         <value>guid of will remove oeprate</value>
     </data>
+    <data name="Operate_Show_CommandDescription" xml:space="preserve">
+        <value>show all operate</value>
+    </data>
 </root>
