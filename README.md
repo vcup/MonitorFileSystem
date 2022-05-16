@@ -4,12 +4,12 @@
 
 ## State
 
-该项目目前正在积极开发中，尚处于不可用状态。
+该项目目前正在积极开发中，已经可以用来完成一些简单任务了。
 
 ## Feature
 
 + 提供 grpc 服务用于管理
-+ 支持监听的文件系统事件(但服务从未工作过，所以具体列表有待调整，这里只是列出微软文档表示支持的事件):
++ 支持监听的文件系统事件(具体列表有待调整，这里仅列出微软文档表示支持的事件):
   + Created
   + Removed
   + Renamed
@@ -17,7 +17,7 @@
   + DirectoryName
   + Size
   + Attribute 
-  + LastWrited
+  + LastWrite
   + LastAccess
   + CreationTime
   + Security
