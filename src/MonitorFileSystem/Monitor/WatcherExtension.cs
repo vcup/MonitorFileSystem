@@ -22,7 +22,7 @@ public static class WatcherExtension
         var info = new WatchingEventInfo()
         {
             Watcher = watcher,
-            Path = e.Name ?? e.FullPath,
+            Path = e.FullPath,
             WatchedEvent = watchedEvent,
         };
 

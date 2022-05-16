@@ -35,14 +35,19 @@ public class MoveOperate : OperateBase, IMoveOperate
     public override void Process(WatchingEventInfo info)
     {
         base.Process(info);
+        
+        // if running on windows, info.Path used separator may is '/'
+        info.Path = info.Path.Replace('/', FileSystem.Path.DirectorySeparatorChar);
+        var splitDest = info.Path.Split(FileSystem.Path.DirectorySeparatorChar);
+
         var dest = FileSystem.Directory.Exists(Destination)
-            ? FileSystem.Path.Join(Destination, info.Path)
+            ? FileSystem.Path.Join(Destination, splitDest[^1].Length == 0 ? splitDest[^2] : splitDest[^1])
             : Destination;
-             
+
         if (FileSystem.File.Exists(info.Path))
         {
            
-            FileSystem.File.Move(info.Path, Destination, true);
+            FileSystem.File.Move(info.Path, dest, true);
             // if destIsFile is null, dest path also is a File. because a file is Moved to dest path
             
             Logger.LogTrace("MoveOperate Process on File branch, {Path} -> {Dest}", info.Path, dest);

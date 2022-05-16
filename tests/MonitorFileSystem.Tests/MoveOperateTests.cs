@@ -88,6 +88,35 @@ public class MoveOperateTests : OperateBaseTests
         Assert.AreEqual("/directory_2/directory_1", info.Path);
     }
 
+    [TestCase("/d1", "/d2", "/d2/d1")]
+    [TestCase("/d1", "/f/d2", "/f/d2/d1")]
+    [TestCase("/f1/d1", "/f2/d2", "/f2/d2/d1")]
+    [TestCase("/f/d1", "/f/d2", "/f/d2/d1")]
+    [TestCase("/d1/", "/d2", "/d2/d1")]
+    [TestCase("/f1/d1/", "/f2/d2", "/f2/d2/d1")]
+    [TestCase("/f/d1/", "/f/d2", "/f/d2/d1")]
+    public void ProcessDirectoryBranch_ComplexStruct_Intuitive(string path1, string path2, string result)
+    {
+        var scope = Provider.CreateScope();
+        
+        var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
+        Assert.IsNotNull(filesystem);
+        filesystem!.AddDirectory(path1);
+        filesystem .AddDirectory(path2);
+
+        var operate = scope.ServiceProvider.GetRequiredService<IMoveOperate>();
+        Assert.IsNotNull(operate);
+        operate!.Initialization(path2);
+        var info = new WatchingEventInfo
+        {
+            Path = path1
+        };
+        
+        operate.Process(info);
+        
+        Assert.AreEqual(result, info.Path.Replace('\\', '/'));
+    }
+
     [Test]
     public void Initialization_NonParameterInitialization_MustThrowNotImplementedException()
     {
