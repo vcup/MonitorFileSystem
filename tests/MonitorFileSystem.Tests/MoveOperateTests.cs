@@ -85,7 +85,7 @@ public class MoveOperateTests : OperateBaseTests
         
         operate.Process(info);
         
-        Assert.AreEqual("/directory_2/directory_1", info.Path);
+        Assert.AreEqual("/directory_2/directory_1", info.Path.Replace('\\', '/'));
     }
 
     [TestCase("/d1", "/d2", "/d2/d1")]

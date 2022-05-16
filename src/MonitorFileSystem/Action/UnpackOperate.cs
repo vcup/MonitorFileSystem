@@ -14,6 +14,8 @@ public class UnpackOperate : OperateBase, IUnpackOperate
 
     public override void Process(WatchingEventInfo info)
     {
+        base.Process(info);
+        
         if (FileSystem.Directory.Exists(info.Path))
         {
             return;
