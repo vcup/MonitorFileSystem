@@ -14,8 +14,6 @@ public class UnpackOperate : OperateBase, IUnpackOperate
 
     public override void Process(WatchingEventInfo info)
     {
-        base.Process(info);
-        
         if (FileSystem.Directory.Exists(info.Path))
         {
             return;
@@ -27,16 +25,13 @@ public class UnpackOperate : OperateBase, IUnpackOperate
         
         if (zipArchive.Entries.Count > 1)
         {
-            dest = FileSystem.Path.Combine(dest, FileSystem.Path.GetFileNameWithoutExtension(info.Path));
+            dest = FileSystem.Path.Join(dest, FileSystem.Path.GetFileNameWithoutExtension(info.Path));
         }
-        
-        foreach (var entry in zipArchive.Entries)
+
+        Task.WhenAll(zipArchive.Entries.Select(ExtractEntry));
+
+        async Task ExtractEntry(ZipArchiveEntry entry)
         {
-            ExtractEntry(entry);
-        }
-        
-        async void ExtractEntry(ZipArchiveEntry entry)
-        { 
             var path = FileSystem.Path.Combine(dest, entry.FullName); 
             var directory = FileSystem.Path.GetDirectoryName(path);
             if (!FileSystem.Directory.Exists(directory))
