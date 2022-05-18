@@ -27,3 +27,7 @@
   + ~~删除~~
   + ~~作为参数调用外部脚本~~
 + 命令行管理工具
+
+## Install
+
+现在已经在 Archlinux 中可用，使用 `yay -S monitorfs` 从 aur 安装
