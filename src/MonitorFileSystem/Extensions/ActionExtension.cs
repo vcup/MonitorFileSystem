@@ -17,21 +17,9 @@ public static class ActionExtension
             .AddScoped<IUnpackOperate, UnpackOperate>();
     }
 
-    public static IServiceCollection AddOperates(this IServiceCollection services)
-    {
-        return services.AddMoveOperate()
-            .AddUnpackOperate()
-            ;
-    }
-
     public static IServiceCollection AddChain(this IServiceCollection services)
     {
         return services.AddScoped<IFileSystem, FileSystem>()
             .AddScoped<IChain, Chain>();
-    }
-
-    public static IServiceCollection AddActions(this IServiceCollection services)
-    {
-        return services.AddChain().AddOperates();
     }
 }
