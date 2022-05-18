@@ -1,5 +1,6 @@
 [Unit]
-Description=Monitor FileSystem, Do Something on Some FileAction. see https://github.com/vcup/MonitorFileSystem
+Description=Monitor FileSystem, Do Something on Some FileAction.
+Documentation=https://github.com/vcup/MonitorFileSystem
 
 [Service]
 WorkingDirectory=/opt/monitorfs

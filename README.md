@@ -28,6 +28,14 @@
   + ~~作为参数调用外部脚本~~
 + 命令行管理工具
 
-## Install
+## Setup for Archlinux
 
-现在已经在 Archlinux 中可用，使用 `yay -S monitorfs` 从 aur 安装
+现在已经在 Archlinux 中可用，使用 `yay -S monitorfs` 从 aur 安装  
+自带 `systemd` 服务，可以通过输入 `sudo systemctl enable --now MonitorFileSystem@root.service` 来立即启动并在重新启动后也自动启动的后台服务  
+更改 `@` 后方的字符来指定其他用户  
+
+## File System Events
+
+### Created
+
+单独启用该事件将不会执行动作，需要配合 `FileName` 或 `DirectoryName` 使用
