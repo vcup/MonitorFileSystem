@@ -7,6 +7,16 @@
     <UserSecretsId>dotnet-MonitorFileSystem-F0F785A3-D6DD-4672-B079-31F01CBC99BC</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">
+    <DefineConstants>Windows</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">
+    <DefineConstants>Linux</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">
+    <DefineConstants>MAC</DefineConstants>
+  </PropertyGroup>
+  
   <ItemGroup>
     <Protobuf Include="Grpc/ProtocolBuffers/*.proto" GrpcServices="Server" />
     

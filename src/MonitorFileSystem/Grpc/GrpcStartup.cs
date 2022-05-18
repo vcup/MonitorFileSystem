@@ -9,18 +9,18 @@ namespace MonitorFileSystem.Grpc;
 
 public class GrpcStartup
 {
-    public void ConfigureServices(IServiceCollection services)
+    public static void ConfigureServices(IServiceCollection services)
     {
         services
-            .AddSingleton<IMonitorManager, MonitorManager>()
-            .AddSingleton<IActionManager, ActionManager>()
             .AddMoveOperate()
             .AddUnpackOperate()
             .AddChain()
+            .AddSingleton<IMonitorManager, MonitorManager>()
+            .AddSingleton<IActionManager, ActionManager>()
             .AddGrpc();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
