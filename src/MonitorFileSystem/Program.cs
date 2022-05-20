@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Hosting;
 using MonitorFileSystem.Grpc;
 
-var w = Host.CreateDefaultBuilder();
-
 var builder = new HostBuilder()
     .UseContentRoot(Directory.GetCurrentDirectory())
     .ConfigureHostConfiguration(config =>
     {
-        config.AddEnvironmentVariables("MFS_");
+        config.AddEnvironmentVariables("MFS_"); // MFS -> MonitorFileSystem
     })
     .ConfigureAppConfiguration((context, config) =>
     {
@@ -15,8 +13,7 @@ var builder = new HostBuilder()
         var configNameWithEnv = "settings." + context.HostingEnvironment.EnvironmentName + ".json";
         var userConfig = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             ".config", "monitorfs");
-
-        config.AddEnvironmentVariables("MFS_") // MFS -> MonitorFileSystem
+        config
 #if Windows
             .AddJsonFile(configName, true, true)
             .AddJsonFile(configNameWithEnv, true, true)
