@@ -1,0 +1,3 @@
+[submodule "references/Microsoft.Extensions.Configuration.Yaml"]
+	path = references/Microsoft.Extensions.Configuration.Yaml
+	url = https://github.com/vcup/Microsoft.Extensions.Configuration.Yaml

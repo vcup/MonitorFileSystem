@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonitorFileSystem.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorFileSystem.Client", "src\MonitorFileSystem.Client\MonitorFileSystem.Client.csproj", "{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Extensions.Configuration.Yaml", "references\Microsoft.Extensions.Configuration.Yaml\src\Microsoft.Extensions.Configuration.Yaml\Microsoft.Extensions.Configuration.Yaml.csproj", "{CFDDFA6A-BA81-496A-8BFC-566B8D11F4B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCB1DE1F-13DA-40F3-91C1-B88E1FD714E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFDDFA6A-BA81-496A-8BFC-566B8D11F4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFDDFA6A-BA81-496A-8BFC-566B8D11F4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFDDFA6A-BA81-496A-8BFC-566B8D11F4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFDDFA6A-BA81-496A-8BFC-566B8D11F4B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

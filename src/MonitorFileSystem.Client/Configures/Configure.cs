@@ -1,34 +1,23 @@
-﻿using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace MonitorFileSystem.Client.Configures;
 
 internal static class Configure
 {
-    private const string ConfigFilePath = "./config.yaml";
     private static readonly Settings Settings;
     
     static Configure()
     {
-        try
+        IConfiguration config = new ConfigurationBuilder()
+            .AddYamlFile("./config.yaml", true)
+            .Build();
+        Settings = new Settings
         {
-            using var configFile = File.OpenText(ConfigFilePath);
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
-            
-            Settings = deserializer.Deserialize<Settings>(configFile);
-        }
-        catch (FileNotFoundException)
-        {
-            Settings = new Settings();
-            using var configFile = File.CreateText(ConfigFilePath);
-            var serializer = new SerializerBuilder()
-                .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                .Build();
-
-            serializer.Serialize(configFile, Settings);
-        }
+            GrpcSettings = new GrpcSettings
+            {
+                AddressString = config["grpc:address"] ?? "https://localhost:5001"
+            }
+        };
     }
 
     public static GrpcSettings GrpcSettings => Settings.GrpcSettings;

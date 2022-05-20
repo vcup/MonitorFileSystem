@@ -16,6 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <ProjectReference Include="..\..\references\Microsoft.Extensions.Configuration.Yaml\src\Microsoft.Extensions.Configuration.Yaml\Microsoft.Extensions.Configuration.Yaml.csproj" />
   </ItemGroup>
 
   <ItemGroup>
