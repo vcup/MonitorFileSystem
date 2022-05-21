@@ -3,7 +3,7 @@
     "MonitorFileSystem": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "commandLineArgs": "--conf ./MonitorFileSystem.Client.csproj",
+      "commandLineArgs": "--conf ./settings.Development.yaml",
       "environmentVariables": {
         "MFS_ENVIRONMENT": "Development"
       }

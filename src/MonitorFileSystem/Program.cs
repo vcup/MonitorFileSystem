@@ -42,7 +42,8 @@ commandBuilder.AddMiddleware(content  =>
     {
         builder.ConfigureAppConfiguration((_, config) =>
         {
-            config.AddJsonFile(content.ParseResult.GetValueForOption(configPath));
+            var path = content.ParseResult.GetValueForOption(configPath);
+            if (path is not null) config.AddYamlFile(path, false, true);
         });
     }
     else
@@ -59,21 +60,21 @@ void UseDefaultConfigures(HostBuilderContext context,IConfigurationBuilder confi
 #if Linux
     const string linuxConfigsPath = "/etc/monitorfs";
 #endif
-    const string configName = "settings.json";
-    var configNameWithEnv = "settings." + context.HostingEnvironment.EnvironmentName + ".json";
+    const string configName = "settings.yaml";
+    var configNameWithEnv = "settings." + context.HostingEnvironment.EnvironmentName + ".yaml";
     var userConfig = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
         ".config", "monitorfs");
     config
 #if Windows
-        .AddJsonFile(configName, true, true)
-        .AddJsonFile(configNameWithEnv, true, true)
+        .AddYamlFile(configName, true, true)
+        .AddYamlFile(configNameWithEnv, true, true)
 #elif Linux
-        .AddJsonFile(configName, true, true)
-        .AddJsonFile(configNameWithEnv, true, true)
-        .AddJsonFile(Path.Join(linuxConfigsPath, configName), true, true)
-        .AddJsonFile(Path.Join(linuxConfigsPath, configNameWithEnv), true, true)
+        .AddYamlFile(configName, true, true)
+        .AddYamlFile(configNameWithEnv, true, true)
+        .AddYamlFile(Path.Join(linuxConfigsPath, configName), true, true)
+        .AddYamlFile(Path.Join(linuxConfigsPath, configNameWithEnv), true, true)
 #endif
-        .AddJsonFile(userConfig + configName, true, true)
-        .AddJsonFile(userConfig + configNameWithEnv, true, true)
+        .AddYamlFile(userConfig + configName, true, true)
+        .AddYamlFile(userConfig + configNameWithEnv, true, true)
         ;
 }

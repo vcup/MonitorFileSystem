@@ -25,4 +25,8 @@
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
     <PackageReference Include="System.IO.Abstractions" Version="17.0.3" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\references\Microsoft.Extensions.Configuration.Yaml\src\Microsoft.Extensions.Configuration.Yaml\Microsoft.Extensions.Configuration.Yaml.csproj" />
+  </ItemGroup>
 </Project>

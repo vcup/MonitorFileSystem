@@ -1,0 +1,5 @@
+Kestrel:
+  Endpoints:
+    Http:
+      Url: http://localhost:5000
+      Protocols: Http2
