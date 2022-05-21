@@ -56,7 +56,9 @@ await parser.InvokeAsync(args);
 
 void UseDefaultConfigures(HostBuilderContext context,IConfigurationBuilder config)
 {
+#if Linux
     const string linuxConfigsPath = "/etc/monitorfs";
+#endif
     const string configName = "settings.json";
     var configNameWithEnv = "settings." + context.HostingEnvironment.EnvironmentName + ".json";
     var userConfig = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
