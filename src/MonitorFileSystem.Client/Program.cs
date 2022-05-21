@@ -47,12 +47,12 @@ IConfiguration DefaultConfiguration()
         ".config", "monitorfsc");
             
     return new ConfigurationBuilder()
-#if Windows
         .AddYamlFile(configName, true, true)
-#elif Linux
-        .AddYamlFile(configName, true, true)
-        .AddYamlFile(Path.Join(linuxConfigsPath, configName), true, true)
-#endif
         .AddYamlFile(userConfig + configName, true, true)
+#if Windows
+#elif Linux
+        .AddYamlFile(Path.Join(linuxConfigsPath, configName), true, true)
+#elif MAC
+#endif
         .Build();
 }

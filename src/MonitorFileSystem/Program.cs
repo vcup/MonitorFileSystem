@@ -65,16 +65,15 @@ void UseDefaultConfigures(HostBuilderContext context,IConfigurationBuilder confi
     var userConfig = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
         ".config", "monitorfs");
     config
-#if Windows
         .AddYamlFile(configName, true, true)
         .AddYamlFile(configNameWithEnv, true, true)
-#elif Linux
-        .AddYamlFile(configName, true, true)
-        .AddYamlFile(configNameWithEnv, true, true)
-        .AddYamlFile(Path.Join(linuxConfigsPath, configName), true, true)
-        .AddYamlFile(Path.Join(linuxConfigsPath, configNameWithEnv), true, true)
-#endif
         .AddYamlFile(userConfig + configName, true, true)
         .AddYamlFile(userConfig + configNameWithEnv, true, true)
+#if Windows
+#elif Linux
+        .AddYamlFile(Path.Join(linuxConfigsPath, configName), true, true)
+        .AddYamlFile(Path.Join(linuxConfigsPath, configNameWithEnv), true, true)
+#elif MAC
+#endif
         ;
 }
