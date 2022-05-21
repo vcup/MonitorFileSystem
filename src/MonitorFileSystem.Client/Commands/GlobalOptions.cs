@@ -4,11 +4,11 @@ using MonitorFileSystem.Client.Resources;
 
 namespace MonitorFileSystem.Client.Commands;
 
-internal class GlobalOptions
+internal static class GlobalOptions
 {
-    public GlobalOptions()
+    static GlobalOptions()
     {
-        GrpcAddress = new Option<string>(
+        GrpcAddress = new(
             "--address",
             () => Configure.GrpcSettings.AddressString,
             CommandTexts.GrpcAddress_OptionDescription);
@@ -21,7 +21,13 @@ internal class GlobalOptions
                 Configure.GrpcSettings.AddressString = address;
             }
         });
+
+        ConfigPath = new(new []{"--config-path", "--conf", "-c"})
+        {
+            Arity = ArgumentArity.ZeroOrOne
+        };
     }
 
-    public Option<string> GrpcAddress { get; }
+    public static Option<string> GrpcAddress { get; }
+    public static Option<string> ConfigPath { get; }
 }

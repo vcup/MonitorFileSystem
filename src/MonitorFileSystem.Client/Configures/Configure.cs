@@ -4,14 +4,15 @@ namespace MonitorFileSystem.Client.Configures;
 
 internal static class Configure
 {
-    private static readonly Settings Settings;
+    private static Settings _settings = null!;
     
     static Configure()
     {
-        IConfiguration config = new ConfigurationBuilder()
-            .AddYamlFile("./config.yaml", true)
-            .Build();
-        Settings = new Settings
+    }
+
+    public static void SetupSettings(IConfiguration config)
+    {
+        _settings = new Settings
         {
             GrpcSettings = new GrpcSettings
             {
@@ -20,5 +21,5 @@ internal static class Configure
         };
     }
 
-    public static GrpcSettings GrpcSettings => Settings.GrpcSettings;
+    public static GrpcSettings GrpcSettings => _settings.GrpcSettings;
 }
