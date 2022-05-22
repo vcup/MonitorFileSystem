@@ -13,13 +13,14 @@ rootCommand.AddGlobalOptions()
     .AddLinkCommands()
     ;
 
-var builder = new CommandLineBuilder(rootCommand);
+var builder = new CommandLineBuilder(rootCommand)
+    .UseDefaults();
 
-builder.AddMiddleware(content =>
+builder.AddMiddleware(context =>
 {
-    if (content.ParseResult.HasOption(GlobalOptions.ConfigPath))
+    if (context.ParseResult.HasOption(GlobalOptions.ConfigPath))
     {
-        var path = content.ParseResult.GetValueForOption(GlobalOptions.ConfigPath);
+        var path = context.ParseResult.GetValueForOption(GlobalOptions.ConfigPath);
         if (path is null) return;
        
         var config = new ConfigurationBuilder()
@@ -34,6 +35,15 @@ builder.AddMiddleware(content =>
     }
 });
 
+builder.AddMiddleware(context =>
+{
+    if (context.ParseResult.HasOption(GlobalOptions.GrpcAddress))
+    {
+        var address = context.ParseResult.GetValueForOption(GlobalOptions.GrpcAddress);
+        Configure.GrpcSettings.AddressString = address!;
+    }
+});
+
 var parser = builder.Build();
 return await parser.InvokeAsync(args);
 
@@ -45,7 +55,7 @@ IConfiguration DefaultConfiguration()
     const string configName = "config.yaml";
     var userConfig = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
         ".config", "monitorfsc");
-            
+
     return new ConfigurationBuilder()
         .AddYamlFile(configName, true, true)
         .AddYamlFile(userConfig + configName, true, true)

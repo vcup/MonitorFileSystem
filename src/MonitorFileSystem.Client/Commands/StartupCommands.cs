@@ -48,11 +48,11 @@ public static class StartupCommands
     {
         foreach (var property in typeof(GlobalOptions).GetProperties())
         {
-            //var value = property.GetValue(globalOptions);
-            //if (value is Option option)
-            //{
-            //    command.Add(option);
-            //}
+            var value = property.GetValue(typeof(GlobalOptions));
+            if (value is Option option)
+            {
+                command.Add(option);
+            }
         }
 
         return command;
