@@ -21,18 +21,37 @@ public class UnpackOperate : OperateBase, IUnpackOperate
             return;
         }
         string dest = Destination ?? FileSystem.Path.GetDirectoryName(info.Path);
+        var tempFileMapping = new Dictionary<string, string>();
 
-        using var stream = FileSystem.File.Open(info.Path, FileMode.Open, FileAccess.Read);
-        using var zipArchive = new ZipArchive(stream, ZipArchiveMode.Read);
-        
-        if (zipArchive.Entries.Count > 1)
+        using (var stream = FileSystem.File.Open(info.Path, FileMode.Open, FileAccess.Read))
+        using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Read))
         {
-            dest = FileSystem.Path.Join(dest, FileSystem.Path.GetFileNameWithoutExtension(info.Path));
+            if (zipArchive.Entries.Count > 1)
+            {
+                var entryRoots = zipArchive.Entries
+                    .Select(entry => entry.FullName
+                        .Replace('\\', '/')
+                        .Split('/')
+                        .First(node => !string.Equals(node, ".")))
+                    .ToHashSet();
+                if (entryRoots.Count > 1)
+                {
+                    dest = FileSystem.Path.Join(dest, FileSystem.Path.GetFileNameWithoutExtension(info.Path));
+                }
+            }
+
+            foreach (var entry in zipArchive.Entries)
+            {
+                ExtractEntry(entry);
+            }
         }
 
-        Task.WhenAll(zipArchive.Entries.Select(ExtractEntry));
+        foreach (var (source, destination) in tempFileMapping)
+        {
+            FileSystem.File.Move(source, destination, true);
+        }
 
-        async Task ExtractEntry(ZipArchiveEntry entry)
+        void ExtractEntry(ZipArchiveEntry entry)
         {
             var path = FileSystem.Path.Combine(dest, entry.FullName); 
             var directory = FileSystem.Path.GetDirectoryName(path);
@@ -46,10 +65,11 @@ public class UnpackOperate : OperateBase, IUnpackOperate
                 return;
             }
 
-            await using var entryStream = entry.Open();
-            await using var file = FileSystem.FileStream.Create(path, FileMode.CreateNew, FileAccess.Write);
-            
-            await entryStream.CopyToAsync(file);
+            string tempPath = FileSystem.Path.GetTempFileName();
+            using var file = FileSystem.FileStream.Create(tempPath, FileMode.Open, FileAccess.Write);
+            using var entryStream = entry.Open();
+            entryStream.CopyTo(file);
+            tempFileMapping.Add(tempPath, path);
         }
     }
 }

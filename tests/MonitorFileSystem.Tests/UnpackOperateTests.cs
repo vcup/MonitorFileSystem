@@ -31,12 +31,12 @@ public class UnpackOperateTests : OperateBaseTests
     public void Setup()
     {
     }
-    
+
     [Test]
     public void Process_PathDetect_NotThrowWhenPathIsDirectory()
     {
         var scope = Provider.CreateScope();
-    
+
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         filesystem!.AddDirectory("/directory_1");
@@ -46,9 +46,9 @@ public class UnpackOperateTests : OperateBaseTests
         {
             Path = "/directory_1"
         };
-    
+
         operate.Process(info);
-        
+
         Assert.Pass();
     }
 
@@ -65,26 +65,24 @@ public class UnpackOperateTests : OperateBaseTests
             zipArchive.CreateEntry("./file");
         }
 
-
         var file = new WatchingEventInfo
         {
             Path = "./pack.zip"
         };
 
-        var operate = scope.ServiceProvider.GetService<IUnpackOperate>();
-        Assert.IsNotNull(operate);
-        operate!.Initialization();
+        var operate = scope.ServiceProvider.GetRequiredService<IUnpackOperate>();
+        operate.Initialization();
 
         operate.Process(file);
 
         Assert.IsTrue(filesystem.File.Exists("file"));
     }
-    
+
     [Test]
     public void Process_UnpackZipArchiveWithMultiFile_UnpackToCurrentPathWithADirectory()
     {
         var scope = Provider.CreateScope();
-    
+
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         using (var stream = filesystem!.FileStream.Create("./pack.zip", FileMode.Create, FileAccess.ReadWrite))
@@ -94,21 +92,49 @@ public class UnpackOperateTests : OperateBaseTests
             zipArchive.CreateEntry("./directory_1/");
             zipArchive.CreateEntry("./directory_2/file_2");
         }
-        
-        var file = new WatchingEventInfo
+
+        var operate = scope.ServiceProvider.GetRequiredService<IUnpackOperate>();
+        operate.Initialization();
+
+        var info = new WatchingEventInfo
         {
             Path = "./pack.zip"
         };
-    
-        var operate = scope.ServiceProvider.GetService<IUnpackOperate>();
-        Assert.IsNotNull(operate);
-        operate!.Initialization();
-    
-        operate.Process(file);
-    
+
+        operate.Process(info);
+
         Assert.IsTrue(filesystem.File.Exists("./pack/file_1"));
         Assert.IsTrue(filesystem.Directory.Exists("./pack/directory_1"));
         Assert.IsTrue(filesystem.Directory.Exists("./pack/directory_2"));
         Assert.IsTrue(filesystem.File.Exists("./pack/directory_2/file_2"));
+    }
+
+    [Test]
+    public void Process_UnpackZipWithSameNameFile()
+    {
+        var scoped = Provider.CreateScope();
+
+        var filesystem = scoped.ServiceProvider.GetRequiredService<IFileSystem>() as MockFileSystem;
+        Assert.IsNotNull(filesystem);
+        using (var stream = filesystem!.FileStream.Create("./pack.zip", FileMode.CreateNew, FileAccess.ReadWrite))
+        using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Create, false))
+        {
+            var entry = zipArchive.CreateEntry("./pack.zip");
+            using var file = entry.Open();
+            using var fileWriter = new StreamWriter(file);
+            fileWriter.Write("content");
+        }
+
+        var operate = scoped.ServiceProvider.GetRequiredService<IUnpackOperate>();
+        operate.Initialization();
+        
+        var info = new WatchingEventInfo
+        {
+            Path = "./pack.zip"
+        };
+
+        operate.Process(info);
+
+        Assert.AreEqual("content", filesystem.File.ReadAllText("./pack.zip"));
     }
 }
