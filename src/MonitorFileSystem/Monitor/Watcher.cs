@@ -106,6 +106,16 @@ public class Watcher : IWatcher
                 _watcher.Renamed -= OnRenamed;
             }
 
+            if (value.HasFlag(WatchingEvent.Changed))
+            {
+                _watcher.Changed -= OnChanged;
+                _watcher.Changed += OnChanged;
+            }
+            else
+            {
+                _watcher.Changed -= OnChanged;
+            }
+
             #endregion
 
             _event = value;
