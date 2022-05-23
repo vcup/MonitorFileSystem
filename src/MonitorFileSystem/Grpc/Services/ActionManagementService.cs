@@ -12,7 +12,8 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     private readonly IActionManager _manager;
     private readonly IServiceProvider _provider;
 
-    public ActionManagementService(ILogger<ActionManagementService> logger, IActionManager manager, IServiceProvider provider)
+    public ActionManagementService(ILogger<ActionManagementService> logger, IActionManager manager,
+        IServiceProvider provider)
     {
         _logger = logger;
         _manager = manager;
@@ -32,7 +33,8 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         });
     }
 
-    public override Task<UnpackOperateResponse> CreateUnpackOperate(UnpackOperateRequest request, ServerCallContext context)
+    public override Task<UnpackOperateResponse> CreateUnpackOperate(UnpackOperateRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -40,11 +42,12 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             Debug.Assert(operate is not null);
             operate.Initialization();
             _manager.Add(operate);
-            
+
             if (!string.IsNullOrEmpty(request.Destination))
             {
                 operate.Destination = request.Destination;
             }
+
             operate.Description = request.Description;
 
             return operate.ToResponse();
@@ -69,7 +72,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             {
                 operate.Description = request.Description;
             }
-            
+
             return new Empty();
         });
     }
@@ -87,7 +90,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
                     operate.Description = request.Description;
                 }
             }
-            
+
             return new Empty();
         });
     }
@@ -103,12 +106,13 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
                 {
                     operate.Destination = string.IsNullOrEmpty(request.Destination) ? null : request.Destination;
                 }
+
                 if (request.HasDescription)
                 {
                     operate.Description = request.Description;
                 }
             }
-            
+
             return new Empty();
         });
     }
@@ -135,7 +139,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
                 chain.Name = request.Name;
                 chain.Description = request.Description;
             }
-            
+
             return new Empty();
         });
     }
@@ -154,7 +158,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         return Task.Run(() =>
         {
             _manager.TryAddOperateToChain(request);
-            
+
             return new Empty();
         });
     }
@@ -174,7 +178,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         return Task.Run(() =>
         {
             _manager.TryAddOperateToChain(request);
-            
+
             return new Empty();
         });
     }
@@ -184,7 +188,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         return Task.Run(() =>
         {
             _manager.TryAddOperateToChain(request);
-            
+
             return new Empty();
         });
     }
@@ -194,7 +198,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         return Task.Run(() =>
         {
             _manager.TryRemoveOperateFromChain(request);
-            
+
             return new Empty();
         });
     }
@@ -204,7 +208,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         return Task.Run(() =>
         {
             _manager.TryRemoveOperateFromChain(request);
-            
+
             return new Empty();
         });
     }
@@ -214,23 +218,24 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         return Task.Run(() =>
         {
             _manager.TryRemoveOperateFromChain(request);
-            
+
             return new Empty();
         });
     }
 
-    public override Task<Empty> RemoveManyOperateFromMany(ManyOperateAndManyChainRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveManyOperateFromMany(ManyOperateAndManyChainRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
             _manager.TryRemoveOperateFromChain(request);
-            
+
             return new Empty();
         });
     }
 
     public override async Task<Empty> ClearUpAll(Empty request, ServerCallContext context)
-    { 
+    {
         Task[] tasks = { ClearOperates(request, context), ClearChains(request, context) };
         await Task.WhenAll(tasks);
 
@@ -242,7 +247,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         return Task.Run(() =>
         {
             _manager.ClearOperates();
-            
+
             return new Empty();
         });
     }
@@ -256,7 +261,8 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         });
     }
 
-    public override async Task GetOperates(Empty request, IServerStreamWriter<OperateResponse> responseStream, ServerCallContext context)
+    public override async Task GetOperates(Empty request, IServerStreamWriter<OperateResponse> responseStream,
+        ServerCallContext context)
     {
         foreach (var operate in _manager.Operates)
         {
@@ -264,25 +270,27 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         }
     }
 
-    public override async Task GetOperatesOf(GuidRequest request, IServerStreamWriter<OperateResponse> responseStream, ServerCallContext context)
+    public override async Task GetOperatesOf(GuidRequest request, IServerStreamWriter<OperateResponse> responseStream,
+        ServerCallContext context)
     {
         if (!_manager.TryGetChain(Guid.Parse((ReadOnlySpan<char>)request.Guid), out var chain))
         {
             return;
         }
-        
+
         foreach (var operate in chain)
         {
             await responseStream.WriteAsync(operate.ToResponse());
         }
     }
 
-    public override async Task GetChains(Empty request, IServerStreamWriter<ChainResponse> responseStream, ServerCallContext context)
+    public override async Task GetChains(Empty request, IServerStreamWriter<ChainResponse> responseStream,
+        ServerCallContext context)
     {
         foreach (var chain in _manager.Chains)
         {
             var response = chain.ToResponse();
-            
+
             response.Operates.AddRange(chain.Select(o => o.ToResponse()));
 
             await responseStream.WriteAsync(response);
@@ -297,6 +305,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             {
                 return operate.ToResponse();
             }
+
             return new OperateResponse();
         });
     }

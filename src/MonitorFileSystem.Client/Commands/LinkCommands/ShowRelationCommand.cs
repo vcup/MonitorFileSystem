@@ -17,7 +17,7 @@ internal class ShowRelationCommand : Command
             Description = CommandTexts.Show_Guid_ArgumentDescription
         };
         guid.SetDefaultValue(null);
-        
+
         AddArgument(guid);
         this.SetHandler<string?>(ShowRelation, guid);
     }

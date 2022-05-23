@@ -12,7 +12,7 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
     private readonly IMonitorManager _monitor;
     private readonly IActionManager _action;
 
-    private static readonly Dictionary<(Guid, Guid), IDisposable> Disposables = new ();
+    private static readonly Dictionary<(Guid, Guid), IDisposable> Disposables = new();
 
     public MasterManagementService(ILogger<MasterManagementService> logger, IMonitorManager monitor,
         IActionManager action)
@@ -28,7 +28,7 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         {
             var monitorGuid = request.GetMonitorGuid();
             var actionGuid = request.GetActionGuid();
-            
+
             if (_monitor.TryGetObservable(monitorGuid, out var monitor) &&
                 _action.TryGetObserver(actionGuid, out var action))
             {
@@ -39,12 +39,13 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         });
     }
 
-    public override Task<Empty> AttachActionToManyMonitor(ManyMonitorAndActionRequest request, ServerCallContext context)
+    public override Task<Empty> AttachActionToManyMonitor(ManyMonitorAndActionRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
             var actionGuid = request.GetActionGuid();
-            
+
             if (_action.TryGetObserver(actionGuid, out IObserver<WatchingEventInfo>? action))
             {
                 foreach (var monitorGuid in request.Monitors.Select(monitor => Guid.Parse(monitor.Guid)))
@@ -55,12 +56,13 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
                     }
                 }
             }
-            
+
             return new Empty();
         });
     }
 
-    public override Task<Empty> AttachManyActionToMonitor(MonitorAndManyActionRequest request, ServerCallContext context)
+    public override Task<Empty> AttachManyActionToMonitor(MonitorAndManyActionRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -80,7 +82,8 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         });
     }
 
-    public override Task<Empty> AttachManyActionToManyMonitor(ManyMonitorAndManyActionRequest request, ServerCallContext context)
+    public override Task<Empty> AttachManyActionToManyMonitor(ManyMonitorAndManyActionRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -88,11 +91,11 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
             {
                 if (_monitor.TryGetObservable(guids.Item1, out IObservable<WatchingEventInfo>? monitor) &&
                     _action.TryGetObserver(guids.Item2, out IObserver<WatchingEventInfo>? action))
-                { 
+                {
                     Disposables.Add(guids, monitor.Subscribe(action));
                 }
             }
-            
+
             return new Empty();
         });
     }
@@ -107,12 +110,13 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
                 value.Dispose();
                 Disposables.Remove(key);
             }
-            
+
             return new Empty();
         });
     }
 
-    public override Task<Empty> DetachActionToManyMonitor(ManyMonitorAndActionRequest request, ServerCallContext context)
+    public override Task<Empty> DetachActionToManyMonitor(ManyMonitorAndActionRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -126,12 +130,13 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
                     Disposables.Remove(key);
                 }
             }
-            
+
             return new Empty();
         });
     }
 
-    public override Task<Empty> DetachManyActionToMonitor(MonitorAndManyActionRequest request, ServerCallContext context)
+    public override Task<Empty> DetachManyActionToMonitor(MonitorAndManyActionRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -143,14 +148,15 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
                 {
                     value.Dispose();
                     Disposables.Remove(key);
-                }                
+                }
             }
-            
+
             return new Empty();
         });
     }
 
-    public override Task<Empty> DetachManyActionToManyMonitor(ManyMonitorAndManyActionRequest request, ServerCallContext context)
+    public override Task<Empty> DetachManyActionToManyMonitor(ManyMonitorAndManyActionRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -162,24 +168,26 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
                     Disposables.Remove(key);
                 }
             }
-            
+
             return new Empty();
         });
     }
 
 
-    public override async Task GetActions(Empty request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
+    public override async Task GetActions(Empty request, IServerStreamWriter<GuidResponse> responseStream,
+        ServerCallContext context)
     {
         var actionGuids = Disposables.Keys
             .Select(guids => guids.Item2);
 
         foreach (var guid in actionGuids)
-        { 
+        {
             await responseStream.WriteAsync(guid.ToResponse());
         }
     }
 
-    public override async Task GetMonitors(Empty request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
+    public override async Task GetMonitors(Empty request, IServerStreamWriter<GuidResponse> responseStream,
+        ServerCallContext context)
     {
         var monitorGuids = Disposables.Keys
             .Select(guids => guids.Item1);
@@ -190,7 +198,8 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         }
     }
 
-    public override async Task GetRelations(Empty request, IServerStreamWriter<MonitorAndActionResponse> responseStream, ServerCallContext context)
+    public override async Task GetRelations(Empty request, IServerStreamWriter<MonitorAndActionResponse> responseStream,
+        ServerCallContext context)
     {
         foreach (var (monitorGuid, actionGuid) in Disposables.Keys)
         {
@@ -202,7 +211,8 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         }
     }
 
-    public override async Task GetRelationOfAction(GuidRequest request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
+    public override async Task GetRelationOfAction(GuidRequest request,
+        IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var results = Disposables.Keys
             .Select(guids => guids.Item2)
@@ -213,7 +223,8 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         }
     }
 
-    public override async Task GetRelationOfMonitor(GuidRequest request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
+    public override async Task GetRelationOfMonitor(GuidRequest request,
+        IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var results = Disposables.Keys
             .Select(guids => guids.Item1)
@@ -224,7 +235,8 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         }
     }
 
-    public override async Task GetRelationOfEither(GuidRequest request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
+    public override async Task GetRelationOfEither(GuidRequest request,
+        IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var guid = request.GetGuid();
         if (_monitor.TryGetObservable(guid, out _))
@@ -238,7 +250,8 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
     }
 
 
-    public override async Task ActionAttachedMonitors(GuidRequest request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
+    public override async Task ActionAttachedMonitors(GuidRequest request,
+        IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
     {
         var monitors = Disposables.Keys
             .Where(guids => guids.Item2 == request.GetGuid())
@@ -250,7 +263,8 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         }
     }
 
-    public override async Task ManyActionAttachedMonitors(IAsyncStreamReader<GuidRequest> requestStream, IServerStreamWriter<GuidResponse> responseStream,
+    public override async Task ManyActionAttachedMonitors(IAsyncStreamReader<GuidRequest> requestStream,
+        IServerStreamWriter<GuidResponse> responseStream,
         ServerCallContext context)
     {
         var actionGuid = requestStream.Current.GetGuid();
@@ -264,7 +278,8 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
         }
     }
 
-    public override async Task ActionsOnMonitor(GuidRequest request, IServerStreamWriter<GuidResponse> responseStream, ServerCallContext context)
+    public override async Task ActionsOnMonitor(GuidRequest request, IServerStreamWriter<GuidResponse> responseStream,
+        ServerCallContext context)
     {
         var monitorGuid = request.GetGuid();
         var actionGuids = Disposables.Keys
@@ -299,6 +314,7 @@ public class MasterManagementService : MasterManagement.MasterManagementBase
             {
                 value.Dispose();
             }
+
             Disposables.Clear();
 
             return new Empty();

@@ -31,11 +31,11 @@ public class MoveOperate : OperateBase, IMoveOperate
         Destination = destination;
         IsInitialized = true;
     }
-    
+
     public override void Process(WatchingEventInfo info)
     {
         base.Process(info);
-        
+
         // if running on windows, info.Path used separator may is '/'
         info.Path = info.Path.Replace('/', FileSystem.Path.DirectorySeparatorChar);
         var splitDest = info.Path.Split(FileSystem.Path.DirectorySeparatorChar);
@@ -46,15 +46,14 @@ public class MoveOperate : OperateBase, IMoveOperate
 
         if (FileSystem.File.Exists(info.Path))
         {
-           
             FileSystem.File.Move(info.Path, dest, true);
-            
+
             Logger.LogTrace("MoveOperate Process on File branch, {Path} -> {Dest}", info.Path, dest);
         }
         else
         {
             FileSystem.Directory.Move(info.Path, dest);
-            
+
             Logger.LogTrace("MoveOperate Process on Directory branch, {Path} -> {Dest}", info.Path, dest);
         }
 

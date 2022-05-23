@@ -6,7 +6,7 @@ public class ActionManager : IActionManager
 {
     private readonly Dictionary<Guid, IOperate> _operates = new();
     private readonly Dictionary<Guid, IChain> _chains = new();
-    
+
     public void Add(IOperate operate)
     {
         _operates.Add(operate.Guid, operate);
@@ -37,7 +37,7 @@ public class ActionManager : IActionManager
         return _chains.ContainsKey(guid);
     }
 
-    public bool TryGet(Guid guid, [MaybeNullWhen(false)]out IOperate operate)
+    public bool TryGet(Guid guid, [MaybeNullWhen(false)] out IOperate operate)
     {
         return _operates.TryGetValue(guid, out operate);
     }
@@ -54,8 +54,9 @@ public class ActionManager : IActionManager
         {
             return false;
         }
+
         chain.Add(operate);
-        
+
         return true;
     }
 
@@ -66,6 +67,7 @@ public class ActionManager : IActionManager
         {
             return false;
         }
+
         chain.Remove(operate);
 
         return true;

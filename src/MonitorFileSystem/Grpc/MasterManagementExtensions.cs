@@ -26,8 +26,8 @@ public static class MasterManagementExtensions
 
     public static IEnumerable<(Guid, Guid)> GetBothGuids(this ManyMonitorAndManyActionRequest request)
     {
-        var monitorGuids = request.Monitors.Select(monitor => Guid.Parse(monitor.Guid)); 
-        var actionGuids = request.Actions.Select(action => Guid.Parse(action.Guid)); 
+        var monitorGuids = request.Monitors.Select(monitor => Guid.Parse(monitor.Guid));
+        var actionGuids = request.Actions.Select(action => Guid.Parse(action.Guid));
         return monitorGuids.Zip(actionGuids);
     }
 

@@ -5,7 +5,7 @@ namespace MonitorFileSystem.Client.Configures;
 internal static class Configure
 {
     private static Settings _settings = null!;
-    
+
     static Configure()
     {
     }

@@ -41,7 +41,7 @@ internal class AddWatchCommand : Command
         AddArgument(filter);
         AddArgument(@event);
         AddArgument(name);
-        
+
         this.SetHandler<string, string, string, WatchingEvent>
             (CreateWatcher, name, path, filter, @event);
     }
@@ -56,7 +56,7 @@ internal class AddWatchCommand : Command
             EventFlags = (int)@event
         };
         var response = await GrpcUnits.MonitorManagementClient.CreateWatcherAsync(request);
-        
+
         Console.WriteLine(response.Guid);
     }
 }

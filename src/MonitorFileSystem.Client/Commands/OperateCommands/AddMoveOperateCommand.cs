@@ -20,7 +20,7 @@ internal class AddMoveOperateCommand : Command
             Description = CommandTexts.Operate_Add_Move_Description_ArgumentDescription
         };
         description.SetDefaultValue(string.Empty);
-        
+
         AddArgument(destination);
         AddArgument(description);
         this.SetHandler<string, string>(Create, destination, description);

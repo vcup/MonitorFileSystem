@@ -15,10 +15,7 @@ var builder = new HostBuilder()
         logging.AddConfiguration(context.Configuration.GetSection("Logging"));
         logging.AddConsole();
     })
-    .ConfigureWebHostDefaults(webBuilder =>
-    {
-        webBuilder.UseStartup<GrpcStartup>();
-    });
+    .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
 
 var rootCommand = new RootCommand();
 
@@ -36,7 +33,7 @@ rootCommand.SetHandler(async () =>
 
 
 var commandBuilder = new CommandLineBuilder(rootCommand);
-commandBuilder.AddMiddleware(content  =>
+commandBuilder.AddMiddleware(content =>
 {
     if (content.ParseResult.HasOption(configPath))
     {
@@ -55,7 +52,7 @@ commandBuilder.AddMiddleware(content  =>
 var parser = commandBuilder.Build();
 await parser.InvokeAsync(args);
 
-void UseDefaultConfigures(HostBuilderContext context,IConfigurationBuilder config)
+void UseDefaultConfigures(HostBuilderContext context, IConfigurationBuilder config)
 {
 #if Linux
     const string linuxConfigsPath = "/etc/monitorfs";

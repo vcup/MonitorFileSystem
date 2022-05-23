@@ -23,7 +23,7 @@ internal class UnlinkCommand : Command
 
         AddArgument(monitor);
         AddArgument(action);
-        
+
         this.SetHandler<string, string>(Detach, monitor, action);
     }
 
@@ -31,8 +31,8 @@ internal class UnlinkCommand : Command
     {
         var request = new MonitorAndActionRequest
         {
-            Monitor = new GuidRequest{Guid = monitor},
-            Action = new GuidRequest{Guid = action}
+            Monitor = new GuidRequest { Guid = monitor },
+            Action = new GuidRequest { Guid = action }
         };
 
         await GrpcUnits.MasterManagementClient.DetachActionToMonitorAsync(request);

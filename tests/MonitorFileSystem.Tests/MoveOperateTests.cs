@@ -41,7 +41,7 @@ public class MoveOperateTests : OperateBaseTests
         var operate = scope.ServiceProvider.GetService<IMoveOperate>();
         Assert.IsNotNull(operate);
         operate!.Initialization(dest);
-        
+
         Assert.Throws<InvalidOperationException>(() => operate.Initialization(dest), "Instance is not Initialized");
     }
 
@@ -49,11 +49,11 @@ public class MoveOperateTests : OperateBaseTests
     public void ProcessFileBranch_InvalidDestinationPath_ThrowDirectoryNotFoundException()
     {
         var scope = Provider.CreateScope();
-        
+
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         filesystem!.AddFile("/file", new MockFileData(string.Empty));
-        
+
         var operate = scope.ServiceProvider.GetService<IMoveOperate>();
         Assert.IsNotNull(operate);
         operate!.Initialization("/InValidPath/file");
@@ -69,12 +69,12 @@ public class MoveOperateTests : OperateBaseTests
     public void ProcessDirectoryBranch_WatchedEventInfo_UpdatePathToMovedPath()
     {
         var scope = Provider.CreateScope();
-        
+
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         filesystem!.AddDirectory("/directory_1");
-        filesystem .AddDirectory("/directory_2");
-        
+        filesystem.AddDirectory("/directory_2");
+
         var operate = scope.ServiceProvider.GetService<IMoveOperate>();
         Assert.IsNotNull(operate);
         operate!.Initialization("/directory_2");
@@ -82,9 +82,9 @@ public class MoveOperateTests : OperateBaseTests
         {
             Path = "/directory_1"
         };
-        
+
         operate.Process(info);
-        
+
         Assert.AreEqual("/directory_2/directory_1", info.Path.Replace('\\', '/'));
     }
 
@@ -98,11 +98,11 @@ public class MoveOperateTests : OperateBaseTests
     public void ProcessDirectoryBranch_ComplexStruct_Intuitive(string path1, string path2, string result)
     {
         var scope = Provider.CreateScope();
-        
+
         var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         filesystem!.AddDirectory(path1);
-        filesystem .AddDirectory(path2);
+        filesystem.AddDirectory(path2);
 
         var operate = scope.ServiceProvider.GetRequiredService<IMoveOperate>();
         Assert.IsNotNull(operate);
@@ -111,9 +111,9 @@ public class MoveOperateTests : OperateBaseTests
         {
             Path = path1
         };
-        
+
         operate.Process(info);
-        
+
         Assert.AreEqual(result, info.Path.Replace('\\', '/'));
     }
 
@@ -121,7 +121,7 @@ public class MoveOperateTests : OperateBaseTests
     public void Initialization_NonParameterInitialization_MustThrowNotImplementedException()
     {
         var scope = Provider.CreateScope();
-        
+
         var operate = scope.ServiceProvider.GetService<IMoveOperate>();
         Assert.IsNotNull(operate);
 

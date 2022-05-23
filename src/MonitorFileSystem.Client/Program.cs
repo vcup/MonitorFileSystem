@@ -22,7 +22,7 @@ builder.AddMiddleware(context =>
     {
         var path = context.ParseResult.GetValueForOption(GlobalOptions.ConfigPath);
         if (path is null) return;
-       
+
         var config = new ConfigurationBuilder()
             .AddYamlFile(path)
             .Build();

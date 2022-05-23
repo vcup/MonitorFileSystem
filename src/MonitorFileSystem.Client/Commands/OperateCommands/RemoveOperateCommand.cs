@@ -14,7 +14,7 @@ internal class RemoveOperateCommand : Command
             Name = "guid",
             Description = CommandTexts.Operate_Remove_Guid_ArgumentDescription
         };
-        
+
         AddArgument(guid);
         this.SetHandler<string>(Remove, guid);
     }

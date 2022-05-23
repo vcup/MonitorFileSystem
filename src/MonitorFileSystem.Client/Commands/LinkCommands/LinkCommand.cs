@@ -30,8 +30,8 @@ internal class LinkCommand : Command
     {
         var request = new MonitorAndActionRequest
         {
-            Monitor = new GuidRequest{Guid = monitor},
-            Action = new GuidRequest{Guid = action}
+            Monitor = new GuidRequest { Guid = monitor },
+            Action = new GuidRequest { Guid = action }
         };
 
         await GrpcUnits.MasterManagementClient.AttachActionToMonitorAsync(request);

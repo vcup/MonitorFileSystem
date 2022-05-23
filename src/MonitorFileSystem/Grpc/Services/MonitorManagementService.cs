@@ -43,6 +43,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             {
                 watcher.Monitoring = false;
             }
+
             return new Empty();
         });
     }
@@ -55,6 +56,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             {
                 watcher.Monitoring = true;
             }
+
             return new Empty();
         });
     }
@@ -67,6 +69,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             {
                 watcher.Monitoring = !watcher.Monitoring;
             }
+
             return new Empty();
         });
     }
@@ -102,6 +105,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
                     watcher.WatchingEvent = (WatchingEvent)request.EventFlags;
                 }
             }
+
             return new Empty();
         });
     }
@@ -124,6 +128,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
                         break;
                 }
             }
+
             return new Empty();
         });
     }
@@ -146,6 +151,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
                         break;
                 }
             }
+
             return new Empty();
         });
     }
@@ -168,6 +174,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
                         break;
                 }
             }
+
             return new Empty();
         });
     }
@@ -201,6 +208,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
                 group.Name = request.Name;
                 group.Description = request.Description;
             }
+
             return new Empty();
         });
     }
@@ -231,7 +239,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             return new Empty();
         });
     }
-    
+
     public override Task<Empty> AddManyWatcherToMany(ManyWatcherAndManyGroupRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
@@ -249,7 +257,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             return new Empty();
         });
     }
-    
+
     public override Task<Empty> RemoveManyWatcherFrom(ManyWatcherAndGroupRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
@@ -258,7 +266,7 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             return new Empty();
         });
     }
-    
+
     public override Task<Empty> RemoveWatcherFromMany(WatcherAndManyGroupRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
@@ -268,7 +276,8 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         });
     }
 
-    public override Task<Empty> RemoveManyWatcherFromMany(ManyWatcherAndManyGroupRequest request, ServerCallContext context)
+    public override Task<Empty> RemoveManyWatcherFromMany(ManyWatcherAndManyGroupRequest request,
+        ServerCallContext context)
     {
         return Task.Run(() =>
         {
@@ -306,8 +315,9 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         });
     }
 
-    
-    public override async Task GetWatchers(Empty request, IServerStreamWriter<WatcherResponse> responseStream, ServerCallContext context)
+
+    public override async Task GetWatchers(Empty request, IServerStreamWriter<WatcherResponse> responseStream,
+        ServerCallContext context)
     {
         foreach (var watcher in _manager.Watchers)
         {
@@ -315,27 +325,29 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         }
     }
 
-    public override async Task GetWatchersOf(GuidRequest request, IServerStreamWriter<WatcherResponse> responseStream, ServerCallContext context)
+    public override async Task GetWatchersOf(GuidRequest request, IServerStreamWriter<WatcherResponse> responseStream,
+        ServerCallContext context)
     {
         if (!_manager.TryGetGroup(request, out var group))
         {
             return;
         }
-        
+
         foreach (var watcher in group)
         {
             await responseStream.WriteAsync(watcher.ToResponse());
         }
     }
 
-    public override async Task GetGroups(Empty request, IServerStreamWriter<GroupResponse> responseStream, ServerCallContext context)
+    public override async Task GetGroups(Empty request, IServerStreamWriter<GroupResponse> responseStream,
+        ServerCallContext context)
     {
         foreach (var group in _manager.Groups)
         {
             await responseStream.WriteAsync(group.ToResponse());
         }
     }
-    
+
 
     public override Task<WatcherResponse> FindWatcher(GuidRequest request, ServerCallContext context)
     {

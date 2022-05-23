@@ -6,7 +6,7 @@ public class MonitorManager : IMonitorManager
 {
     private readonly Dictionary<Guid, IWatcher> _watchers = new();
     private readonly Dictionary<Guid, IGroup> _groups = new();
-    
+
     public void Add(IWatcher item)
     {
         _watchers.TryAdd(item.Guid, item);
@@ -43,8 +43,9 @@ public class MonitorManager : IMonitorManager
         {
             return false;
         }
+
         group.Add(watcher);
-        
+
         return true;
     }
 
@@ -54,9 +55,9 @@ public class MonitorManager : IMonitorManager
         {
             return false;
         }
+
         group.Remove(watcher);
         return true;
-
     }
 
 

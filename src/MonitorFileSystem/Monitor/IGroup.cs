@@ -9,11 +9,12 @@ public interface IGroup : IObservable<WatchingEventInfo>, IObserver<WatchingEven
     /// Guid of this Group
     /// </summary>
     Guid Guid { get; }
+
     /// <summary>
     /// A name of this Group
     /// </summary>
     string Name { get; set; }
-    
+
     /// <summary>
     /// A description of this Group
     /// </summary>

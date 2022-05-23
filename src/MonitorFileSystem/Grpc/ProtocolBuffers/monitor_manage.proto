@@ -16,7 +16,7 @@ service MonitorManagement {
   rpc RemoveWatcherMonitorEvent (UpdateWatcherEventRequest)          returns (google.protobuf.Empty) ;
   rpc SetWatcherMonitorEvent    (UpdateWatcherEventRequest)          returns (google.protobuf.Empty) ;
   
-  rpc CreateGroup               (GroupRequest)                       returns (GroupResponse) ;
+  rpc CreateGroup               (GroupRequest)                       returns (GroupResponse)         ;
   rpc RemoveGroup               (GuidRequest)                        returns (google.protobuf.Empty) ;
   rpc UpdateGroup               (UpdateGroupRequest)                 returns (google.protobuf.Empty) ;
   rpc AddWatcherTo              (WatcherAndGroupRequest)             returns (google.protobuf.Empty) ;

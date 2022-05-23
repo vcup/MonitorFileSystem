@@ -36,7 +36,7 @@ internal class UpdateWatchCommand : Command
             Description = CommandTexts.Watch_Update_Filter_ArgumentDescription
         };
         filter.SetDefaultValue(null);
-        
+
         var @event = new Argument<WatchingEvent?>
         {
             Name = "event",
@@ -49,12 +49,13 @@ internal class UpdateWatchCommand : Command
         AddArgument(path);
         AddArgument(filter);
         AddArgument(@event);
-        
+
         this.SetHandler<string, string?, string?, string?, WatchingEvent?>(
             UpdateWatcher, guid, name, path, filter, @event);
     }
 
-    private static async Task UpdateWatcher(string guid, string? name, string? path, string? filter, WatchingEvent? @event)
+    private static async Task UpdateWatcher(string guid, string? name, string? path, string? filter,
+        WatchingEvent? @event)
     {
         var request = new UpdateWatcherRequest
         {

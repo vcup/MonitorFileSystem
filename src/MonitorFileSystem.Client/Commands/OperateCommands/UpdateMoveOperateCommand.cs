@@ -28,7 +28,7 @@ internal class UpdateMoveOperateCommand : Command
             Description = CommandTexts.Operate_Update_Move_Description_ArgumentDescription
         };
         description.SetDefaultValue(null);
-        
+
         AddArgument(guid);
         AddArgument(destination);
         AddArgument(description);
@@ -46,7 +46,7 @@ internal class UpdateMoveOperateCommand : Command
         {
             Guid = guid
         };
-        
+
         if (destination is not null)
         {
             request.Destination = destination;

@@ -127,7 +127,7 @@ public class UnpackOperateTests : OperateBaseTests
 
         var operate = scoped.ServiceProvider.GetRequiredService<IUnpackOperate>();
         operate.Initialization();
-        
+
         var info = new WatchingEventInfo
         {
             Path = "./pack.zip"

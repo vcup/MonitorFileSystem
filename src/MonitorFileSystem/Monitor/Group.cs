@@ -17,10 +17,10 @@ public class Group : IGroup
     {
     }
 
-    public Group(string name, string description) : this (Guid.NewGuid(), name, description)
+    public Group(string name, string description) : this(Guid.NewGuid(), name, description)
     {
     }
-    
+
     public Group(Guid guid, string name, string description)
     {
         Guid = guid;
@@ -99,8 +99,10 @@ public class Group : IGroup
         {
             _observers.Add(observer);
         }
+
         return new UnSubscribe<WatchingEventInfo>(_observers, observer);
     }
+
     public IEnumerator<IWatcher> GetEnumerator()
     {
         return _watchers.GetEnumerator();

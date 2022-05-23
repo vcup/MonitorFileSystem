@@ -15,11 +15,12 @@ public class UnpackOperate : OperateBase, IUnpackOperate
     public override void Process(WatchingEventInfo info)
     {
         base.Process(info);
-        
+
         if (FileSystem.Directory.Exists(info.Path))
         {
             return;
         }
+
         string dest = Destination ?? FileSystem.Path.GetDirectoryName(info.Path);
         var tempFileMapping = new Dictionary<string, string>();
 
@@ -53,7 +54,7 @@ public class UnpackOperate : OperateBase, IUnpackOperate
 
         void ExtractEntry(ZipArchiveEntry entry)
         {
-            var path = FileSystem.Path.Combine(dest, entry.FullName); 
+            var path = FileSystem.Path.Combine(dest, entry.FullName);
             var directory = FileSystem.Path.GetDirectoryName(path);
             if (!FileSystem.Directory.Exists(directory))
             {

@@ -15,7 +15,7 @@ internal class RemoveWatchCommand : Command
             Description = CommandTexts.Watch_Remove_Guid_ArgumentDescription
         };
         AddArgument(guid);
-        
+
         this.SetHandler<string>(RemoveWatcher, guid);
     }
 

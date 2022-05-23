@@ -10,14 +10,14 @@ public static class StartupCommands
     public static Command AddWatchCommands(this Command command)
     {
         var watch = new WatchCommand();
-        
+
         watch.AddCommand(new AddWatchCommand());
         watch.AddCommand(new RemoveWatchCommand());
         watch.AddCommand(new ShowWatchCommand());
         watch.AddCommand(new UpdateWatchCommand());
         watch.AddCommand(new EventWatchCommand());
         watch.SetHandler(ShowWatchCommand.ShowWatchers);
-        
+
         command.AddCommand(watch);
         return command;
     }
@@ -40,7 +40,7 @@ public static class StartupCommands
         command.AddCommand(new LinkCommand());
         command.AddCommand(new ShowRelationCommand());
         command.AddCommand(new UnlinkCommand());
-        
+
         return command;
     }
 

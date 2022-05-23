@@ -21,11 +21,11 @@ internal class UpdateOperateCommand : Command
             Description = CommandTexts.Operate_Update_Description_ArgumentDescription
         };
         description.SetDefaultValue(null);
-        
+
         AddArgument(guid);
         AddArgument(description);
         this.SetHandler<string, string?>(UpdateOperate, guid, description);
-        
+
         AddCommand(new UpdateMoveOperateCommand());
         AddCommand(new UpdateUnpackOperateCommand());
     }

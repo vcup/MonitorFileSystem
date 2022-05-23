@@ -8,7 +8,6 @@ namespace MonitorFileSystem.Tests;
 
 public class WatcherTests
 {
-
     [SetUp]
     public void Setup()
     {
@@ -20,19 +19,19 @@ public class WatcherTests
     {
         var fileSystem = new TestFileSystem(new FileSystemWatcherFactory());
 
-        var watcher = new Watcher("Tester", "./", "*", @event , fileSystem);
+        var watcher = new Watcher("Tester", "./", "*", @event, fileSystem);
 
         Assert.AreEqual(watcher.Monitoring, mustBe);
     }
 
-    [TestCase(WatchingEvent.FileName     , NotifyFilters.FileName)]
+    [TestCase(WatchingEvent.FileName, NotifyFilters.FileName)]
     [TestCase(WatchingEvent.DirectoryName, NotifyFilters.DirectoryName)]
-    [TestCase(WatchingEvent.Attributes   , NotifyFilters.Attributes)]
-    [TestCase(WatchingEvent.Size         , NotifyFilters.Size)]
-    [TestCase(WatchingEvent.LastWrite    , NotifyFilters.LastWrite)]
-    [TestCase(WatchingEvent.LastAccess   , NotifyFilters.LastAccess)]
-    [TestCase(WatchingEvent.CreationTime , NotifyFilters.CreationTime)]
-    [TestCase(WatchingEvent.Security     , NotifyFilters.Security)]
+    [TestCase(WatchingEvent.Attributes, NotifyFilters.Attributes)]
+    [TestCase(WatchingEvent.Size, NotifyFilters.Size)]
+    [TestCase(WatchingEvent.LastWrite, NotifyFilters.LastWrite)]
+    [TestCase(WatchingEvent.LastAccess, NotifyFilters.LastAccess)]
+    [TestCase(WatchingEvent.CreationTime, NotifyFilters.CreationTime)]
+    [TestCase(WatchingEvent.Security, NotifyFilters.Security)]
     public void NotifyFilter_WatchingEventSetter_MustSameOfWatchingEvent(WatchingEvent @event, NotifyFilters filters)
     {
         var factory = new TestFileSystemWatcher();
@@ -54,7 +53,7 @@ public class WatcherTests
 
         public override IFileSystemWatcherFactory FileSystemWatcher { get; }
     }
-    
+
     private class TestFileSystemWatcher : IFileSystemWatcherFactory
     {
         private IFileSystemWatcher? _lastCreatedFileSystemWatcher;
@@ -73,7 +72,8 @@ public class WatcherTests
 
         public IFileSystemWatcher CreateNew(string path, string filter)
         {
-            return _lastCreatedFileSystemWatcher = _lastCreatedFileSystemWatcher ?? new FileSystemWatcherWrapper(path, filter);
+            return _lastCreatedFileSystemWatcher =
+                _lastCreatedFileSystemWatcher ?? new FileSystemWatcherWrapper(path, filter);
         }
     }
 }

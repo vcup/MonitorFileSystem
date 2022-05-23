@@ -12,7 +12,7 @@ internal static class GlobalOptions
             CommandTexts.GrpcAddress_OptionDescription);
         GrpcAddress.AddAlias("-d");
 
-        ConfigPath = new(new []{"--config-path", "--conf", "-c"})
+        ConfigPath = new(new[] { "--config-path", "--conf", "-c" })
         {
             Arity = ArgumentArity.ZeroOrOne
         };

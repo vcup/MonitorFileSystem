@@ -11,7 +11,7 @@ internal class Settings
             AddressString = "https://localhost:5001"
         };
     }
-    
+
     [YamlMember(Alias = "Grpc", Description = "Remote grpc service Settings")]
     public GrpcSettings GrpcSettings { get; set; }
 }

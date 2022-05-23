@@ -6,6 +6,7 @@ namespace MonitorFileSystem.Action;
 public abstract class OperateBase : IOperate
 {
     protected readonly ILogger<IOperate> Logger;
+
     // see Initialization()
     protected readonly IFileSystem FileSystem;
 
@@ -21,7 +22,7 @@ public abstract class OperateBase : IOperate
 
     public virtual void OnError(Exception error)
     {
-        Logger.LogError(exception:error, "An exception occurred when {Name}", GetType().ToString());
+        Logger.LogError(exception: error, "An exception occurred when {Name}", GetType().ToString());
     }
 
     public virtual void OnNext(WatchingEventInfo value)
@@ -62,7 +63,7 @@ public abstract class OperateBase : IOperate
             throw new InvalidOperationException("Instance is not Initialized");
         }
     }
-    
+
     protected void CheckIsNotInitialized()
     {
         if (IsInitialized)

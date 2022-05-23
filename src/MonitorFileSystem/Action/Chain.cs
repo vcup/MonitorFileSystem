@@ -18,7 +18,7 @@ internal class Chain : OperateBase, IChain
 
     // see Initialization(string, string, bool)
     public string Name { get; set; } = null!;
-    
+
     public override void OnCompleted()
     {
         foreach (var observer in _observers)
@@ -53,7 +53,7 @@ internal class Chain : OperateBase, IChain
     {
         Initialization(Guid.NewGuid(), name, isReadOnly);
     }
-    
+
     public void Initialization(Guid guid, string name, bool isReadOnly)
     {
         CheckIsNotInitialized();
@@ -115,6 +115,7 @@ internal class Chain : OperateBase, IChain
         {
             return;
         }
+
         _operates.Add(item);
         _unsubscribes.Add(item, Subscribe(item));
     }
@@ -126,7 +127,7 @@ internal class Chain : OperateBase, IChain
         {
             _unsubscribes[operate].Dispose();
         }
-        
+
         _operates.Clear();
     }
 
@@ -146,12 +147,14 @@ internal class Chain : OperateBase, IChain
         {
             return false;
         }
+
         _unsubscribes[item].Dispose();
         return _operates.Remove(item);
     }
 
     public int Count => _operates.Count;
     public bool IsReadOnly { get; private set; }
+
     public int IndexOf(IOperate item)
     {
         return _operates.IndexOf(item);
@@ -167,11 +170,11 @@ internal class Chain : OperateBase, IChain
     /// <exception cref="ArgumentOutOfRangeException">index is out of range</exception>
     public void Insert(int index, IOperate item)
     {
-        if ((uint) index >= (uint) Count)
+        if ((uint)index >= (uint)Count)
         {
             throw new ArgumentOutOfRangeException();
         }
-        
+
         if (IsReadOnly)
         {
             return;
@@ -186,15 +189,16 @@ internal class Chain : OperateBase, IChain
 
     public void RemoveAt(int index)
     {
-        if ((uint)index >= (uint) Count)
+        if ((uint)index >= (uint)Count)
         {
             throw new IndexOutOfRangeException();
         }
-        
+
         if (IsReadOnly)
         {
             return;
         }
+
         _unsubscribes[this[index]].Dispose();
         _operates.RemoveAt(index);
     }
@@ -214,7 +218,7 @@ internal class Chain : OperateBase, IChain
             {
                 throw new InvalidOperationException("this collection is readonly");
             }
-            
+
             _unsubscribes[_operates[index]].Dispose();
             _operates[index] = value;
             Subscribe(value);

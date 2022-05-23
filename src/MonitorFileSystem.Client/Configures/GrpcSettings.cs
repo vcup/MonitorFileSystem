@@ -22,6 +22,5 @@ internal class GrpcSettings
         }
     }
 
-    [YamlIgnore]
-    public Uri Address => _uri;
+    [YamlIgnore] public Uri Address => _uri;
 }

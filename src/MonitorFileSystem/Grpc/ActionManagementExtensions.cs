@@ -9,23 +9,23 @@ public static class ActionManagementExtensions
     public static MoveOperateResponse ToResponse(this IMoveOperate operate)
     {
         return new MoveOperateResponse
-        { 
+        {
             Guid = operate.Guid.ToString(),
             Destination = operate.Destination,
             Description = operate.Description
         };
     }
-    
+
     public static UnpackOperateResponse ToResponse(this IUnpackOperate operate)
     {
         return new UnpackOperateResponse
-        { 
+        {
             Guid = operate.Guid.ToString(),
             Destination = operate.Destination ?? string.Empty,
             Description = operate.Description
         };
     }
-    
+
     public static OperateResponse ToResponse(this IOperate operate)
     {
         var result = new OperateResponse();
@@ -41,7 +41,7 @@ public static class ActionManagementExtensions
 
         return result;
     }
-    
+
     public static ChainResponse ToResponse(this IChain chain)
     {
         return new ChainResponse
@@ -57,7 +57,7 @@ public static class ActionManagementExtensions
     {
         return manager.TryGet(Guid.Parse(request.Guid), out operate);
     }
-    
+
     public static bool TryGetOperate(this IActionManager manager, GuidRequest request,
         [MaybeNullWhen(false)] out IOperate operate)
     {
@@ -85,7 +85,7 @@ public static class ActionManagementExtensions
     public static bool TryAddOperateToChain(this IActionManager manager, ManyOperateAndChainRequest request)
     {
         var chainGuid = Guid.Parse(request.Chain.Guid);
-        
+
         return request.Operates.All(operate => manager.TryAddOperateToChain(Guid.Parse(operate.Guid), chainGuid));
     }
 
@@ -97,7 +97,7 @@ public static class ActionManagementExtensions
         return operateGuids.Zip(chainGuids)
             .All(union => manager.TryAddOperateToChain(union.First, union.Second));
     }
-    
+
     public static bool TryRemoveOperateFromChain(this IActionManager manager, OperateAndChainRequest request)
     {
         return manager.TryRemoveOperateFromChain(Guid.Parse(request.Operate.Guid), Guid.Parse(request.Chain.Guid));
@@ -113,7 +113,7 @@ public static class ActionManagementExtensions
     public static bool TryRemoveOperateFromChain(this IActionManager manager, ManyOperateAndChainRequest request)
     {
         var chainGuid = Guid.Parse(request.Chain.Guid);
-        
+
         return request.Operates.All(operate => manager.TryRemoveOperateFromChain(Guid.Parse(operate.Guid), chainGuid));
     }
 

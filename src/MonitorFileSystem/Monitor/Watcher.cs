@@ -23,7 +23,7 @@ public class Watcher : IWatcher
         : this(Guid.NewGuid(), name, path, filter, fileSystem)
     {
     }
-    
+
     public Watcher(string name, string path, string filter, WatchingEvent @event, IFileSystem fileSystem)
         : this(name, path, filter, fileSystem)
     {
@@ -54,7 +54,8 @@ public class Watcher : IWatcher
         set => _watcher.Filter = Filter;
     }
 
-    public WatchingEvent WatchingEvent {
+    public WatchingEvent WatchingEvent
+    {
         get => _event;
         set
         {
@@ -111,7 +112,8 @@ public class Watcher : IWatcher
         }
     }
 
-    public bool MonitorSubDirectory {
+    public bool MonitorSubDirectory
+    {
         get => _watcher.IncludeSubdirectories;
         set => _watcher.IncludeSubdirectories = value;
     }
@@ -140,6 +142,7 @@ public class Watcher : IWatcher
             observer.OnNext(info);
         }
     }
+
     protected virtual void NotifyObservers(object sender, RenamedEventArgs e)
     {
         var info = this.GetWatchedEventInfo(e);
@@ -148,6 +151,7 @@ public class Watcher : IWatcher
             observer.OnNext(info);
         }
     }
+
     protected virtual void NotifyObservers(object sender, ErrorEventArgs e)
     {
         foreach (var observer in _observers)
@@ -165,6 +169,7 @@ public class Watcher : IWatcher
     {
         NotifyObservers(sender, e);
     }
+
     protected virtual void OnDeleted(object sender, FileSystemEventArgs e)
     {
         NotifyObservers(sender, e);

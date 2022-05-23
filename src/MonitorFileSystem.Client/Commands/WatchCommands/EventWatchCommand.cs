@@ -26,26 +26,26 @@ internal class EventWatchCommand : Command
         add.AddArgument(guid);
         add.AddArgument(@event);
         add.SetHandler<string, WatchingEvent>(Add, guid, @event);
-        
+
         var remove = new Command("remove", CommandTexts.Watch_Event_Remove_CommandDescription);
         remove.AddArgument(guid);
         remove.AddArgument(@event);
         remove.SetHandler<string, WatchingEvent>(Remove, guid, @event);
-        
+
         var show = new Command("show", CommandTexts.Watch_Event_Show_CommandDescription);
         show.AddArgument(guid);
         show.SetHandler<string>(Show, guid);
-        
+
         var set = new Command("set", CommandTexts.Watch_Event_Set_CommandDescription);
         set.AddArgument(guid);
         set.AddArgument(@event);
         set.SetHandler<string, WatchingEvent>(Set, guid, @event);
-        
+
         AddCommand(add);
         AddCommand(remove);
         AddCommand(show);
         AddCommand(set);
-        
+
         AddArgument(guid);
         this.SetHandler<string>(Show, guid);
     }
@@ -60,7 +60,7 @@ internal class EventWatchCommand : Command
 
         await GrpcUnits.MonitorManagementClient.AddWatcherMonitorEventAsync(request);
     }
-    
+
     private static async Task Remove(string guid, WatchingEvent @event)
     {
         var request = new UpdateWatcherEventRequest
@@ -71,7 +71,7 @@ internal class EventWatchCommand : Command
 
         await GrpcUnits.MonitorManagementClient.RemoveWatcherMonitorEventAsync(request);
     }
-    
+
     private static async Task Show(string guid)
     {
         var request = new GuidRequest
@@ -80,10 +80,10 @@ internal class EventWatchCommand : Command
         };
 
         var response = await GrpcUnits.MonitorManagementClient.FindWatcherAsync(request);
-        
+
         Console.WriteLine((WatchingEvent)response.Event);
     }
-    
+
     private static async Task Set(string guid, WatchingEvent @event)
     {
         var request = new UpdateWatcherEventRequest

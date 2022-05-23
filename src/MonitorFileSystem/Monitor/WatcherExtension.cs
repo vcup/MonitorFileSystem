@@ -1,7 +1,7 @@
 ﻿namespace MonitorFileSystem.Monitor;
 
 public static class WatcherExtension
-{    
+{
     public static WatchingEventInfo GetWatchedEventInfo(this IWatcher watcher, FileSystemEventArgs e)
     {
         WatchingEvent watchedEvent = WatchingEvent.None;
@@ -10,10 +10,12 @@ public static class WatcherExtension
         {
             watchedEvent |= WatchingEvent.Created;
         }
+
         if (e.ChangeType.HasFlag(WatcherChangeTypes.Deleted))
         {
             watchedEvent |= WatchingEvent.Deleted;
         }
+
         if (e.ChangeType.HasFlag(WatcherChangeTypes.Changed))
         {
             watchedEvent |= watcher.WatchingEvent & (WatchingEvent)0b1111_1111_1111_0000;

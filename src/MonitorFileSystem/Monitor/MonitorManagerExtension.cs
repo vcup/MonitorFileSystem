@@ -9,7 +9,7 @@ public static class MonitorManagerExtension
     {
         return manager.TryGet(guid, out watcher);
     }
-    
+
     public static bool TryGetGroup(this IMonitorManager manager, Guid guid,
         [MaybeNullWhen(false)] out IGroup group)
     {
@@ -39,15 +39,15 @@ public static class MonitorManagerExtension
     {
         if (!manager.TryGetGroup(guid, out var group)) return false;
         group.Add(watcher);
-        
+
         return true;
     }
-    
+
     public static bool TryAddWatcherToGroup(this IMonitorManager manager, Guid guid, IGroup group)
     {
         if (!manager.TryGetWatcher(guid, out var watcher)) return false;
         group.Add(watcher);
-        
+
         return true;
     }
 
@@ -55,15 +55,15 @@ public static class MonitorManagerExtension
     {
         if (!manager.TryGetGroup(guid, out var group)) return false;
         group.Add(watcher);
-        
+
         return true;
     }
-    
+
     public static bool TryRemoveWatcherFromGroup(this IMonitorManager manager, Guid guid, IGroup chain)
     {
         if (!manager.TryGetWatcher(guid, out var watcher)) return false;
         chain.Add(watcher);
-        
+
         return true;
     }
 }

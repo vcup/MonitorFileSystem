@@ -16,15 +16,15 @@
   <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">
     <DefineConstants>MAC</DefineConstants>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <Protobuf Include="Grpc/ProtocolBuffers/*.proto" GrpcServices="Server" />
-    
-    <PackageReference Include="Grpc.AspNetCore" Version="2.46.0-pre1" />
-    
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
-    <PackageReference Include="System.IO.Abstractions" Version="17.0.3" />
-    <ProjectReference Include="..\..\references\Microsoft.Extensions.Configuration.Yaml\src\Microsoft.Extensions.Configuration.Yaml\Microsoft.Extensions.Configuration.Yaml.csproj" />
+    <Protobuf Include="Grpc/ProtocolBuffers/*.proto" GrpcServices="Server"/>
+
+    <PackageReference Include="Grpc.AspNetCore" Version="2.46.0-pre1"/>
+
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1"/>
+    <PackageReference Include="System.IO.Abstractions" Version="17.0.3"/>
+    <ProjectReference Include="..\..\references\Microsoft.Extensions.Configuration.Yaml\src\Microsoft.Extensions.Configuration.Yaml\Microsoft.Extensions.Configuration.Yaml.csproj"/>
     <None Update="settings.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
