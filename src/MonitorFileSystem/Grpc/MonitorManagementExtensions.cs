@@ -6,23 +6,6 @@ namespace MonitorFileSystem.Grpc;
 
 public static class MonitorManagementExtensions
 {
-    public static IWatcher ToWatcher(this WatcherRequest request)
-    {
-        var result = new Watcher(request.Name, request.Path, request.Filter);
-
-        if (request.HasEvent)
-        {
-            result.WatchingEvent = (WatchingEvent)request.Event;
-        }
-
-        if (request.HasEventFlags)
-        {
-            result.WatchingEvent = (WatchingEvent)request.EventFlags;
-        }
-
-        return result;
-    }
-
     public static IGroup ToGroup(this GroupRequest request)
     {
         return new Group(request.Name, request.Description);

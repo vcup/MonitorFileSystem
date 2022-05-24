@@ -3,43 +3,37 @@ using MonitorFileSystem.Common;
 
 namespace MonitorFileSystem.Monitor;
 
-public class Watcher : IWatcher
+public class Watcher : InitializableBase, IWatcher
 {
+    private ILogger<Watcher> _logger;
     private WatchingEvent _event;
     private readonly IFileSystemWatcher _watcher;
     private readonly List<IObserver<WatchingEventInfo>> _observers = new();
+    private bool _watcherIsReady;
 
-    public Watcher(string name, string path, string filter)
-        : this(name, path, filter, new FileSystem())
+    public Watcher(IFileSystem fileSystem, ILogger<Watcher> logger)
     {
-    }
-
-    public Watcher(string name, string path, string filter, WatchingEvent @event)
-        : this(name, path, filter, @event, new FileSystem())
-    {
-    }
-
-    public Watcher(string name, string path, string filter, IFileSystem fileSystem)
-        : this(Guid.NewGuid(), name, path, filter, fileSystem)
-    {
-    }
-
-    public Watcher(string name, string path, string filter, WatchingEvent @event, IFileSystem fileSystem)
-        : this(name, path, filter, fileSystem)
-    {
-        WatchingEvent = @event;
-    }
-
-    public Watcher(Guid guid, string name, string path, string filter, IFileSystem fileSystem)
-    {
-        Guid = guid;
-        Name = name;
-        _watcher = fileSystem.FileSystemWatcher.CreateNew(path, filter);
-
+        _logger = logger;
+        Name = string.Empty;
+        _watcher = fileSystem.FileSystemWatcher.CreateNew();
+        _watcher.Path = "./";
         _watcher.Error += OnError;
     }
 
-    public Guid Guid { get; }
+    public override void Initialization()
+    {
+        Initialization(Guid.NewGuid());
+    }
+
+    public void Initialization(Guid guid)
+    {
+        CheckIsNotInitialized();
+        Guid = guid;
+        _watcher.EnableRaisingEvents = _watcherIsReady;
+        IsInitialized = true;
+    }
+
+    public Guid Guid { get; protected set; }
     public string Name { get; set; }
 
     public string MonitorPath
@@ -51,7 +45,7 @@ public class Watcher : IWatcher
     public string Filter
     {
         get => _watcher.Filter;
-        set => _watcher.Filter = Filter;
+        set => _watcher.Filter = value;
     }
 
     public WatchingEvent WatchingEvent
@@ -63,13 +57,16 @@ public class Watcher : IWatcher
             {
                 return;
             }
-            else if (value is WatchingEvent.None & _watcher.EnableRaisingEvents)
+            else if (_watcher.EnableRaisingEvents | !((int)value >> 4 > 0 &
+                                                     value.HasFlag(WatchingEvent.Created) |
+                                                     value.HasFlag(WatchingEvent.Renamed) |
+                                                     value.HasFlag(WatchingEvent.Deleted)))
             {
                 _watcher.EnableRaisingEvents = false;
             }
             else
             {
-                _watcher.EnableRaisingEvents = true;
+                _watcher.EnableRaisingEvents = (_watcherIsReady = true) & IsInitialized;
             }
 
             _watcher.NotifyFilter = (NotifyFilters)((int)value >> 4);
@@ -106,7 +103,7 @@ public class Watcher : IWatcher
                 _watcher.Renamed -= OnRenamed;
             }
 
-            if (value.HasFlag(WatchingEvent.Changed))
+            if ((int)value >> 4 > 0)
             {
                 _watcher.Changed -= OnChanged;
                 _watcher.Changed += OnChanged;

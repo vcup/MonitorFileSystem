@@ -5,23 +5,24 @@ using System.IO.Abstractions.TestingHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MonitorFileSystem.Action;
+using MonitorFileSystem.Common;
 using MonitorFileSystem.Extensions;
 using MonitorFileSystem.Monitor;
 using NUnit.Framework;
 
 namespace MonitorFileSystem.Tests;
 
-public class MoveOperateTests : OperateBaseTests
+public class MoveOperateTests : InitializableBaseTests
 {
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-        Provider = Host.CreateDefaultBuilder()
+        Provider = new HostBuilder()
             .ConfigureServices(services =>
             {
                 services.AddMoveOperate()
                     .AddScoped<IFileSystem, MockFileSystem>()
-                    .AddScoped<IOperate, MoveOperate>();
+                    .AddScoped<IInitializable, MoveOperate>();
             })
             .Build()
             .Services;
@@ -33,7 +34,7 @@ public class MoveOperateTests : OperateBaseTests
     }
 
     [Test]
-    public override void Process_CheckIsInitialization_ThrowExceptionWhenIsInitialized()
+    public override void Initialization_CheckIsInitialization_ThrowExceptionWhenIsInitialized()
     {
         var scope = Provider.CreateScope();
 

@@ -1,9 +1,10 @@
 ﻿using MonitorFileSystem.Monitor;
 using System.IO.Abstractions;
+using MonitorFileSystem.Common;
 
 namespace MonitorFileSystem.Action;
 
-public abstract class OperateBase : IOperate
+public abstract class OperateBase : InitializableBase, IOperate
 {
     protected readonly ILogger<IOperate> Logger;
 
@@ -32,9 +33,8 @@ public abstract class OperateBase : IOperate
 
     public Guid Guid { get; protected set; }
     public string Description { get; set; } = string.Empty;
-    public bool IsInitialized { get; protected set; }
 
-    public void Initialization()
+    public override void Initialization()
     {
         Initialization(Guid.NewGuid());
     }
@@ -54,21 +54,5 @@ public abstract class OperateBase : IOperate
     public virtual Task ProcessAsync(WatchingEventInfo info)
     {
         return Task.Run(() => Process(info));
-    }
-
-    protected void CheckIsInitialized()
-    {
-        if (!IsInitialized)
-        {
-            throw new InvalidOperationException("Instance is not Initialized");
-        }
-    }
-
-    protected void CheckIsNotInitialized()
-    {
-        if (IsInitialized)
-        {
-            throw new InvalidOperationException("Instance already Initialized");
-        }
     }
 }

@@ -1,27 +1,29 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.IO.Compression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MonitorFileSystem.Action;
+using MonitorFileSystem.Common;
 using MonitorFileSystem.Extensions;
 using MonitorFileSystem.Monitor;
 using NUnit.Framework;
 
 namespace MonitorFileSystem.Tests;
 
-public class UnpackOperateTests : OperateBaseTests
+public class UnpackOperateTests : InitializableBaseTests
 {
     [OneTimeSetUp]
     public void OneTimeSetup()
     {
-        Provider = Host.CreateDefaultBuilder()
+        Provider = new HostBuilder()
             .ConfigureServices(services =>
             {
                 services.AddUnpackOperate()
-                    .AddScoped<IOperate, UnpackOperate>()
-                    .AddScoped<IFileSystem, MockFileSystem>();
+                    .AddScoped<IFileSystem, MockFileSystem>()
+                    .AddScoped<IInitializable, UnpackOperate>();
             })
             .Build()
             .Services;
@@ -33,15 +35,27 @@ public class UnpackOperateTests : OperateBaseTests
     }
 
     [Test]
+    public void Process_CheckIsInitialization_ThrowExceptionWhenIsNotInitialized()
+    {
+        var scope = Provider.CreateScope();
+
+        var info = new WatchingEventInfo();
+
+        var operate = scope.ServiceProvider.GetRequiredService<IUnpackOperate>();
+
+        Assert.Throws<InvalidOperationException>(() => operate!.Process(info), "Instance is already Initialized");
+    }
+    
+    [Test]
     public void Process_PathDetect_NotThrowWhenPathIsDirectory()
     {
         var scope = Provider.CreateScope();
 
-        var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
+        var filesystem = scope.ServiceProvider.GetRequiredService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         filesystem!.AddDirectory("/directory_1");
-        var operate = scope.ServiceProvider.GetService<IUnpackOperate>();
-        operate!.Initialization();
+        var operate = scope.ServiceProvider.GetRequiredService<IUnpackOperate>();
+        operate.Initialization();
         var info = new WatchingEventInfo
         {
             Path = "/directory_1"
@@ -57,7 +71,7 @@ public class UnpackOperateTests : OperateBaseTests
     {
         var scope = Provider.CreateScope();
 
-        var filesystem = scope.ServiceProvider.GetService<IFileSystem>() as MockFileSystem;
+        var filesystem = scope.ServiceProvider.GetRequiredService<IFileSystem>() as MockFileSystem;
         Assert.IsNotNull(filesystem);
         using (var stream = filesystem!.FileStream.Create("./pack.zip", FileMode.Create, FileAccess.ReadWrite))
         using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Create, false))

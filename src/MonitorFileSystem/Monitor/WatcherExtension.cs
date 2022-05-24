@@ -43,4 +43,10 @@ public static class WatcherExtension
 
         return info;
     }
+
+    public static void Initialization(this IWatcher watcher, WatchingEvent @event)
+    {
+        watcher.Initialization();
+        watcher.WatchingEvent = @event;
+    }
 }

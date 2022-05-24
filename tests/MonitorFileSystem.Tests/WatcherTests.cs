@@ -3,25 +3,45 @@ using MonitorFileSystem.Monitor;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.IO;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MonitorFileSystem.Common;
 
 namespace MonitorFileSystem.Tests;
 
-public class WatcherTests
+public class WatcherTests : InitializableBaseTests
 {
+    [OneTimeSetUp]
+    public void OneTimeSetup()
+    {
+        Provider = new HostBuilder()
+            .ConfigureServices(service =>
+            {
+                service.AddScoped<IInitializable, Watcher>()
+                    .AddScoped<IWatcher, Watcher>()
+                    .AddScoped<IFileSystem, TestFileSystem>()
+                    .AddScoped<IFileSystemWatcherFactory, TestFileSystemWatcher>();
+            })
+            .Build()
+            .Services;
+    }
+
     [SetUp]
     public void Setup()
     {
     }
 
     [TestCase(WatchingEvent.None, false)]
-    [TestCase(WatchingEvent.Created, true)]
+    [TestCase(WatchingEvent.Created, false)]
+    [TestCase(WatchingEvent.Created | WatchingEvent.FileName, true)]
     public void Monitoring_WatchingEventSetter_FalseOnEventIsNoneTest(WatchingEvent @event, bool mustBe)
     {
-        var fileSystem = new TestFileSystem(new FileSystemWatcherFactory());
+        var scoped = Provider.CreateScope();
 
-        var watcher = new Watcher("Tester", "./", "*", @event, fileSystem);
+        var watcher = scoped.ServiceProvider.GetRequiredService<IWatcher>();
+        watcher.Initialization(@event);
 
-        Assert.AreEqual(watcher.Monitoring, mustBe);
+        Assert.AreEqual(mustBe, watcher.Monitoring);
     }
 
     [TestCase(WatchingEvent.FileName, NotifyFilters.FileName)]
@@ -34,21 +54,22 @@ public class WatcherTests
     [TestCase(WatchingEvent.Security, NotifyFilters.Security)]
     public void NotifyFilter_WatchingEventSetter_MustSameOfWatchingEvent(WatchingEvent @event, NotifyFilters filters)
     {
-        var factory = new TestFileSystemWatcher();
-        var fileSystem = new TestFileSystem(factory);
+        var scoped = Provider.CreateScope();
 
-        var watcher = new Watcher("Tester", "./", "*", @event, fileSystem);
-        Assert.IsTrue(watcher.Monitoring);
+        var factory = scoped.ServiceProvider.GetRequiredService<IFileSystemWatcherFactory>() as TestFileSystemWatcher;
+        Assert.IsNotNull(factory);
+        var watcher = scoped.ServiceProvider.GetRequiredService<IWatcher>();
+        watcher.Initialization(@event);
 
-        Assert.IsNotNull(factory.LastCreatedFileSystemWatcher);
-        Assert.AreEqual(factory.LastCreatedFileSystemWatcher!.NotifyFilter, filters);
+        Assert.IsNotNull(factory!.LastCreatedFileSystemWatcher);
+        Assert.AreEqual(filters, factory.LastCreatedFileSystemWatcher!.NotifyFilter);
     }
 
     private class TestFileSystem : MockFileSystem
     {
         public TestFileSystem(IFileSystemWatcherFactory fileSystemWatcherFactory)
         {
-            this.FileSystemWatcher = fileSystemWatcherFactory;
+            FileSystemWatcher = fileSystemWatcherFactory;
         }
 
         public override IFileSystemWatcherFactory FileSystemWatcher { get; }

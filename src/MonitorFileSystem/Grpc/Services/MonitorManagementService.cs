@@ -9,18 +9,31 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
 {
     private readonly ILogger<MonitorManagementService> _logger;
     private readonly IMonitorManager _manager;
+    private readonly WatcherFactory _watcherFactory;
 
-    public MonitorManagementService(ILogger<MonitorManagementService> logger, IMonitorManager manager)
+    public MonitorManagementService(ILogger<MonitorManagementService> logger, IMonitorManager manager, WatcherFactory watcherFactory)
     {
         _logger = logger;
         _manager = manager;
+        _watcherFactory = watcherFactory;
     }
 
     public override Task<WatcherResponse> CreateWatcher(WatcherRequest request, ServerCallContext context)
     {
         return Task.Run(() =>
         {
-            var result = request.ToWatcher();
+            var result = _watcherFactory.Create();
+            
+            if (request.HasEvent)
+            {
+                result.WatchingEvent = (WatchingEvent)request.Event;
+            }
+
+            if (request.HasEventFlags)
+            {
+                result.WatchingEvent = (WatchingEvent)request.EventFlags;
+            }
+            
             _manager.Add(result);
             return result.ToResponse();
         });

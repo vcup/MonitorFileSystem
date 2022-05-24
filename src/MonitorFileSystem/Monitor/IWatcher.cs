@@ -1,7 +1,11 @@
-﻿namespace MonitorFileSystem.Monitor;
+﻿using MonitorFileSystem.Common;
 
-public interface IWatcher : IObservable<WatchingEventInfo>
+namespace MonitorFileSystem.Monitor;
+
+public interface IWatcher : IInitializable, IObservable<WatchingEventInfo>
 {
+    void Initialization(Guid guid);
+    
     Guid Guid { get; }
 
     string Name { get; set; }
