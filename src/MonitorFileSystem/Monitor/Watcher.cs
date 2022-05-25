@@ -5,11 +5,11 @@ namespace MonitorFileSystem.Monitor;
 
 public class Watcher : InitializableBase, IWatcher
 {
-    private ILogger<Watcher> _logger;
+    private bool _watcherIsReady;
     private WatchingEvent _event;
+    private readonly ILogger<Watcher> _logger;
     private readonly IFileSystemWatcher _watcher;
     private readonly List<IObserver<WatchingEventInfo>> _observers = new();
-    private bool _watcherIsReady;
 
     public Watcher(IFileSystem fileSystem, ILogger<Watcher> logger)
     {
@@ -169,26 +169,56 @@ public class Watcher : InitializableBase, IWatcher
 
     protected virtual void OnChanged(object sender, FileSystemEventArgs e)
     {
+        _logger.LogDebug("watcher {Id} watched a Changed event, path:\n{Path}",
+            GetId(), e.FullPath);
+        LogDetail();
         NotifyObservers(sender, e);
     }
 
     protected virtual void OnCreated(object sender, FileSystemEventArgs e)
     {
+        _logger.LogDebug("watcher {Id} watched a Created event, path:\n{Path}",
+            GetId(), e.FullPath);
+        LogDetail();
         NotifyObservers(sender, e);
     }
 
     protected virtual void OnDeleted(object sender, FileSystemEventArgs e)
     {
+        _logger.LogDebug("watcher {Id} watched a Deleted event path:\n{Path}",
+            GetId(), e.FullPath);
+        LogDetail();
         NotifyObservers(sender, e);
     }
 
     protected virtual void OnRenamed(object sender, RenamedEventArgs e)
     {
+        _logger.LogDebug("watcher {Id} watched a Renamed event\nold: {OldPath}\n{NewPath}",
+            GetId(), e.OldFullPath, e.FullPath);
+        LogDetail();
         NotifyObservers(sender, e);
     }
 
     protected virtual void OnError(object sender, ErrorEventArgs e)
     {
+        _logger.LogError(e.GetException(), "watcher {Id} got a error",
+            GetId());
+        LogDetail();
         NotifyObservers(sender, e);
+    }
+
+    protected virtual string GetId()
+    {
+        return string.IsNullOrEmpty(Name) ? Guid.ToString() : Name;
+    }
+
+    protected virtual void LogDetail()
+    {
+        _logger.LogTrace("Guid:                {Guid}\n" +
+                         "monitoring path:     {Path}\n" +
+                         "Filter:              {Filter}\n" +
+                         "Event:               {Event}\n" +
+                         "MonitorSubDirectory: {MonitorSubDirectory}\n",
+            Guid.ToString(), MonitorPath, Filter, WatchingEvent, MonitorSubDirectory);
     }
 }
