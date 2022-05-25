@@ -3,6 +3,7 @@
 public sealed class WatchingEventInfo
 {
     public IWatcher Watcher = null!;
-    public string Path = null!; // if Event is Renamed, Path will Start with @, use \n for split
+    public string Path = null!;
+    public string? OldPath;
     public WatchingEvent WatchedEvent;
 }

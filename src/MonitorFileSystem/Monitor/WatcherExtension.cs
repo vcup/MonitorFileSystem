@@ -18,10 +18,10 @@ public static class WatcherExtension
 
         if (e.ChangeType.HasFlag(WatcherChangeTypes.Changed))
         {
-            watchedEvent |= watcher.WatchingEvent & (WatchingEvent)0b1111_1111_1111_0000;
+            watchedEvent |= (WatchingEvent)((int)watcher.WatchingEvent >> 4);
         }
 
-        var info = new WatchingEventInfo()
+        var info = new WatchingEventInfo
         {
             Watcher = watcher,
             Path = e.FullPath,
@@ -38,7 +38,7 @@ public static class WatcherExtension
         if (e.ChangeType.HasFlag(WatcherChangeTypes.Renamed))
         {
             info.WatchedEvent |= WatchingEvent.Renamed;
-            info.Path = $"{e.Name ?? e.FullPath}\n{info.Path}";
+            info.OldPath = e.OldFullPath;
         }
 
         return info;
