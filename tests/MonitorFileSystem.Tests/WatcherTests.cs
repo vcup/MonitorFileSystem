@@ -45,15 +45,15 @@ public class WatcherTests : InitializableBaseTests
         Assert.AreEqual(mustBe, watcher.Monitoring);
     }
 
-    [TestCase(WatchingEvent.FileName, NotifyFilters.FileName)]
+    [TestCase(WatchingEvent.FileName     , NotifyFilters.FileName)]
     [TestCase(WatchingEvent.DirectoryName, NotifyFilters.DirectoryName)]
-    [TestCase(WatchingEvent.Attributes, NotifyFilters.Attributes)]
-    [TestCase(WatchingEvent.Size, NotifyFilters.Size)]
-    [TestCase(WatchingEvent.LastWrite, NotifyFilters.LastWrite)]
-    [TestCase(WatchingEvent.LastAccess, NotifyFilters.LastAccess)]
-    [TestCase(WatchingEvent.CreationTime, NotifyFilters.CreationTime)]
+    [TestCase(WatchingEvent.Attributes   , NotifyFilters.Attributes)]
+    [TestCase(WatchingEvent.Size         , NotifyFilters.Size)]
+    [TestCase(WatchingEvent.LastWrite    , NotifyFilters.LastWrite)]
+    [TestCase(WatchingEvent.LastAccess   , NotifyFilters.LastAccess)]
+    [TestCase(WatchingEvent.CreationTime , NotifyFilters.CreationTime)]
     [TestCase(WatchingEvent.Security, NotifyFilters.Security)]
-    public void NotifyFilter_WatchingEventSetter_MustSameOfWatchingEvent(WatchingEvent @event, NotifyFilters filters)
+    public void NotifyFilter_WatchingEventSetter_MustSameOfWatchingEvent(WatchingEvent @event, NotifyFilters notifyFilters)
     {
         var scoped = Provider.CreateScope();
 
@@ -63,7 +63,7 @@ public class WatcherTests : InitializableBaseTests
         watcher.Initialization(@event);
 
         Assert.IsNotNull(factory!.LastCreatedFileSystemWatcher);
-        Assert.AreEqual(filters, factory.LastCreatedFileSystemWatcher!.NotifyFilter);
+        Assert.AreEqual(notifyFilters, factory.LastCreatedFileSystemWatcher!.NotifyFilter);
     }
 
     private class TestFileSystem : MockFileSystem
