@@ -34,6 +34,7 @@ public class WatcherTests : InitializableBaseTests
     [TestCase(WatchingEvent.None, false)]
     [TestCase(WatchingEvent.Created, false)]
     [TestCase(WatchingEvent.Created | WatchingEvent.FileName, true)]
+    [TestCase(WatchingEvent.FileName, true)]
     public void Monitoring_WatchingEventSetter_FalseOnEventIsNoneTest(WatchingEvent @event, bool mustBe)
     {
         var scoped = Provider.CreateScope();

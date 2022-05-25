@@ -57,16 +57,14 @@ public class Watcher : InitializableBase, IWatcher
             {
                 return;
             }
-            else if (_watcher.EnableRaisingEvents | !((int)value >> 4 > 0 &
-                                                     value.HasFlag(WatchingEvent.Created) |
-                                                     value.HasFlag(WatchingEvent.Renamed) |
-                                                     value.HasFlag(WatchingEvent.Deleted)))
+            // only enable watcher when specify event is a Changed event, or otherwise event with a Changed event
+            else if ((int)value >> 4 > 0 | ((int)value << 12 > 0 & (int)value >> 4 > 0))
             {
-                _watcher.EnableRaisingEvents = false;
+                _watcher.EnableRaisingEvents = (_watcherIsReady = true) & IsInitialized;
             }
             else
             {
-                _watcher.EnableRaisingEvents = (_watcherIsReady = true) & IsInitialized;
+                _watcher.EnableRaisingEvents = false;
             }
 
             _watcher.NotifyFilter = (NotifyFilters)((int)value >> 4);
