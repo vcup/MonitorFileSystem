@@ -23,16 +23,19 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
         return Task.Run(() =>
         {
             var result = _watcherFactory.Create();
+            var @event = WatchingEvent.None;
             
             if (request.HasEvent)
             {
-                result.WatchingEvent = (WatchingEvent)request.Event;
+                @event = (WatchingEvent)request.Event;
             }
 
             if (request.HasEventFlags)
             {
-                result.WatchingEvent = (WatchingEvent)request.EventFlags;
+                @event = (WatchingEvent)request.EventFlags;
             }
+            
+            result.Initialization(@event);
             
             _manager.Add(result);
             return result.ToResponse();

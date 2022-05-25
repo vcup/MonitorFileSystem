@@ -15,9 +15,19 @@ var builder = new HostBuilder()
         logging.AddConfiguration(context.Configuration.GetSection("Logging"));
         logging.AddConsole();
     })
-    .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<GrpcStartup>(); });
+    .ConfigureWebHostDefaults(webBuilder =>
+    {
+        // configure of services in near
+        webBuilder.UseStartup<GrpcStartup>();
+    });
 
 var rootCommand = new RootCommand();
+
+rootCommand.SetHandler(async () =>
+{
+    using var host = builder.Build();
+    await host.RunAsync();
+});
 
 var configPath = new Option<string>("--conf")
 {
@@ -25,12 +35,6 @@ var configPath = new Option<string>("--conf")
 };
 
 rootCommand.AddOption(configPath);
-rootCommand.SetHandler(async () =>
-{
-    using var host = builder.Build();
-    await host.RunAsync();
-});
-
 
 var commandBuilder = new CommandLineBuilder(rootCommand);
 commandBuilder.AddMiddleware(content =>

@@ -12,6 +12,7 @@ public class GrpcStartup
     public static void ConfigureServices(IServiceCollection services)
     {
         services
+            .AddWatcherFactory()
             .AddMoveOperate()
             .AddUnpackOperate()
             .AddChain()
