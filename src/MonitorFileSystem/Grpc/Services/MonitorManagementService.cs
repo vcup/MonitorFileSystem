@@ -34,9 +34,9 @@ public class MonitorManagementService : MonitorManagement.MonitorManagementBase
             {
                 @event = (WatchingEvent)request.EventFlags;
             }
-            
-            result.Initialization(@event);
-            
+
+            result.Initialization(request.Name, request.Path, request.Filter, @event);
+
             _manager.Add(result);
             return result.ToResponse();
         });
