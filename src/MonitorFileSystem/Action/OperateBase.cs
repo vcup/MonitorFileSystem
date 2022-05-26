@@ -48,11 +48,11 @@ public abstract class OperateBase : InitializableBase, IOperate
 
     public virtual void Process(WatchingEventInfo info)
     {
-        CheckIsInitialized();
+        ProcessAsync(info).Wait();
     }
 
-    public virtual Task ProcessAsync(WatchingEventInfo info)
+    public virtual async Task ProcessAsync(WatchingEventInfo info)
     {
-        return Task.Run(() => Process(info));
+        await Task.Run(() => Process(info));
     }
 }

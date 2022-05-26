@@ -34,7 +34,7 @@ public class MoveOperate : OperateBase, IMoveOperate
 
     public override void Process(WatchingEventInfo info)
     {
-        base.Process(info);
+        CheckIsInitialized();
 
         // if running on windows, info.Path used separator may is '/'
         info.Path = info.Path.Replace('/', FileSystem.Path.DirectorySeparatorChar);
