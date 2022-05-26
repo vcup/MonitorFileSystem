@@ -17,6 +17,12 @@ public static class ActionExtension
             .AddScoped<IUnpackOperate, UnpackOperate>();
     }
 
+    public static IServiceCollection AddCommandOperate(this IServiceCollection services)
+    {
+        return services.AddScoped<IFileSystem, FileSystem>()
+            .AddScoped<ICommandOperate, CommandOperate>();
+    }
+
     public static IServiceCollection AddChain(this IServiceCollection services)
     {
         return services.AddScoped<IFileSystem, FileSystem>()
