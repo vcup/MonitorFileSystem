@@ -14,25 +14,28 @@ internal class AddMoveOperateCommand : Command
             Description = CommandTexts.Operate_Add_Move_Destination_ArgumentDesciption
         };
 
-        var description = new Argument<string>
+        var description = new Argument<string?>
         {
             Name = "description",
             Description = CommandTexts.Operate_Add_Move_Description_ArgumentDescription
         };
-        description.SetDefaultValue(string.Empty);
+        description.SetDefaultValue(null);
 
         AddArgument(destination);
         AddArgument(description);
-        this.SetHandler<string, string>(Create, destination, description);
+        this.SetHandler<string, string?>(Create, destination, description);
     }
 
-    private static async Task Create(string destination, string description)
+    private static async Task Create(string destination, string? description)
     {
         var request = new MoveOperateRequest
         {
-            Destination = destination,
-            Description = description
+            Destination = destination
         };
+        if (description is not null)
+        {
+            request.Description = description;
+        }
 
         var response = await GrpcUnits.ActionManagementClient.CreateMoveOperateAsync(request);
 
