@@ -10,5 +10,6 @@ internal class AddOperateCommand : Command
     {
         AddCommand(new AddMoveOperateCommand());
         AddCommand(new AddUnpackOperateCommand());
+        AddCommand(new AddCommandOperateCommand());
     }
 }

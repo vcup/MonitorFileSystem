@@ -3,7 +3,7 @@
   "profiles": {
     "MonitorFileSystem.Client": {
       "commandName": "Project",
-      "commandLineArgs": "watch add ./",
+      "commandLineArgs": "operate add command w",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
       }

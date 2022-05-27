@@ -28,6 +28,7 @@ internal class UpdateOperateCommand : Command
 
         AddCommand(new UpdateMoveOperateCommand());
         AddCommand(new UpdateUnpackOperateCommand());
+        AddCommand(new UpdateCommandOperateCommand());
     }
 
     private static async Task UpdateOperate(string guid, string? description)

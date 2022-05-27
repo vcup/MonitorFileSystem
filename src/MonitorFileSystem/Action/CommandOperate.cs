@@ -28,7 +28,9 @@ public class CommandOperate : OperateBase, ICommandOperate
     public void Initialization(Guid guid, string command)
     {
         CheckIsNotInitialized();
+        Guid = guid;
         CommandLineTemplate = command;
+        Arguments = new ();
     }
 
     public void Initialization(Guid guid, string command, params CommandOperateArgument[] arguments)

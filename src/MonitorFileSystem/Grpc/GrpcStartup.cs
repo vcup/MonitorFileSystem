@@ -15,6 +15,7 @@ public class GrpcStartup
             .AddWatcherFactory()
             .AddMoveOperate()
             .AddUnpackOperate()
+            .AddCommandOperate()
             .AddChain()
             .AddSingleton<IMonitorManager, MonitorManager>()
             .AddSingleton<IActionManager, ActionManager>()
