@@ -2,6 +2,7 @@
 using Grpc.Core;
 using MonitorFileSystem.Action;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
+using CommandOperateArgument = MonitorFileSystem.Action.CommandOperateArgument;
 
 namespace MonitorFileSystem.Grpc.Services;
 
@@ -54,6 +55,19 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
             {
                 operate.Description = request.Description;
             }
+
+            return operate.ToResponse();
+        });
+    }
+
+    public override Task<CommandOperateResponse> CreateCommandOperate(CommandOperateRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            var operate = _provider.GetRequiredService<ICommandOperate>();
+            operate.Initialization(request.CommandTemplate);
+            _manager.Add(operate);
+            operate.Arguments.AddRange(request.Arguments.Select(arg => (CommandOperateArgument)arg));
 
             return operate.ToResponse();
         });
@@ -118,6 +132,33 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
                 }
             }
 
+            return new Empty();
+        });
+    }
+
+    public override Task<Empty> UpdateCommandOperate(UpdateCommandOperateRequest request, ServerCallContext context)
+    {
+        return Task.Run(() =>
+        {
+            if (_manager.TryGetOperate(request.Guid, out var value) &&
+                value is ICommandOperate operate)
+            {
+                if (request.HasCommandTemplate)
+                {
+                    operate.CommandLineTemplate = request.CommandTemplate;
+                }
+
+                if (request.HasDescription)
+                {
+                    operate.Description = request.Description;
+                }
+
+                if (request.Arguments.Any())
+                {
+                    operate.Arguments.Clear();
+                    operate.Arguments.AddRange(request.Arguments.Select(arg => (CommandOperateArgument)arg));
+                }
+            }
             return new Empty();
         });
     }

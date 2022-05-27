@@ -3,7 +3,7 @@
 public interface ICommandOperate : IOperate
 {
     string CommandLineTemplate { get; set; }
-    IList<CommandOperateArgument> Arguments { get; }
+    List<CommandOperateArgument> Arguments { get; }
 
     void Initialization(Guid guid, string command);
 

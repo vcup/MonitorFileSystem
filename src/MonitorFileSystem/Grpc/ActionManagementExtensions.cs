@@ -26,6 +26,17 @@ public static class ActionManagementExtensions
         };
     }
 
+    public static CommandOperateResponse ToResponse(this ICommandOperate operate)
+    {
+        var response = new CommandOperateResponse
+        {
+            Guid = operate.Guid.ToString(),
+            Description = operate.Description
+        };
+        
+        return response;
+    }
+
     public static OperateResponse ToResponse(this IOperate operate)
     {
         var result = new OperateResponse();

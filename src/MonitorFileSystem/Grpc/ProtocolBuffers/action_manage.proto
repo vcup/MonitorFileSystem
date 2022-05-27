@@ -9,10 +9,12 @@ option csharp_namespace = "MonitorFileSystem.Grpc.ProtocolBuffers";
 service ActionManagement {
   rpc CreateMoveOperate         (MoveOperateRequest)             returns (MoveOperateResponse)   ;
   rpc CreateUnpackOperate       (UnpackOperateRequest)           returns (UnpackOperateResponse) ;
+  rpc CreateCommandOperate      (CommandOperateRequest)          returns (CommandOperateResponse);
   rpc RemoveOperate             (GuidRequest)                    returns (google.protobuf.Empty) ;
   rpc UpdateOperate             (OperateRequest)                 returns (google.protobuf.Empty) ;
   rpc UpdateMoveOperate         (UpdateMoveOperateRequest)       returns (google.protobuf.Empty) ;
   rpc UpdateUnpackOperate       (UpdateUnpackOperateRequest)     returns (google.protobuf.Empty) ;
+  rpc UpdateCommandOperate      (UpdateCommandOperateRequest)    returns (google.protobuf.Empty) ;
   
   rpc CreateChain               (ChainRequest)                   returns (ChainResponse)         ;
   rpc UpdateChain               (UpdateChainRequest)             returns (google.protobuf.Empty) ;
@@ -83,6 +85,34 @@ message UnpackOperateResponse {
   string guid = 1;
   string destination = 2;
   string description = 3;
+}
+
+enum CommandOperateArgument {
+  None    = 0;
+  Name    = 1;
+  Path    = 2;
+  OldName = 4;
+  OldPath = 8;
+}
+
+message CommandOperateRequest {
+  string command_template = 1;
+  repeated CommandOperateArgument arguments = 2;
+  optional string description = 3;
+}
+
+message UpdateCommandOperateRequest {
+  string guid = 1;
+  optional string command_template = 2;
+  repeated CommandOperateArgument arguments = 3;
+  optional string description = 4;
+}
+
+message CommandOperateResponse {
+  string guid = 1;
+  string command_template = 2;
+  repeated CommandOperateArgument arguments = 3;
+  string description = 4;
 }
 
 message ChainRequest {

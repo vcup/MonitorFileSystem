@@ -23,7 +23,7 @@ public class CommandOperate : OperateBase, ICommandOperate
     }
 
     public string CommandLineTemplate { get; set; }
-    public IList<CommandOperateArgument> Arguments { get; private set; }
+    public List<CommandOperateArgument> Arguments { get; private set; }
 
     public void Initialization(Guid guid, string command)
     {

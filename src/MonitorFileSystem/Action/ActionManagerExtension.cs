@@ -11,6 +11,12 @@ public static class ActionManagerExtension
         return manager.TryGet(guid, out operate);
     }
 
+    public static bool TryGetOperate(this IActionManager manager, string guid,
+        [MaybeNullWhen(false)] out IOperate operate)
+    {
+        return manager.TryGet(Guid.Parse(guid), out operate);
+    }
+
     public static bool TryGetChain(this IActionManager manager, Guid guid,
         [MaybeNullWhen(false)] out IChain chain)
     {
