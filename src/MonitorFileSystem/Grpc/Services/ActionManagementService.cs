@@ -77,7 +77,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            _manager.RemoveOperate(Guid.Parse(request.Guid));
+            _manager.RemoveOperate(request.Guid);
             return new Empty();
         });
     }
@@ -87,7 +87,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         return Task.Run(() =>
         {
             if (request.HasDescription &&
-                _manager.TryGetOperate(Guid.Parse(request.Guid), out var operate))
+                _manager.TryGetOperate(request.Guid, out var operate))
             {
                 operate.Description = request.Description;
             }
@@ -100,7 +100,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var value) &&
+            if (_manager.TryGetOperate(request.Guid, out var value) &&
                 value is IMoveOperate operate)
             {
                 operate.Destination = request.Destination;
@@ -118,7 +118,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            if (_manager.TryGetOperate(Guid.Parse(request.Guid), out var value) &&
+            if (_manager.TryGetOperate(request.Guid, out var value) &&
                 value is IUnpackOperate operate)
             {
                 if (request.HasDestination)
@@ -183,7 +183,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            if (_manager.TryGetChain(Guid.Parse(request.Guid), out var chain))
+            if (_manager.TryGetChain(request.Guid, out var chain))
             {
                 if (request.HasName)
                 {
@@ -204,7 +204,7 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            _manager.RemoveChain(Guid.Parse(request.Guid));
+            _manager.RemoveChain(request.Guid);
             return new Empty();
         });
     }

@@ -23,6 +23,32 @@ public static class ActionManagerExtension
         return manager.TryGet(guid, out chain);
     }
 
+    public static bool TryGetChain(this IActionManager manager, string guid,
+        [MaybeNullWhen(false)] out IChain chain)
+    {
+        return manager.TryGet(Guid.Parse(guid), out chain);
+    }
+
+    public static bool RemoveOperate(this IActionManager manager, string guid)
+    {
+        return manager.RemoveOperate(Guid.Parse(guid));
+    }
+
+    public static bool RemoveChain(this IActionManager manager, string guid)
+    {
+        return manager.RemoveChain(Guid.Parse(guid));
+    }
+
+    public static bool ContainsOperate(this IActionManager manager, string guid)
+    {
+        return manager.ContainsOperate(Guid.Parse(guid));
+    }
+
+    public static bool ContainsChain(this IActionManager manager, string guid)
+    {
+        return manager.ContainsChain(Guid.Parse(guid));
+    }
+
     public static bool TryGetObserver(this IActionManager manager, Guid guid,
         [MaybeNullWhen(false)] out IObserver<WatchingEventInfo> result)
     {
