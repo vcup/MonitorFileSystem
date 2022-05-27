@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MonitorFileSystem.Action;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
@@ -24,9 +23,13 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            var operate = _provider.GetService<IMoveOperate>();
-            Debug.Assert(operate is not null);
+            var operate = _provider.GetRequiredService<IMoveOperate>();
             operate.Initialization(request.Destination);
+
+            if (request.HasDescription)
+            {
+                operate.Description = request.Description;
+            }
             _manager.Add(operate);
 
             return operate.ToResponse();
@@ -38,17 +41,19 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            var operate = _provider.GetService<IUnpackOperate>();
-            Debug.Assert(operate is not null);
+            var operate = _provider.GetRequiredService<IUnpackOperate>();
             operate.Initialization();
             _manager.Add(operate);
 
-            if (!string.IsNullOrEmpty(request.Destination))
+            if (request.HasDestination)
             {
                 operate.Destination = request.Destination;
             }
 
-            operate.Description = request.Description;
+            if (request.HasDescription)
+            {
+                operate.Description = request.Description;
+            }
 
             return operate.ToResponse();
         });
@@ -121,9 +126,12 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
     {
         return Task.Run(() =>
         {
-            var chain = _provider.GetService<IChain>();
-            Debug.Assert(chain is not null);
+            var chain = _provider.GetRequiredService<IChain>();
             chain.Initialization(request.Name);
+            if (request.HasDescription)
+            {
+                chain.Description = request.Description;
+            }
             _manager.Add(chain);
 
             return chain.ToResponse();
@@ -136,8 +144,15 @@ public class ActionManagementService : ActionManagement.ActionManagementBase
         {
             if (_manager.TryGetChain(Guid.Parse(request.Guid), out var chain))
             {
-                chain.Name = request.Name;
-                chain.Description = request.Description;
+                if (request.HasName)
+                {
+                    chain.Name = request.Name;
+                }
+
+                if (request.HasDescription)
+                {
+                    chain.Description = request.Description;
+                }
             }
 
             return new Empty();
