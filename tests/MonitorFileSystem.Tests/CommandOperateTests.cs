@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MonitorFileSystem.Action;
@@ -47,11 +49,11 @@ public class CommandOperateTests : InitializableBaseTests
             OldPath = "/old/dir/old_file"
         };
 
-        Assert.Throws<Win32Exception>(() => operate.Process(info));
+        Assert.ThrowsAsync<Win32Exception>(async () => await operate.ProcessAsync(info));
         var startInfo = startInfoField!.GetValue(operate) as ProcessStartInfo;
         
         Assert.IsNotNull(startInfo);
-        Assert.AreEqual(startInfo!.Arguments, expectedCommandLine);
+        Assert.AreEqual(startInfo!.ArgumentList.Last(), expectedCommandLine);
         Assert.AreEqual(filesystem.Path.GetDirectoryName(info.Path), startInfo.WorkingDirectory);
         Assert.IsFalse(startInfo.UseShellExecute);
     }
@@ -70,17 +72,15 @@ public class CommandOperateTests : InitializableBaseTests
     }
 
     [Test]
-    public void Process_EchoMessage_ShouldOutputMessage()
+    public async Task Process_EchoMessage_ShouldOutputMessage()
     {
         var scoped = Provider.CreateScope();
 
         var operate = scoped.ServiceProvider.GetRequiredService<ICommandOperate>();
-#if Linux
         operate.Initialization("echo hello");
-#endif
         var info = new WatchingEventInfo();
 
-        operate.Process(info);
+        await operate.ProcessAsync(info);
 
         Assert.AreEqual("hello", operate.CommandOutput?.ReplaceLineEndings(""));
     }
