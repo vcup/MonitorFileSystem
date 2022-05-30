@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO.Abstractions;
+using System.Text;
 using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Action;
@@ -14,9 +15,15 @@ public class CommandOperate : OperateBase, ICommandOperate
         Arguments = null!;
         CommandLineTemplate = string.Empty;
 #if Windows
-        _startInfo = new ProcessStartInfo("cmd.exe");
+        _startInfo = new ProcessStartInfo
+        {
+            FileName = "cmd.exe",
+        };
 #elif Linux
-        _startInfo = new ProcessStartInfo("/usr/bin/sh");
+        _startInfo = new ProcessStartInfo
+        {
+            FileName = "/usr/bin/sh",
+        };
 #endif
         _startInfo.UseShellExecute = false;
         _startInfo.RedirectStandardInput = _startInfo.RedirectStandardOutput = _startInfo.RedirectStandardError = true;
@@ -49,13 +56,19 @@ public class CommandOperate : OperateBase, ICommandOperate
         Initialization(Guid.NewGuid(), command, arguments);
     }
 
-    public string? CommandOutput { get; private set; } = null;
+    public string? CommandOutput { get; private set; }
 
     public override async Task ProcessAsync(WatchingEventInfo info)
     {
         //  will throw exception on unit test, because WorkingDirectory do not using IFileSystem
         _startInfo.WorkingDirectory = FileSystem.Path.GetDirectoryName(info.Path);
-        _startInfo.Arguments = string.Format(CommandLineTemplate, GetActualCommandLine());
+        _startInfo.ArgumentList.Clear();
+#if Windows
+        _startInfo.ArgumentList.Add("/c");
+#elif Linux
+        _startInfo.ArgumentList.Add("-c");
+#endif
+        _startInfo.ArgumentList.Add(string.Format(CommandLineTemplate, GetActualCommandLineArguments()));
 
         using var process = new Process();
         process.StartInfo = _startInfo;
@@ -63,7 +76,7 @@ public class CommandOperate : OperateBase, ICommandOperate
         process.Start();
         CommandOutput = await process.StandardOutput.ReadToEndAsync();
 
-        object?[] GetActualCommandLine()
+        object?[] GetActualCommandLineArguments()
         {
             var result = new List<object?>();
             foreach (var argument in Arguments)

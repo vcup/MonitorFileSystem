@@ -68,4 +68,20 @@ public class CommandOperateTests : InitializableBaseTests
 
         Assert.AreEqual(name, result);
     }
+
+    [Test]
+    public void Process_EchoMessage_ShouldOutputMessage()
+    {
+        var scoped = Provider.CreateScope();
+
+        var operate = scoped.ServiceProvider.GetRequiredService<ICommandOperate>();
+#if Linux
+        operate.Initialization("echo hello");
+#endif
+        var info = new WatchingEventInfo();
+
+        operate.Process(info);
+
+        Assert.AreEqual("hello", operate.CommandOutput?.ReplaceLineEndings(""));
+    }
 }
