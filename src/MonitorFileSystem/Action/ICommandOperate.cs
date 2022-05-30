@@ -12,4 +12,6 @@ public interface ICommandOperate : IOperate
     void Initialization(string command);
 
     void Initialization(string command, params CommandOperateArgument[] arguments);
+    
+    string? CommandOutput { get; }
 }

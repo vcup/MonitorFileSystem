@@ -49,7 +49,9 @@ public class CommandOperate : OperateBase, ICommandOperate
         Initialization(Guid.NewGuid(), command, arguments);
     }
 
-    public override void Process(WatchingEventInfo info)
+    public string? CommandOutput { get; private set; } = null;
+
+    public override async Task ProcessAsync(WatchingEventInfo info)
     {
         //  will throw exception on unit test, because WorkingDirectory do not using IFileSystem
         _startInfo.WorkingDirectory = FileSystem.Path.GetDirectoryName(info.Path);
@@ -57,9 +59,10 @@ public class CommandOperate : OperateBase, ICommandOperate
 
         using var process = new Process();
         process.StartInfo = _startInfo;
-        
+
         process.Start();
-        
+        CommandOutput = await process.StandardOutput.ReadToEndAsync();
+
         object?[] GetActualCommandLine()
         {
             var result = new List<object?>();
