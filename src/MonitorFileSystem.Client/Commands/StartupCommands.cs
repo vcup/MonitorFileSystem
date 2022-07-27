@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using MonitorFileSystem.Client.Commands.LinkCommands;
 using MonitorFileSystem.Client.Commands.OperateCommands;
 using MonitorFileSystem.Client.Commands.WatchCommands;

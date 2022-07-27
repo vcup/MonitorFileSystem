@@ -1,4 +1,4 @@
-﻿namespace MonitorFileSystem.Common;
+namespace MonitorFileSystem.Common;
 
 public abstract class InitializableBase : IInitializable
 {

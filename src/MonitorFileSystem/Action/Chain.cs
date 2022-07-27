@@ -1,4 +1,4 @@
-﻿using MonitorFileSystem.Monitor;
+using MonitorFileSystem.Monitor;
 using MonitorFileSystem.Common;
 using System.Collections;
 using System.IO.Abstractions;

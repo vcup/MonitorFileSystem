@@ -1,4 +1,4 @@
-﻿namespace MonitorFileSystem.Monitor;
+namespace MonitorFileSystem.Monitor;
 
 public static class WatcherExtension
 {

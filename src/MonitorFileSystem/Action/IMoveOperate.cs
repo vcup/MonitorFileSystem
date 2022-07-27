@@ -1,4 +1,4 @@
-﻿namespace MonitorFileSystem.Action;
+namespace MonitorFileSystem.Action;
 
 public interface IMoveOperate : IOperate
 {

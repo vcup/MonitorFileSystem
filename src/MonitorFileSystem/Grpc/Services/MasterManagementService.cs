@@ -1,4 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MonitorFileSystem.Action;
 using MonitorFileSystem.Grpc.ProtocolBuffers;

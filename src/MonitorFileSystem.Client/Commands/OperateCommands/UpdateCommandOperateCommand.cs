@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 
 namespace MonitorFileSystem.Client.Commands.OperateCommands;

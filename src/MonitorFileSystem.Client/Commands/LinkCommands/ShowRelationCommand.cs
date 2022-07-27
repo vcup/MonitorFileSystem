@@ -1,4 +1,4 @@
-﻿using System.CommandLine;
+using System.CommandLine;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MonitorFileSystem.Client.Resources;

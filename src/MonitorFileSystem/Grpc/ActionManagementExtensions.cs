@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using MonitorFileSystem.Action;
 using MonitorFileSystem.Grpc.ProtocolBuffers;
 

@@ -1,4 +1,4 @@
-﻿using MonitorFileSystem.Monitor;
+using MonitorFileSystem.Monitor;
 
 namespace MonitorFileSystem.Action;
 

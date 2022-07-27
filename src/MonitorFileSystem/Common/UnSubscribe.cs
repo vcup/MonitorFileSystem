@@ -1,4 +1,4 @@
-﻿namespace MonitorFileSystem.Common;
+namespace MonitorFileSystem.Common;
 
 internal sealed class UnSubscribe<T> : IDisposable
 {

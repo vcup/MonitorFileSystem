@@ -1,4 +1,4 @@
-﻿namespace MonitorFileSystem.Monitor;
+namespace MonitorFileSystem.Monitor;
 
 public class WatcherFactory
 {
