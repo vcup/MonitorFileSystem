@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-MonitorFileSystem-F0F785A3-D6DD-4672-B079-31F01CBC99BC</UserSecretsId>
@@ -20,10 +20,10 @@
   <ItemGroup>
     <Protobuf Include="Grpc/ProtocolBuffers/*.proto" GrpcServices="Server" />
 
-    <PackageReference Include="Grpc.AspNetCore" Version="2.46.0-pre1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
 
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta3.22114.1" />
-    <PackageReference Include="System.IO.Abstractions" Version="17.0.3" />
+    <PackageReference Include="System.IO.Abstractions" Version="17.2.3" />
     <ProjectReference Include="..\..\references\Microsoft.Extensions.Configuration.Yaml\src\Microsoft.Extensions.Configuration.Yaml\Microsoft.Extensions.Configuration.Yaml.csproj" />
     <None Update="settings.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
